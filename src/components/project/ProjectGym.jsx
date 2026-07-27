@@ -7,23 +7,25 @@ export default function ProjectGym({ data }) {
   const accentDark = data.theme?.accentDark ?? '#1F6059';
   return (
     <section className="easton-section easton-section--cream">
-      <SectionLabel color={accentDark}>{gym.label}</SectionLabel>
-      <div className="easton-hall">
-        <div className="easton-hall__text">
+      <div className="easton-gym">
+        <div className="easton-gym__intro">
+          <SectionLabel color={accentDark}>{gym.label}</SectionLabel>
           <h2 className="easton-h2 easton-h2--dark">{gym.title}</h2>
-          <p className="easton-body easton-body--dark">{gym.text}</p>
+          {gym.text && <p className="easton-body easton-body--dark">{gym.text}</p>}
         </div>
-        <div className="easton-hall__image">
+
+        <div className="easton-gym__main">
           <img src={gym.image} alt="" />
         </div>
+
+        {gym.gallery?.length > 0 && (
+          <div className="easton-gym__grid">
+            {gym.gallery.map((g, i) => (
+              <MediaCard key={i} image={g.image} title={g.title} />
+            ))}
+          </div>
+        )}
       </div>
-      {gym.gallery?.length > 0 && (
-        <div className="easton-kids__grid" style={{ marginTop: 32 }}>
-          {gym.gallery.map((g, i) => (
-            <MediaCard key={i} image={g.image} title={g.title} />
-          ))}
-        </div>
-      )}
     </section>
   );
 }

@@ -133,20 +133,22 @@ input:focus {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  right: 0;
+  right: auto;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  padding: 8px;
+  padding: 6px;
   z-index: 25;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
+  gap: 2px;
+  width: max-content;
   min-width: 100%;
 }
 
 .dropdown__option {
-  padding: 12px 14px;
+  padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 15px;
@@ -157,6 +159,8 @@ input:focus {
   text-align: left;
   font-family: inherit;
   width: 100%;
+  white-space: nowrap;
+  line-height: 1.3;
 }
 
 .dropdown__option:hover {
@@ -471,7 +475,7 @@ input:focus {
   .easton-standards-grid,
   .easton-location__cards,
   .easton-kids__grid,
-  .easton-hall,
+  .easton-hall__gallery,
   .easton-playground,
   .easton-parking,
   .easton-consult,
@@ -1183,27 +1187,64 @@ input:focus {
   margin-bottom: 16px;
 }
 
+/* Gym */
+.easton-gym__intro {
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.easton-gym__intro .easton-h2 {
+  margin-top: 12px;
+}
+
+.easton-gym__intro .easton-body {
+  margin-top: 16px;
+}
+
+.easton-gym__main {
+  border-radius: 16px;
+  overflow: hidden;
+  height: 520px;
+  margin-bottom: 16px;
+}
+
+.easton-gym__main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.easton-gym__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.easton-gym__grid .easton-media-card {
+  min-height: 300px;
+  height: 300px;
+}
+
 /* Hall */
-.easton-hall {
-  display: flex;
-  gap: 48px;
-  margin-bottom: 48px;
+.easton-hall__intro {
+  max-width: 820px;
+  margin-bottom: 40px;
 }
 
-.easton-hall__text,
-.easton-hall__image {
-  flex: 1;
-  min-width: 0;
+.easton-hall__intro .easton-h2 {
+  margin-top: 12px;
 }
 
-.easton-hall__text .easton-body {
-  margin-top: 24px;
+.easton-hall__intro .easton-body {
+  margin-top: 16px;
 }
 
 .easton-hall__image {
   border-radius: 16px;
   overflow: hidden;
-  height: 718px;
+  height: 520px;
+  margin-bottom: 16px;
 }
 
 .easton-hall__image img {
@@ -1211,6 +1252,18 @@ input:focus {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.easton-hall__gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--hall-gallery-cols, 4), 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.easton-hall__gallery .easton-media-card {
+  min-height: 280px;
+  height: 280px;
 }
 
 .easton-hall__features {
@@ -3253,7 +3306,6 @@ input:focus {
 
   .easton-split,
   .easton-playground,
-  .easton-hall,
   .easton-kids__room,
   .easton-parking,
   .easton-consult,
@@ -3312,9 +3364,28 @@ input:focus {
     min-height: 240px;
   }
 
+  .easton-gym__intro {
+    margin-bottom: 24px;
+  }
+
+  .easton-gym__main {
+    height: 240px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  .easton-gym__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .easton-gym__grid .easton-media-card {
+    height: 200px;
+    min-height: 200px;
+  }
+
   .easton-arch__image,
   .easton-playground__image,
-  .easton-hall__image,
   .easton-apartments__image,
   .easton-boxroom__image {
     height: 220px;
@@ -3359,8 +3430,25 @@ input:focus {
     padding-top: 0;
   }
 
-  .easton-hall {
+  .easton-hall__intro {
+    margin-bottom: 24px;
+  }
+
+  .easton-hall__image {
+    height: 240px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+
+  .easton-hall__gallery {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     margin-bottom: 28px;
+  }
+
+  .easton-hall__gallery .easton-media-card {
+    height: 180px;
+    min-height: 180px;
   }
 
   .easton-hall__features,
@@ -3475,6 +3563,15 @@ input:focus {
   }
 
   .easton-kids__grid .easton-media-card {
+    height: 200px;
+    min-height: 200px;
+  }
+
+  .easton-hall__gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .easton-hall__gallery .easton-media-card {
     height: 200px;
     min-height: 200px;
   }
