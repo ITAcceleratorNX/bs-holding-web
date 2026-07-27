@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import SectionLabel from './SectionLabel';
 import { nameOk, phoneOk } from '../../utils/format';
+import { submitLead } from '../../utils/leads';
 
 export default function ProjectFloorPlans({ data, onScrollToConsult }) {
   const { floorPlans } = data;
@@ -27,13 +28,25 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
     setFormState('idle');
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!nameOk(name) || !phoneOk(phone)) {
       setFormState('error');
       return;
     }
     setFormState('loading');
-    setTimeout(() => setFormState('success'), 900);
+    try {
+      await submitLead({
+        project: data.name,
+        source: 'Планировка — подробнее',
+        name: name.trim(),
+        phone: phone.trim(),
+        plan: active?.name,
+        area: active?.area,
+      });
+      setFormState('success');
+    } catch {
+      setFormState('error');
+    }
   };
 
   return (

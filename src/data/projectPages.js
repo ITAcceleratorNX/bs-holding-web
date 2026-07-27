@@ -81,9 +81,9 @@ const SHARED_FOOTER = {
 };
 
 const SHARED_CONSULT = {
-  title: 'Оставьте заявку, чтобы получить консультацию',
+  title: 'Заполните контакты — мы зафиксируем для вас выгодную цену за м²',
   subtitle:
-    'Мы наберем вас в течении дня после заявки и проконсультируем по объектам, способам оплаты и ипотеке.',
+    'Менеджер отправит в WhatsApp каталог, актуальные цены и условия рассрочки 0%.',
   hours: 'Ежедневно с 9:00 до 19:00',
   policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
 };
@@ -140,6 +140,7 @@ function buildMockPage({
     city,
     phone: '8 775 386 40 10',
     phoneHref: 'tel:+87753864010',
+    whatsappPhone: '77753864010',
     theme: {
       accent: '#61D0C5',
       accentDark: '#1F6059',
@@ -147,7 +148,7 @@ function buildMockPage({
     nav: [
       { label: 'Расположение', href: `#${slug}-location` },
       { label: 'Архитектура', href: `#${slug}-architecture` },
-      { label: 'Планировки', href: `#${slug}-apartments` },
+      { label: 'Планировки', href: `#${slug}-quiz` },
     ],
     hero: {
       image: heroImage,

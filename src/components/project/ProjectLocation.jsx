@@ -1,7 +1,7 @@
 import SectionLabel from './SectionLabel';
 import MediaCard from './MediaCard';
 
-export default function ProjectLocation({ data }) {
+export default function ProjectLocation({ data, onOpenCalc }) {
   const { location } = data;
   const accentDark = data.theme?.accentDark ?? '#1F6059';
   return (
@@ -25,6 +25,14 @@ export default function ProjectLocation({ data }) {
           </p>
         ))}
       </div>
+      {onOpenCalc && (
+        <div className="easton-banner">
+          <div>Хотите узнать стоимость квартиры в {data.name}?</div>
+          <button type="button" className="easton-btn easton-btn--light" onClick={onOpenCalc}>
+            Получить расчет
+          </button>
+        </div>
+      )}
     </section>
   );
 }

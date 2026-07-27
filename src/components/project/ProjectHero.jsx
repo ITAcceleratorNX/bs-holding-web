@@ -1,4 +1,4 @@
-export default function ProjectHero({ data, onScrollToConsult }) {
+export default function ProjectHero({ data, onScrollToConsult, onOpenCatalog }) {
   const mobile = data.hero.imageMobile;
   return (
     <section className="easton-hero">
@@ -14,7 +14,7 @@ export default function ProjectHero({ data, onScrollToConsult }) {
           <button type="button" className="easton-btn easton-btn--solid" onClick={onScrollToConsult}>
             Оставить заявку
           </button>
-          <button type="button" className="easton-btn easton-btn--ghost" onClick={onScrollToConsult}>
+          <button type="button" className="easton-btn easton-btn--ghost" onClick={onOpenCatalog}>
             Скачать презентацию
           </button>
         </div>

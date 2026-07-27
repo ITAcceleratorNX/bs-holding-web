@@ -1,6 +1,6 @@
 import SectionLabel from './SectionLabel';
 
-export default function ProjectParking({ data }) {
+export default function ProjectParking({ data, onOpenCatalog }) {
   const { parking } = data;
   return (
     <section className="easton-section easton-section--dark">
@@ -17,6 +17,11 @@ export default function ProjectParking({ data }) {
             </div>
           ))}
           <p className="easton-body">{parking.note}</p>
+          {onOpenCatalog && (
+            <button type="button" className="easton-btn easton-btn--light easton-parking__catalog" onClick={onOpenCatalog}>
+              Скачать каталог
+            </button>
+          )}
         </div>
       </div>
     </section>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { nameOk, phoneOk } from '../../utils/format';
+import { LEAD_SOURCES, submitLead } from '../../utils/leads';
 
 export default function ProjectConsultForm({ data }) {
   const { consult } = data;
@@ -7,13 +8,24 @@ export default function ProjectConsultForm({ data }) {
   const [phone, setPhone] = useState('');
   const [formState, setFormState] = useState('idle');
 
-  const submit = () => {
+  const submit = async () => {
     if (!nameOk(name) || !phoneOk(phone)) {
       setFormState('error');
       return;
     }
     setFormState('loading');
-    setTimeout(() => setFormState('success'), 900);
+    try {
+      await submitLead({
+        project: consult.projectName || data.name || '',
+        city: consult.city || data.city || '',
+        source: LEAD_SOURCES.CONSULT,
+        name: name.trim(),
+        phone: phone.trim(),
+      });
+      setFormState('success');
+    } catch {
+      setFormState('error');
+    }
   };
 
   return (
@@ -54,8 +66,8 @@ export default function ProjectConsultForm({ data }) {
             {formState === 'error' && (
               <div className="easton-consult__error">Укажите имя и корректный номер телефона.</div>
             )}
-            <button type="button" className="easton-btn easton-btn--light" onClick={submit}>
-              {formState === 'loading' ? 'Отправка…' : 'Оставить заявку'}
+            <button type="button" className="easton-btn easton-btn--light" onClick={submit} disabled={formState === 'loading'}>
+              {formState === 'loading' ? 'Отправка…' : 'Получить консультацию'}
             </button>
             <div className="easton-consult__policy">{consult.policy}</div>
           </>
