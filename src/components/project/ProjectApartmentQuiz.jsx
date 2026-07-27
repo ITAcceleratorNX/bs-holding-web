@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import SectionLabel from './SectionLabel';
 import { nameOk, phoneOk } from '../../utils/format';
 import { LEAD_SOURCES, submitLead } from '../../utils/leads';
 
-const STEPS = [
+const DEFAULT_STEPS = [
   {
     key: 'rooms',
     title: 'Комнатность',
@@ -41,9 +41,20 @@ const STEPS = [
   },
 ];
 
-const TOTAL_STEPS = STEPS.length + 1;
+function buildSteps(quiz) {
+  if (!quiz) return DEFAULT_STEPS;
+  return [
+    { key: 'rooms', title: 'Комнатность', options: quiz.rooms || DEFAULT_STEPS[0].options },
+    { key: 'floor', title: 'Этаж', options: quiz.floors || DEFAULT_STEPS[1].options },
+    { key: 'layout', title: 'Планировка', options: quiz.layouts || DEFAULT_STEPS[2].options },
+    { key: 'payment', title: 'Способ оплаты', options: quiz.payments || DEFAULT_STEPS[3].options },
+  ];
+}
 
 export default function ProjectApartmentQuiz({ data }) {
+  const steps = useMemo(() => buildSteps(data.quiz), [data.quiz]);
+  const totalSteps = steps.length + 1;
+
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({
     rooms: '',
@@ -55,13 +66,13 @@ export default function ProjectApartmentQuiz({ data }) {
   const [phone, setPhone] = useState('');
   const [formState, setFormState] = useState('idle');
 
-  const isContact = step >= STEPS.length;
-  const progress = ((step + 1) / TOTAL_STEPS) * 100;
+  const isContact = step >= steps.length;
+  const progress = ((step + 1) / totalSteps) * 100;
 
   const selectOption = (key, value) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
     setFormState('idle');
-    setTimeout(() => setStep((s) => Math.min(s + 1, STEPS.length)), 180);
+    setTimeout(() => setStep((s) => Math.min(s + 1, steps.length)), 180);
   };
 
   const goBack = () => {
@@ -113,7 +124,7 @@ export default function ProjectApartmentQuiz({ data }) {
             </div>
             <div className="project-quiz__meta">
               <span>
-                Шаг {step + 1} из {TOTAL_STEPS}
+                Шаг {step + 1} из {totalSteps}
               </span>
               {step > 0 && (
                 <button type="button" className="project-quiz__back" onClick={goBack}>
@@ -124,14 +135,14 @@ export default function ProjectApartmentQuiz({ data }) {
 
             {!isContact ? (
               <>
-                <h3 className="project-quiz__step-title">{STEPS[step].title}</h3>
+                <h3 className="project-quiz__step-title">{steps[step].title}</h3>
                 <div className="project-quiz__options">
-                  {STEPS[step].options.map((opt) => (
+                  {steps[step].options.map((opt) => (
                     <button
                       key={opt.value}
                       type="button"
-                      className={`project-quiz__option${answers[STEPS[step].key] === opt.value ? ' is-active' : ''}`}
-                      onClick={() => selectOption(STEPS[step].key, opt.value)}
+                      className={`project-quiz__option${answers[steps[step].key] === opt.value ? ' is-active' : ''}`}
+                      onClick={() => selectOption(steps[step].key, opt.value)}
                     >
                       {opt.label}
                     </button>

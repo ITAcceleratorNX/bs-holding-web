@@ -94,6 +94,21 @@ export const PROJECTS = [
     meta: ['Актобе', 'Алтын Орда', 'Ораза Татеулы'],
     href: '#/white-hill',
   },
+  {
+    id: 7,
+    name: 'ORTA',
+    slug: 'orta',
+    city: 'Актау',
+    klass: 'Бизнес',
+    classFull: 'Бизнес-класс',
+    term: 'IV квартал 2026 года',
+    termBadge: 'IV квартал 2026',
+    rooms: [1, 2, 3],
+    floors: 7,
+    image: '/images/project-orta.svg',
+    meta: ['Актау', '9 мкр', 'Море'],
+    href: '#/orta',
+  },
 ];
 
 export const FEATURED_DATA = {
@@ -171,7 +186,7 @@ export const CONTACTS = [
 ];
 
 export const FOOTER_COLS = [
-  { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill'] },
+  { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA'] },
   { title: 'Компания', items: ['О нас', 'Вакансии', 'Новости'] },
   { title: 'Поддержка', items: ['Контакты', 'График работы'] },
   { title: 'Офисы продаж', items: ['Актау', 'Актобе', 'Усть-Каменогорск'] },

@@ -21,6 +21,9 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
   if (!floorPlans) return null;
 
+  const items = floorPlans.items ?? [];
+  const hasItems = items.length > 0;
+
   const close = () => {
     setActive(null);
     setName('');
@@ -56,25 +59,36 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
       <p className="easton-body" style={{ marginTop: 16, marginBottom: 32 }}>
         {floorPlans.text}
       </p>
-      <div className="wh-plans-grid">
-        {floorPlans.items.map((item) => (
-          <article key={item.id} className="wh-plan-card">
-            <div className="wh-plan-card__media">
-              <img src={item.image} alt={item.name} />
-            </div>
-            <div className="wh-plan-card__body">
-              <div className="wh-plan-card__name">{item.name}</div>
-              <div className="wh-plan-card__meta">
-                <span>{item.rooms}</span>
-                <span>{item.area}</span>
+
+      {hasItems ? (
+        <div className="wh-plans-grid">
+          {items.map((item) => (
+            <article key={item.id} className="wh-plan-card">
+              <div className="wh-plan-card__media">
+                <img src={item.image} alt={item.name} />
               </div>
-              <button type="button" className="easton-btn easton-btn--light" onClick={() => setActive(item)}>
-                Подробнее
-              </button>
-            </div>
-          </article>
-        ))}
-      </div>
+              <div className="wh-plan-card__body">
+                <div className="wh-plan-card__name">{item.name}</div>
+                <div className="wh-plan-card__meta">
+                  <span>{item.rooms}</span>
+                  <span>{item.area}</span>
+                </div>
+                <button type="button" className="easton-btn easton-btn--light" onClick={() => setActive(item)}>
+                  Подробнее
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="project-plans-placeholder" aria-label={floorPlans.placeholder || `Планировки ${data.name}`}>
+          {floorPlans.placeholderImage ? (
+            <img src={floorPlans.placeholderImage} alt={floorPlans.placeholder || `Планировки ${data.name}`} />
+          ) : (
+            <div className="project-plans-placeholder__empty">{floorPlans.placeholder || `Планировки ${data.name}`}</div>
+          )}
+        </div>
+      )}
 
       {active && (
         <div className="wh-plan-popup" role="dialog" aria-modal="true" aria-label={active.name}>

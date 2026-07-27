@@ -49,17 +49,22 @@ export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProjec
         <ProjectArchitecture data={data} onScrollToConsult={scrollToConsult} />
         {data.floorPlans && <ProjectFloorPlans data={data} onScrollToConsult={scrollToConsult} />}
         <ProjectApartmentQuiz data={data} />
-        <ProjectYard data={data} />
+        {data.yard && <ProjectYard data={data} />}
         {data.playground && <ProjectPlayground data={data} onScrollToConsult={scrollToConsult} />}
         {data.kids && <ProjectKids data={data} />}
         {data.gym && <ProjectGym data={data} />}
-        <ProjectHall data={data} />
-        <ProjectApartments data={data} onScrollToConsult={scrollToConsult} />
-        <ProjectParking data={data} onOpenCatalog={() => setCatalogOpen(true)} />
+        {data.hall && <ProjectHall data={data} />}
+        {data.apartments && <ProjectApartments data={data} onScrollToConsult={scrollToConsult} />}
+        {data.parking && <ProjectParking data={data} onOpenCatalog={() => setCatalogOpen(true)} />}
         {data.extras ? <ProjectExtras data={data} /> : data.boxroom ? <ProjectBoxroom data={data} /> : null}
         <ProjectConsultForm data={data} />
         <ProjectFooter data={data} onBack={onBack} onNavigateProject={onNavigateProject} />
-        <ProjectCalcPopup open={calcOpen} onClose={() => setCalcOpen(false)} projectName={data.name} />
+        <ProjectCalcPopup
+          open={calcOpen}
+          onClose={() => setCalcOpen(false)}
+          projectName={data.name}
+          areaRanges={data.calcAreas}
+        />
         <ProjectCatalogPopup
           open={catalogOpen}
           onClose={() => setCatalogOpen(false)}

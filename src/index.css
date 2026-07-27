@@ -983,19 +983,71 @@ input:focus {
   display: block;
 }
 
+.easton-arch__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin: -16px 0 40px;
+}
+
+.easton-arch__gallery--single {
+  grid-template-columns: 1fr;
+}
+
+.easton-arch__gallery-item {
+  border-radius: 16px;
+  overflow: hidden;
+  height: 360px;
+  background: #1a1a1a;
+}
+
+.easton-arch__gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .easton-arch__points {
   display: flex;
+  flex-wrap: wrap;
   gap: 24px;
   margin-bottom: 40px;
 }
 
 .easton-arch__points p {
-  flex: 1;
+  flex: 1 1 220px;
   font-size: 16px;
   font-weight: 500;
   margin: 0;
   line-height: 1.4;
   color: #000;
+}
+
+.project-plans-placeholder {
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 320px;
+  background: #0d403b;
+}
+
+.project-plans-placeholder img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+.project-plans-placeholder__empty {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .easton-banner {
@@ -3250,6 +3302,26 @@ input:focus {
     border-radius: 12px;
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+
+  .easton-arch__gallery {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 0 0 24px;
+  }
+
+  .easton-arch__gallery-item {
+    height: 220px;
+    border-radius: 12px;
+  }
+
+  .project-plans-placeholder img {
+    height: 220px;
+  }
+
+  .project-plans-placeholder__empty {
+    min-height: 220px;
+    font-size: 20px;
   }
 
   .easton-kids__grid {

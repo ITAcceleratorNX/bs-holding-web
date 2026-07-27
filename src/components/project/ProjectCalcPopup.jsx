@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Dropdown from '../Dropdown';
 import { nameOk, phoneOk } from '../../utils/format';
 import { AREA_RANGES, LEAD_SOURCES, submitLead } from '../../utils/leads';
 
-const AREA_OPTIONS = AREA_RANGES.map((r) => r.label);
+export default function ProjectCalcPopup({ open, onClose, projectName, areaRanges }) {
+  const options = useMemo(() => {
+    const ranges = areaRanges?.length ? areaRanges : AREA_RANGES;
+    return ranges.map((r) => r.label || r.value);
+  }, [areaRanges]);
 
-export default function ProjectCalcPopup({ open, onClose, projectName }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [area, setArea] = useState('');
@@ -98,7 +101,7 @@ export default function ProjectCalcPopup({ open, onClose, projectName }) {
               current={area || 'Выберите квадратуру'}
               open={areaOpen}
               onToggle={() => setAreaOpen((v) => !v)}
-              options={AREA_OPTIONS}
+              options={options}
               onSelect={(value) => {
                 setArea(value);
                 setAreaOpen(false);

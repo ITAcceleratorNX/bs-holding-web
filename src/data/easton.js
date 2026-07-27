@@ -235,7 +235,7 @@ export const EASTON = {
   },
   footer: {
     cols: [
-      { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill'] },
+      { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA'] },
       { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
       { title: 'Поддержка', items: ['Контакты'] },
       { title: 'Общее', items: ['График работы:\nЕжедневно с 09:00 по 19:00'] },

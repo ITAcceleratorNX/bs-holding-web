@@ -11,7 +11,7 @@ export default function ProjectHall({ data }) {
           <SectionLabel color={accentDark}>{hall.label}</SectionLabel>
           <h2 className="easton-h2 easton-h2--dark">{hall.title}</h2>
           <p className="easton-body easton-body--dark">{hall.text1}</p>
-          <p className="easton-body easton-body--dark">{hall.text2}</p>
+          {hall.text2 ? <p className="easton-body easton-body--dark">{hall.text2}</p> : null}
         </div>
         <div className="easton-hall__image">
           <img src={hall.image} alt="" />

@@ -8,6 +8,7 @@ const PROJECT_NAMES = new Set([
   'Orda Palace',
   'White Hill',
   'Easton',
+  'ORTA',
 ]);
 
 export default function ProjectFooter({ data, onBack, onNavigateProject }) {
