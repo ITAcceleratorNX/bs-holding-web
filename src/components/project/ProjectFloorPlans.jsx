@@ -40,11 +40,12 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
     try {
       await submitLead({
         project: data.name,
+        city: data.city,
         source: 'Планировка — подробнее',
         name: name.trim(),
         phone: phone.trim(),
         plan: active?.name,
-        area: active?.area,
+        ...(active?.area ? { area: active.area } : {}),
       });
       setFormState('success');
     } catch {
@@ -63,18 +64,24 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
       {hasItems ? (
         <div className="wh-plans-grid">
           {items.map((item) => (
-            <article key={item.id} className="wh-plan-card">
+            <article key={item.id} className={`wh-plan-card${item.placeholder ? ' wh-plan-card--placeholder' : ''}`}>
               <div className="wh-plan-card__media">
                 <img src={item.image} alt={item.name} />
               </div>
               <div className="wh-plan-card__body">
                 <div className="wh-plan-card__name">{item.name}</div>
                 <div className="wh-plan-card__meta">
-                  <span>{item.rooms}</span>
-                  <span>{item.area}</span>
+                  {item.placeholder ? (
+                    <span>{item.note ?? 'Характеристики уточняются'}</span>
+                  ) : (
+                    <>
+                      <span>{item.rooms}</span>
+                      <span>{item.area}</span>
+                    </>
+                  )}
                 </div>
                 <button type="button" className="easton-btn easton-btn--light" onClick={() => setActive(item)}>
-                  Подробнее
+                  {item.cta ?? 'Подробнее'}
                 </button>
               </div>
             </article>
@@ -104,13 +111,16 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
               <div className="wh-plan-popup__info">
                 <h3>{active.name}</h3>
                 <ul>
-                  <li>{active.rooms}</li>
-                  <li>Общая площадь: {active.area}</li>
+                  {active.rooms && <li>{active.rooms}</li>}
+                  {active.area && <li>Общая площадь: {active.area}</li>}
                   {active.areaLiving && <li>Жилая площадь: {active.areaLiving}</li>}
                   {active.meta?.map((m) => (
                     <li key={m}>{m}</li>
                   ))}
                   {active.priceNote && <li>{active.priceNote}</li>}
+                  {active.placeholder && (
+                    <li>{active.note ?? 'Характеристики уточняются'} — оставьте заявку, и менеджер пришлёт планировку.</li>
+                  )}
                 </ul>
                 {formState === 'success' ? (
                   <div>
@@ -126,7 +136,12 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                     {formState === 'error' && (
                       <div className="easton-consult__error">Укажите имя и корректный номер телефона.</div>
                     )}
-                    <button type="button" className="easton-btn easton-btn--light" onClick={submit}>
+                    <button
+                      type="button"
+                      className="easton-btn easton-btn--light"
+                      onClick={submit}
+                      disabled={formState === 'loading'}
+                    >
                       {formState === 'loading' ? 'Отправка…' : 'Оставить заявку'}
                     </button>
                     <button type="button" className="easton-btn easton-btn--ghost" onClick={() => { close(); onScrollToConsult?.(); }}>

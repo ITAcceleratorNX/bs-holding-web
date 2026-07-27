@@ -7,6 +7,7 @@ export default function ProjectYard({ data }) {
       <div className="easton-yard__content">
         <div className="easton-yard__label">{yard.label}</div>
         <h2>{yard.title}</h2>
+        {yard.text && <p className="easton-yard__text">{yard.text}</p>}
       </div>
     </section>
   );

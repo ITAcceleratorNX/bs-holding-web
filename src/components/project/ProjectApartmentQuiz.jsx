@@ -17,6 +17,8 @@ const DEFAULT_STEPS = [
   {
     key: 'floor',
     title: 'Этаж',
+    /** Short numeric labels — lay them out in a dense grid instead of 2 wide columns. */
+    compact: true,
     options: [
       { value: '1', label: '1' },
       { value: '2', label: '2' },
@@ -45,7 +47,7 @@ function buildSteps(quiz) {
   if (!quiz) return DEFAULT_STEPS;
   return [
     { key: 'rooms', title: 'Комнатность', options: quiz.rooms || DEFAULT_STEPS[0].options },
-    { key: 'floor', title: 'Этаж', options: quiz.floors || DEFAULT_STEPS[1].options },
+    { key: 'floor', title: 'Этаж', compact: true, options: quiz.floors || DEFAULT_STEPS[1].options },
     { key: 'layout', title: 'Планировка', options: quiz.layouts || DEFAULT_STEPS[2].options },
     { key: 'payment', title: 'Способ оплаты', options: quiz.payments || DEFAULT_STEPS[3].options },
   ];
@@ -88,7 +90,8 @@ export default function ProjectApartmentQuiz({ data }) {
     setFormState('loading');
     try {
       await submitLead({
-        project: data.name,
+        project: data.consult?.projectName ?? data.name,
+        city: data.consult?.city ?? data.city,
         source: LEAD_SOURCES.QUIZ,
         name: name.trim(),
         phone: phone.trim(),
@@ -136,7 +139,7 @@ export default function ProjectApartmentQuiz({ data }) {
             {!isContact ? (
               <>
                 <h3 className="project-quiz__step-title">{steps[step].title}</h3>
-                <div className="project-quiz__options">
+                <div className={`project-quiz__options${steps[step].compact ? ' project-quiz__options--compact' : ''}`}>
                   {steps[step].options.map((opt) => (
                     <button
                       key={opt.value}

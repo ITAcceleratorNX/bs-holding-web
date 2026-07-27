@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700" role="img" aria-label="Карта 40-го микрорайона и парка Первого Президента">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F3A37"/>
+      <stop offset="55%" stop-color="#2C4F4A"/>
+      <stop offset="100%" stop-color="#3A5E58"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="700" fill="url(#g)"/>
+  <rect x="56" y="56" width="1488" height="588" fill="none" stroke="rgba(232,240,239,0.18)" stroke-width="2"/>
+  <text x="800" y="303" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="39" text-anchor="middle" dominant-baseline="middle">Карта 40-го микрорайона</text>
+  <text x="800" y="353" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="39" text-anchor="middle" dominant-baseline="middle">и парка Первого Президента</text>
+  <text x="800" y="421" fill="rgba(232,240,239,0.55)" font-family="Arial, Helvetica, sans-serif" font-size="20" text-anchor="middle" dominant-baseline="middle">Временная заглушка · Avenue Park</text>
+</svg>

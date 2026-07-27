@@ -45,6 +45,7 @@
 import { EASTON } from './easton';
 import { WHITE_HILL } from './whitehill';
 import { ORTA } from './orta';
+import { AVENUE_PARK } from './avenuePark';
 
 const E_IMG = {
   featuresMain: '/images/easton/features-main.webp',
@@ -304,30 +305,6 @@ const CENTRAL_PARK = buildMockPage({
   address: 'г. Актау, первая береговая линия',
   instagram: 'bs_holding.aktau',
   classLabel: 'бизнес-класс',
-});
-
-const AVENUE_PARK = buildMockPage({
-  slug: 'avenue-park',
-  name: 'Avenue Park',
-  city: 'Актобе',
-  heroImage: '/images/featured-avenue-park.webp',
-  aboutText:
-    'Avenue Park — жилой комплекс бизнес-класса в самом сердце Актобе. Рядом парк, инфраструктура и всё необходимое для современной городской жизни.',
-  termText: 'Срок сдачи: I квартал 2026 года',
-  apartmentsCount: 'Бизнес+ · центр города',
-  locationTitle: 'В сердце Актобе\nу Парка Первого Президента',
-  locationCards: [
-    { image: null, title: 'Парк', solid: true, icon: E_IMG.iconPark },
-    { image: E_IMG.locationTheatre, title: 'Мечеть Нур Гасыр', icon: E_IMG.iconTheatre },
-    { image: E_IMG.locationPark, title: 'Река Илек', icon: E_IMG.iconCar },
-  ],
-  locationNotes: [
-    '8 минут от Парка Первого Президента, 5 минут от мечети Нур Гасыр, 2 минуты от реки Илек.',
-    'Рядом школы, сады, областная больница и роддом — инфраструктура для семьи.',
-  ],
-  address: 'г. Актобе, район Парка Первого Президента',
-  instagram: 'bs_holding.aktobe',
-  classLabel: 'бизнес+',
 });
 
 const ADAL_TOWN = buildMockPage({

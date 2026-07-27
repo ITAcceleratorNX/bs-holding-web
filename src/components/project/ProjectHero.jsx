@@ -10,6 +10,7 @@ export default function ProjectHero({ data, onScrollToConsult, onOpenCatalog }) 
       <div className="easton-hero__content">
         <h1>{data.hero.title}</h1>
         <p className="easton-hero__city">{data.hero.location}</p>
+        {data.hero.tagline && <p className="easton-hero__tagline">{data.hero.tagline}</p>}
         <div className="easton-hero__cta">
           <button type="button" className="easton-btn easton-btn--solid" onClick={onScrollToConsult}>
             Оставить заявку

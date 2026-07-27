@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="920" viewBox="0 0 900 920" role="img" aria-label="Инженерная автономность: дизель-генератор и водозапас 360 м³">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F3A37"/>
+      <stop offset="55%" stop-color="#2C4F4A"/>
+      <stop offset="100%" stop-color="#3A5E58"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="920" fill="url(#g)"/>
+  <rect x="72" y="72" width="756" height="776" fill="none" stroke="rgba(232,240,239,0.18)" stroke-width="2"/>
+  <text x="450" y="147.70000000000002" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="50" text-anchor="middle" dominant-baseline="middle">Инженерная автономность:</text>
+  <text x="450" y="211.70000000000002" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="50" text-anchor="middle" dominant-baseline="middle">дизель-генератор и</text>
+  <text x="450" y="275.70000000000005" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="50" text-anchor="middle" dominant-baseline="middle">водозапас 360 м³</text>
+  <text x="450" y="362.70000000000005" fill="rgba(232,240,239,0.55)" font-family="Arial, Helvetica, sans-serif" font-size="25" text-anchor="middle" dominant-baseline="middle">Временная заглушка · Avenue Park</text>
+</svg>

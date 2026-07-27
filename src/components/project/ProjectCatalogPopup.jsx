@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { nameOk, phoneOk } from '../../utils/format';
-import { LEAD_SOURCES, openWhatsApp, submitLead } from '../../utils/leads';
+import { LEAD_SOURCES, normalizeWhatsAppPhone, openWhatsApp, submitLead } from '../../utils/leads';
 
-export default function ProjectCatalogPopup({ open, onClose, projectName, whatsappPhone }) {
+export default function ProjectCatalogPopup({ open, onClose, projectName, city, whatsappPhone }) {
+  /** No manager number yet → submit works, but no broken link is created. */
+  const hasWhatsApp = Boolean(normalizeWhatsAppPhone(whatsappPhone));
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [whatsapp, setWhatsapp] = useState(true);
@@ -37,13 +39,14 @@ export default function ProjectCatalogPopup({ open, onClose, projectName, whatsa
     try {
       await submitLead({
         project: projectName,
+        city,
         source: LEAD_SOURCES.CATALOG,
         name: name.trim(),
         phone: phone.trim(),
         whatsappCatalog: whatsapp,
       });
       setFormState('success');
-      if (whatsapp) {
+      if (whatsapp && hasWhatsApp) {
         openWhatsApp(
           whatsappPhone,
           `Здравствуйте! Хочу получить каталог по ЖК ${projectName}. Меня зовут ${name.trim()}, телефон: ${phone.trim()}.`,
@@ -64,9 +67,11 @@ export default function ProjectCatalogPopup({ open, onClose, projectName, whatsa
           <div className="project-lead-popup__success">
             <div className="project-lead-popup__title">Спасибо! Заявка принята.</div>
             <div className="project-lead-popup__sub">
-              {whatsapp
-                ? 'Менеджер отправит каталог в WhatsApp. Если чат не открылся — напишите нам сами.'
-                : 'Менеджер свяжется с вами и отправит каталог.'}
+              {!whatsapp
+                ? 'Менеджер свяжется с вами и отправит каталог.'
+                : hasWhatsApp
+                  ? 'Менеджер отправит каталог в WhatsApp. Если чат не открылся — напишите нам сами.'
+                  : 'Менеджер отправит каталог в WhatsApp в рабочее время.'}
             </div>
             <button type="button" className="easton-btn easton-btn--solid" onClick={onClose}>
               Закрыть

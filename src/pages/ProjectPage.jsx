@@ -20,7 +20,6 @@ import ProjectConsultForm from '../components/project/ProjectConsultForm';
 import ProjectFooter from '../components/project/ProjectFooter';
 import ProjectCalcPopup from '../components/project/ProjectCalcPopup';
 import ProjectCatalogPopup from '../components/project/ProjectCatalogPopup';
-import { DEFAULT_WHATSAPP_PHONE } from '../utils/leads';
 
 export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProject }) {
   const accent = data.theme?.accent ?? '#61D0C5';
@@ -31,6 +30,18 @@ export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProjec
   const scrollToConsult = () => {
     document.getElementById(`${data.slug}-consult`)?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  /**
+   * Планировки и следующий за ними квиз по умолчанию идут после архитектуры,
+   * но страница может сдвинуть их ниже блока «Квартиры» (`plansPlacement`).
+   */
+  const plansBlock = (
+    <>
+      {data.floorPlans && <ProjectFloorPlans data={data} onScrollToConsult={scrollToConsult} />}
+      <ProjectApartmentQuiz data={data} />
+    </>
+  );
+  const plansAfterApartments = data.plansPlacement === 'after-apartments';
 
   return (
     <>
@@ -47,14 +58,14 @@ export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProjec
         <ProjectStandards data={data} />
         <ProjectLocation data={data} onOpenCalc={() => setCalcOpen(true)} />
         <ProjectArchitecture data={data} onScrollToConsult={scrollToConsult} />
-        {data.floorPlans && <ProjectFloorPlans data={data} onScrollToConsult={scrollToConsult} />}
-        <ProjectApartmentQuiz data={data} />
+        {!plansAfterApartments && plansBlock}
         {data.yard && <ProjectYard data={data} />}
         {data.playground && <ProjectPlayground data={data} onScrollToConsult={scrollToConsult} />}
         {data.kids && <ProjectKids data={data} />}
         {data.gym && <ProjectGym data={data} />}
         {data.hall && <ProjectHall data={data} />}
         {data.apartments && <ProjectApartments data={data} onScrollToConsult={scrollToConsult} />}
+        {plansAfterApartments && plansBlock}
         {data.parking && <ProjectParking data={data} onOpenCatalog={() => setCatalogOpen(true)} />}
         {data.extras ? <ProjectExtras data={data} /> : data.boxroom ? <ProjectBoxroom data={data} /> : null}
         <ProjectConsultForm data={data} />
@@ -62,14 +73,16 @@ export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProjec
         <ProjectCalcPopup
           open={calcOpen}
           onClose={() => setCalcOpen(false)}
-          projectName={data.name}
+          projectName={data.consult?.projectName ?? data.name}
+          city={data.consult?.city ?? data.city}
           areaRanges={data.calcAreas}
         />
         <ProjectCatalogPopup
           open={catalogOpen}
           onClose={() => setCatalogOpen(false)}
-          projectName={data.name}
-          whatsappPhone={data.whatsappPhone || DEFAULT_WHATSAPP_PHONE}
+          projectName={data.consult?.projectName ?? data.name}
+          city={data.consult?.city ?? data.city}
+          whatsappPhone={data.whatsappPhone}
         />
       </div>
     </>

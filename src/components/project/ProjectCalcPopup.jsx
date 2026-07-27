@@ -3,7 +3,7 @@ import Dropdown from '../Dropdown';
 import { nameOk, phoneOk } from '../../utils/format';
 import { AREA_RANGES, LEAD_SOURCES, submitLead } from '../../utils/leads';
 
-export default function ProjectCalcPopup({ open, onClose, projectName, areaRanges }) {
+export default function ProjectCalcPopup({ open, onClose, projectName, city, areaRanges }) {
   const options = useMemo(() => {
     const ranges = areaRanges?.length ? areaRanges : AREA_RANGES;
     return ranges.map((r) => r.label || r.value);
@@ -45,6 +45,7 @@ export default function ProjectCalcPopup({ open, onClose, projectName, areaRange
     try {
       await submitLead({
         project: projectName,
+        city,
         source: LEAD_SOURCES.CALC,
         name: name.trim(),
         phone: phone.trim(),

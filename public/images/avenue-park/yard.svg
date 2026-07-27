@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1080" viewBox="0 0 1200 1080" role="img" aria-label="Двор Avenue Park: озеленение и зоны отдыха">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F3A37"/>
+      <stop offset="55%" stop-color="#2C4F4A"/>
+      <stop offset="100%" stop-color="#3A5E58"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1080" fill="url(#g)"/>
+  <rect x="86" y="86" width="1028" height="908" fill="none" stroke="rgba(232,240,239,0.18)" stroke-width="2"/>
+  <text x="600" y="431" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="59" text-anchor="middle" dominant-baseline="middle">Двор Avenue Park:</text>
+  <text x="600" y="507" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="59" text-anchor="middle" dominant-baseline="middle">озеленение и</text>
+  <text x="600" y="583" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="59" text-anchor="middle" dominant-baseline="middle">зоны отдыха</text>
+  <text x="600" y="686" fill="rgba(232,240,239,0.55)" font-family="Arial, Helvetica, sans-serif" font-size="30" text-anchor="middle" dominant-baseline="middle">Временная заглушка · Avenue Park</text>
+</svg>

@@ -14,6 +14,11 @@ export default function ProjectAbout({ data }) {
       ) : (
         <p className="easton-about__text">{about.text}</p>
       )}
+      {about.image && (
+        <div className="easton-about__image">
+          <img src={about.image} alt={about.imageAlt ?? ''} />
+        </div>
+      )}
       <div className={`easton-about__stats${about.stats.length > 2 ? ' easton-about__stats--triple' : ''}`}>
         {about.stats.map((s) => (
           <div key={s.text} className="easton-about__stat">

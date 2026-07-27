@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="460" viewBox="0 0 800 460" role="img" aria-label="Планировка Avenue Park">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F3A37"/>
+      <stop offset="55%" stop-color="#2C4F4A"/>
+      <stop offset="100%" stop-color="#3A5E58"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="460" fill="url(#g)"/>
+  <rect x="37" y="37" width="726" height="386" fill="none" stroke="rgba(232,240,239,0.18)" stroke-width="2"/>
+  <text x="400" y="199.5" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="25" text-anchor="middle" dominant-baseline="middle">Планировка</text>
+  <text x="400" y="231.5" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="25" text-anchor="middle" dominant-baseline="middle">Avenue Park</text>
+  <text x="400" y="275.5" fill="rgba(232,240,239,0.55)" font-family="Arial, Helvetica, sans-serif" font-size="13" text-anchor="middle" dominant-baseline="middle">Временная заглушка · Avenue Park</text>
+</svg>

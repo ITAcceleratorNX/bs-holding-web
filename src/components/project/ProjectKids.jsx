@@ -7,7 +7,7 @@ export default function ProjectKids({ data }) {
   return (
     <section className="easton-section easton-section--cream">
       <SectionLabel color={accentDark}>{kids.label}</SectionLabel>
-      <div className="easton-kids__grid">
+      <div className={`easton-kids__grid easton-kids__grid--${kids.gallery.length}`}>
         {kids.gallery.map((g, i) => (
           <MediaCard key={i} image={g.image} title={g.title} />
         ))}
@@ -19,6 +19,11 @@ export default function ProjectKids({ data }) {
           <p className="easton-body easton-body--dark">{kids.roomText}</p>
         </div>
       </div>
+      {kids.roomImage && (
+        <div className="easton-kids__room-image">
+          <img src={kids.roomImage} alt={kids.roomImageAlt ?? ''} />
+        </div>
+      )}
     </section>
   );
 }
