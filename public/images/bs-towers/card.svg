@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-label="BS Towers Актау">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1F3A37"/>
+      <stop offset="55%" stop-color="#2C4F4A"/>
+      <stop offset="100%" stop-color="#3A5E58"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#g)"/>
+  <rect x="72" y="72" width="1056" height="756" fill="none" stroke="rgba(232,240,239,0.18)" stroke-width="2"/>
+  <text x="600" y="390.5" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="50" text-anchor="middle" dominant-baseline="middle">BS Towers</text>
+  <text x="600" y="454.5" fill="#E8F0EF" font-family="Georgia, 'Times New Roman', serif" font-size="50" text-anchor="middle" dominant-baseline="middle">Актау</text>
+  <text x="600" y="541.5" fill="rgba(232,240,239,0.55)" font-family="Arial, Helvetica, sans-serif" font-size="25" text-anchor="middle" dominant-baseline="middle">Временная заглушка · BS Towers</text>
+</svg>

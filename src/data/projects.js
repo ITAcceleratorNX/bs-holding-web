@@ -109,6 +109,20 @@ export const PROJECTS = [
     meta: ['Актау', '9 мкр', 'Море'],
     href: '#/orta',
   },
+  {
+    id: 8,
+    name: 'BS Towers',
+    slug: 'bs-towers',
+    city: 'Актау',
+    klass: 'Премиум',
+    classFull: 'Премиум-класс',
+    // Срок сдачи и цена не предоставлены — поля намеренно отсутствуют.
+    rooms: [1, 2, 3, 4],
+    floors: 18,
+    image: '/images/bs-towers/card.svg',
+    meta: ['Актау', '40-й микрорайон', 'Парк Первого Президента'],
+    href: '#/bs-towers',
+  },
 ];
 
 export const FEATURED_DATA = {
@@ -186,7 +200,7 @@ export const CONTACTS = [
 ];
 
 export const FOOTER_COLS = [
-  { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA'] },
+  { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
   { title: 'Компания', items: ['О нас', 'Вакансии', 'Новости'] },
   { title: 'Поддержка', items: ['Контакты', 'График работы'] },
   { title: 'Офисы продаж', items: ['Актау', 'Актобе', 'Усть-Каменогорск'] },
@@ -197,7 +211,7 @@ export const SOCIALS = ['IG', 'TG', 'FB', 'TT', 'YT'];
 
 export const FILTER_SPEC = [
   ['city', ['Все города', 'Актау', 'Актобе', 'Усть-Каменогорск']],
-  ['klass', ['Все классы', 'Бизнес', 'Бизнес+', 'Комфорт', 'Комфорт+']],
+  ['klass', ['Все классы', 'Премиум', 'Бизнес', 'Бизнес+', 'Комфорт', 'Комфорт+']],
   ['term', ['Любой срок', 'Сдан', '2026 год']],
   ['floor', ['Любой этаж', 'до 5 этажей', '5–10 этажей', '10 и выше']],
   ['rooms', ['Все комнаты', '1', '2', '3', '4']],

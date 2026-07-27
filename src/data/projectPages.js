@@ -46,6 +46,7 @@ import { EASTON } from './easton';
 import { WHITE_HILL } from './whitehill';
 import { ORTA } from './orta';
 import { AVENUE_PARK } from './avenuePark';
+import { BS_TOWERS } from './bsTowers';
 
 const E_IMG = {
   featuresMain: '/images/easton/features-main.webp',
@@ -73,7 +74,7 @@ const E_IMG = {
 
 const SHARED_FOOTER = {
   cols: [
-    { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA'] },
+    { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
     { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
     { title: 'Поддержка', items: ['Контакты'] },
     { title: 'Общее', items: ['График работы:\nЕжедневно с 09:00 по 19:00'] },
@@ -98,6 +99,7 @@ const NAME_TO_SLUG = {
   Easton: 'easton',
   'White Hill': 'white-hill',
   ORTA: 'orta',
+  'BS Towers': 'bs-towers',
 };
 
 /**
@@ -364,6 +366,7 @@ export const PROJECT_PAGES = {
   'orda-palace': ORDA_PALACE,
   'white-hill': WHITE_HILL,
   orta: ORTA,
+  'bs-towers': BS_TOWERS,
 };
 
 /**

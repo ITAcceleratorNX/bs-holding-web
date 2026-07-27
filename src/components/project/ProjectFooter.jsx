@@ -9,6 +9,7 @@ const PROJECT_NAMES = new Set([
   'White Hill',
   'Easton',
   'ORTA',
+  'BS Towers',
 ]);
 
 export default function ProjectFooter({ data, onBack, onNavigateProject }) {

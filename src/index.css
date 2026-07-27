@@ -3537,6 +3537,11 @@ input:focus {
   gap: 24px;
 }
 
+.wh-plans-grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
 .wh-plan-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);

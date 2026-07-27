@@ -62,7 +62,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
       </p>
 
       {hasItems ? (
-        <div className="wh-plans-grid">
+        <div className={`wh-plans-grid${items.length === 4 ? ' wh-plans-grid--4' : ''}`}>
           {items.map((item) => (
             <article key={item.id} className={`wh-plan-card${item.placeholder ? ' wh-plan-card--placeholder' : ''}`}>
               <div className="wh-plan-card__media">

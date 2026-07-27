@@ -19,7 +19,7 @@ function ProjectCard({ p, onOpen }) {
         <img src={p.image} alt={p.name} />
         <div className="project-card__badges">
           <span className="badge">{p.classFull}</span>
-          <span className="badge">{p.termBadge}</span>
+          {p.termBadge && <span className="badge">{p.termBadge}</span>}
         </div>
       </div>
       <div className="project-card__info">
