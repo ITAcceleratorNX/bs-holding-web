@@ -83,6 +83,7 @@ export const AREA_RANGES = [
 
 export const LEAD_SOURCES = {
   CALC: 'Получить расчет',
+  INSTALLMENT_CALC: 'Калькулятор рассрочки',
   QUIZ: 'Квиз подборки',
   CATALOG: 'Скачать каталог',
   CONSULT: 'Нижняя форма',

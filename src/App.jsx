@@ -204,6 +204,8 @@ export default function App() {
         <Featured activeTab={activeTab} setActiveTab={setActiveTab} />
         <Paida onOpenCall={openCall} />
         <Calculator
+          city={headerCity}
+          lang={langCur}
           calcMode={calcMode}
           setCalcMode={setCalcMode}
           price={price}

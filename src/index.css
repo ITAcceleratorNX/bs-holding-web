@@ -4304,3 +4304,220 @@ input:focus {
     border-radius: 12px;
   }
 }
+
+/* Геозависимый калькулятор рассрочки */
+.calculator__subtitle {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.65);
+  max-width: 720px;
+  margin: -8px 0 24px;
+}
+
+.calc-geo__group {
+  gap: 10px;
+}
+
+.calc-geo__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.calc-geo__option {
+  flex: 1 1 auto;
+  min-width: 92px;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid #D8D8D8;
+  background: #fff;
+  color: #0D403B;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.calc-geo__option:hover {
+  border-color: #0D403B;
+}
+
+.calc-geo__option:active {
+  transform: translateY(1px);
+}
+
+.calc-geo__option.is-active {
+  background: #0D403B;
+  border-color: #0D403B;
+  color: #fff;
+}
+
+.calc-geo__slider-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.calc-geo__slider-value {
+  font-size: 21px;
+  font-weight: 700;
+  color: #0D403B;
+}
+
+.calc-geo__bounds {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.calc-geo__hint {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.calc-geo__error {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.calc-panel__form .calc-geo__error {
+  color: #C0392B;
+}
+
+.calc-panel__result .calc-geo__error {
+  color: #FFB4A8;
+}
+
+.calc-result-block__value--sm {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.15;
+  word-break: break-word;
+}
+
+.calc-geo__field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calc-geo__field input {
+  width: 100%;
+}
+
+.calc-geo__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.calc-geo__consent input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.calc-geo__consent-box {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+
+.calc-geo__consent.is-checked .calc-geo__consent-box {
+  background: #fff;
+  border-color: #fff;
+}
+
+.calc-geo__consent.is-checked .calc-geo__consent-box::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #0D403B;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.calc-geo__consent input:focus-visible + .calc-geo__consent-box {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.calc-geo .btn-white:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.calc-geo .btn-white:disabled:hover {
+  background: #fff;
+}
+
+.calc-geo__rows {
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calc-geo__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.calc-geo__row dt {
+  opacity: 0.75;
+}
+
+.calc-geo__row dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .calculator__subtitle {
+    font-size: 14px;
+    margin: -4px 0 20px;
+  }
+
+  .calc-geo__option {
+    min-width: 72px;
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  .calc-geo__slider-value {
+    font-size: 18px;
+  }
+
+  .calc-result-block__value--sm {
+    font-size: 24px;
+  }
+
+  .calc-geo__row {
+    font-size: 14px;
+  }
+}

@@ -1,3 +1,5 @@
+import InstallmentCalculator from './InstallmentCalculator';
+import { getCityCalculator } from '../data/calculator';
 import { computeCalc, fmt, onlyDigits } from '../utils/format';
 
 function CalcField({ label, value, onChange, suffix, min, max, step, onRangeChange }) {
@@ -22,6 +24,8 @@ function CalcField({ label, value, onChange, suffix, min, max, step, onRangeChan
 }
 
 export default function Calculator({
+  city,
+  lang,
   calcMode,
   setCalcMode,
   price,
@@ -42,6 +46,24 @@ export default function Calculator({
   submitLead,
 }) {
   const calc = computeCalc({ price, down, termY, rate, termM, calcMode });
+  /**
+   * Для городов с утверждёнными условиями рассрочки показывается геозависимый
+   * калькулятор. Вкладка «Ипотека» для них не выводится — банковские условия
+   * не предоставлены (ТЗ 2, 9). Остальные города используют общий калькулятор.
+   */
+  const cityConfig = getCityCalculator(city);
+
+  if (cityConfig) {
+    return (
+      <section className="section calculator">
+        <h2 className="section-title">
+          {cityConfig.title} · {cityConfig.city}
+        </h2>
+        <p className="calculator__subtitle">{cityConfig.subtitle}</p>
+        <InstallmentCalculator config={cityConfig} lang={lang} />
+      </section>
+    );
+  }
 
   return (
     <section className="section calculator">
