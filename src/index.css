@@ -475,7 +475,7 @@ input:focus {
   .easton-standards-grid,
   .easton-location__cards,
   .easton-kids__grid,
-  .easton-hall__gallery,
+  .easton-hall,
   .easton-playground,
   .easton-parking,
   .easton-consult,
@@ -1227,24 +1227,26 @@ input:focus {
 }
 
 /* Hall */
-.easton-hall__intro {
-  max-width: 820px;
-  margin-bottom: 40px;
+.easton-hall {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 48px;
 }
 
-.easton-hall__intro .easton-h2 {
-  margin-top: 12px;
+.easton-hall__text,
+.easton-hall__image {
+  flex: 1;
+  min-width: 0;
 }
 
-.easton-hall__intro .easton-body {
-  margin-top: 16px;
+.easton-hall__text .easton-body {
+  margin-top: 24px;
 }
 
 .easton-hall__image {
   border-radius: 16px;
   overflow: hidden;
-  height: 520px;
-  margin-bottom: 16px;
+  height: 718px;
 }
 
 .easton-hall__image img {
@@ -1252,18 +1254,6 @@ input:focus {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-.easton-hall__gallery {
-  display: grid;
-  grid-template-columns: repeat(var(--hall-gallery-cols, 4), 1fr);
-  gap: 16px;
-  margin-bottom: 48px;
-}
-
-.easton-hall__gallery .easton-media-card {
-  min-height: 280px;
-  height: 280px;
 }
 
 .easton-hall__features {
@@ -3306,6 +3296,7 @@ input:focus {
 
   .easton-split,
   .easton-playground,
+  .easton-hall,
   .easton-kids__room,
   .easton-parking,
   .easton-consult,
@@ -3430,25 +3421,14 @@ input:focus {
     padding-top: 0;
   }
 
-  .easton-hall__intro {
-    margin-bottom: 24px;
-  }
-
-  .easton-hall__image {
-    height: 240px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-  }
-
-  .easton-hall__gallery {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  .easton-hall {
     margin-bottom: 28px;
   }
 
-  .easton-hall__gallery .easton-media-card {
-    height: 180px;
-    min-height: 180px;
+  .easton-hall__image {
+    height: 220px;
+    border-radius: 12px;
+    margin-top: 20px;
   }
 
   .easton-hall__features,
@@ -3563,15 +3543,6 @@ input:focus {
   }
 
   .easton-kids__grid .easton-media-card {
-    height: 200px;
-    min-height: 200px;
-  }
-
-  .easton-hall__gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .easton-hall__gallery .easton-media-card {
     height: 200px;
     min-height: 200px;
   }
