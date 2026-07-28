@@ -3599,6 +3599,90 @@ input:focus {
   grid-template-columns: repeat(4, 1fr);
 }
 
+.wh-plans-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0 0 28px;
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.wh-plans-filters__group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wh-plans-filters__label {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.wh-plans-filters__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wh-plans-filter-chip {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.88);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.wh-plans-filter-chip:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.wh-plans-filter-chip.is-active {
+  background: rgba(97, 208, 197, 0.18);
+  border-color: rgba(97, 208, 197, 0.7);
+  color: #fff;
+}
+
+.wh-plans-filters__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.wh-plans-filters__reset {
+  border: 0;
+  background: none;
+  color: #61d0c5;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.wh-plans-filters__reset:hover {
+  text-decoration: underline;
+}
+
+.wh-plans-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 28px 0 8px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
 .wh-plans-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -3608,6 +3692,15 @@ input:focus {
 .wh-plans-grid--4 {
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+}
+
+.wh-plans-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 920px;
+}
+
+.wh-plans-grid--sheets {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 .wh-plan-card {
@@ -3629,6 +3722,16 @@ input:focus {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.wh-plan-card--sheet .wh-plan-card__media {
+  height: 260px;
+  background: #f4f7f6;
+}
+
+.wh-plan-card--sheet .wh-plan-card__media img {
+  object-fit: contain;
+  padding: 10px;
 }
 
 .wh-plan-card__body {
@@ -3679,6 +3782,26 @@ input:focus {
   border-radius: 20px;
   padding: 28px;
   color: #fff;
+}
+
+.wh-plan-popup__panel--sheet {
+  width: min(1180px, 100%);
+}
+
+.wh-plan-popup__grid--sheet {
+  grid-template-columns: 1.6fr 1fr;
+}
+
+.wh-plan-popup__grid--sheet .wh-plan-popup__media {
+  background: #f4f7f6;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.wh-plan-popup__grid--sheet .wh-plan-popup__media img {
+  max-height: min(70vh, 720px);
+  width: 100%;
+  object-fit: contain;
 }
 
 .wh-plan-popup__close {
