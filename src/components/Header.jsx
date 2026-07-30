@@ -3,18 +3,40 @@ import Dropdown from './Dropdown';
 import Logo from './Logo';
 import { phoneForCity } from '../data/phones';
 
-const NAV_ITEMS = [
-  { label: 'Главная', href: '#top', active: true },
-  { label: 'Жилые комплексы', href: '#catalog', active: false },
-  { label: 'О компании', href: '#', active: false },
-  { label: 'Акции и предложения', href: '#paida', active: false },
+export const MAIN_NAV_ITEMS = [
+  { label: 'Главная', href: '#/', key: 'home' },
+  { label: 'Жилые комплексы', href: '#catalog', key: 'catalog' },
+  { label: 'О компании', href: '#/about', key: 'about' },
+  { label: 'Акции и предложения', href: '#paida', key: 'paida' },
 ];
 
 const CITIES = ['Актау', 'Актобе', 'Усть-Каменогорск'];
 const LANGS = ['RU', 'KZ', 'EN'];
 
+function navKeyFromHash() {
+  const path = (window.location.hash || '').replace(/^#\/?/, '').split(/[/?#]/)[0]?.toLowerCase() || '';
+  if (path === 'about' || path === 'o-kompanii') return 'about';
+  if (path === 'catalog') return 'catalog';
+  if (path === 'paida') return 'paida';
+  if (path && path !== 'top') return 'catalog';
+  return 'home';
+}
+
+function isHomeSurface() {
+  const path = (window.location.hash || '').replace(/^#\/?/, '').split(/[/?#]/)[0]?.toLowerCase() || '';
+  return !path || path === 'top' || path === 'catalog' || path === 'paida';
+}
+
+function navKeyFromProp(activeNav) {
+  if (!activeNav) return null;
+  const match = MAIN_NAV_ITEMS.find((item) => item.label === activeNav || item.key === activeNav);
+  return match?.key ?? null;
+}
+
 export default function Header({
   showTopBar,
+  overlay = false,
+  activeNav,
   headerCity,
   setHeaderCity,
   langCur,
@@ -22,11 +44,43 @@ export default function Header({
   openMenu,
   toggleMenu,
   onOpenCall,
+  onLogoClick,
 }) {
   const headerRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
   const [spacerH, setSpacerH] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeKey, setActiveKey] = useState(() => navKeyFromProp(activeNav) || navKeyFromHash());
+
+  useEffect(() => {
+    const syncFromLocation = () => {
+      if (!isHomeSurface()) {
+        const fromProp = navKeyFromProp(activeNav);
+        setActiveKey(fromProp || navKeyFromHash());
+        return;
+      }
+
+      const headerH = headerRef.current?.offsetHeight ?? 100;
+      const line = window.scrollY + headerH + 48;
+      let next = 'home';
+      for (const section of [
+        { id: 'catalog', key: 'catalog' },
+        { id: 'paida', key: 'paida' },
+      ]) {
+        const el = document.getElementById(section.id);
+        if (el && el.offsetTop <= line) next = section.key;
+      }
+      setActiveKey(next);
+    };
+
+    syncFromLocation();
+    window.addEventListener('hashchange', syncFromLocation);
+    window.addEventListener('scroll', syncFromLocation, { passive: true });
+    return () => {
+      window.removeEventListener('hashchange', syncFromLocation);
+      window.removeEventListener('scroll', syncFromLocation);
+    };
+  }, [activeNav]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -45,7 +99,7 @@ export default function Header({
     const ro = new ResizeObserver(sync);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [showTopBar, mobileOpen]);
+  }, [showTopBar, mobileOpen, overlay]);
 
   useEffect(() => {
     if (!mobileOpen) return undefined;
@@ -71,12 +125,35 @@ export default function Header({
 
   const closeMobile = () => setMobileOpen(false);
   const cityPhone = phoneForCity(headerCity);
+  const logoFill = overlay && !scrolled && !mobileOpen ? '#fff' : 'black';
+  const isOverlayIdle = overlay && !scrolled && !mobileOpen;
+
+  const navItems = MAIN_NAV_ITEMS.map((item) => ({
+    ...item,
+    active: item.key === activeKey,
+  }));
+
+  const handleLogoClick = (e) => {
+    closeMobile();
+    if (onLogoClick) {
+      e.preventDefault();
+      onLogoClick();
+    }
+  };
 
   return (
     <>
       <header
         ref={headerRef}
-        className={`site-header${scrolled ? ' site-header--scrolled' : ''}${mobileOpen ? ' site-header--menu-open' : ''}`}
+        className={[
+          'site-header',
+          scrolled ? 'site-header--scrolled' : '',
+          mobileOpen ? 'site-header--menu-open' : '',
+          overlay ? 'site-header--overlay' : '',
+          isOverlayIdle ? 'site-header--overlay-idle' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
         {showTopBar && (
           <div className="site-header__promo">
@@ -89,15 +166,16 @@ export default function Header({
           </div>
         )}
         <div className="site-header__bar">
-          <a href="#top" aria-label="BS Holding" className="site-header__logo" onClick={closeMobile}>
-            <Logo />
+          <a href="#/" aria-label="BS Holding" className="site-header__logo" onClick={handleLogoClick}>
+            <Logo fill={logoFill} />
           </a>
           <nav className="site-header__nav" aria-label="Основная навигация">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 className={`site-header__nav-link${item.active ? ' is-active' : ''}`}
+                onClick={closeMobile}
               >
                 {item.label}
               </a>
@@ -138,7 +216,7 @@ export default function Header({
 
         <div className={`site-header__drawer${mobileOpen ? ' is-open' : ''}`} id="mobile-nav">
           <nav className="site-header__drawer-nav" aria-label="Мобильная навигация">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -188,7 +266,7 @@ export default function Header({
           onClick={closeMobile}
         />
       )}
-      <div className="site-header-spacer" style={{ height: spacerH }} aria-hidden="true" />
+      {!overlay && <div className="site-header-spacer" style={{ height: spacerH }} aria-hidden="true" />}
     </>
   );
 }

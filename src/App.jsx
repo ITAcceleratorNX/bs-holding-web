@@ -12,6 +12,7 @@ import Contacts from './components/Contacts';
 import Footer from './components/Footer';
 import CallPopup from './components/CallPopup';
 import ProjectPage from './pages/ProjectPage';
+import AboutPage from './pages/AboutPage';
 import { DEFAULT_FILTER, PROJECTS } from './data/projects';
 import { getProjectPage, projectHash } from './data/projectPages';
 import { filterProjects, nameOk, phoneOk } from './utils/format';
@@ -19,6 +20,9 @@ import { filterProjects, nameOk, phoneOk } from './utils/format';
 function getRoute() {
   const hash = window.location.hash.replace(/^#\/?/, '');
   const slug = hash.split(/[/?#]/)[0]?.toLowerCase();
+  if (slug === 'about' || slug === 'o-kompanii') {
+    return { type: 'about' };
+  }
   if (slug && getProjectPage(slug)) {
     return { type: 'project', slug };
   }
@@ -50,8 +54,19 @@ export default function App() {
 
   useEffect(() => {
     const onHash = () => {
-      setRoute(getRoute());
+      const next = getRoute();
+      setRoute(next);
       window.scrollTo(0, 0);
+      // After navigating home via #catalog / #paida, scroll to section
+      if (next.type === 'home') {
+        const raw = window.location.hash.replace(/^#\/?/, '');
+        const section = raw.split(/[/?#]/)[0];
+        if (section === 'catalog' || section === 'paida' || section === 'top') {
+          requestAnimationFrame(() => {
+            document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+          });
+        }
+      }
     };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
@@ -143,7 +158,7 @@ export default function App() {
   }, [consultName, consultPhone]);
 
   const onOpenProject = useCallback((p) => {
-    if (p.slug) goProject(p.slug);
+    if (p?.slug) goProject(p.slug);
   }, [goProject]);
 
   const callPopup = (
@@ -177,6 +192,25 @@ export default function App() {
     );
   }
 
+  if (route.type === 'about') {
+    return (
+      <>
+        <AboutPage
+          headerCity={headerCity}
+          setHeaderCity={setHeaderCity}
+          langCur={langCur}
+          setLangCur={setLangCur}
+          openMenu={openMenu}
+          toggleMenu={toggleMenu}
+          onOpenCall={openCall}
+          onOpenProject={onOpenProject}
+          onGoHome={goHome}
+        />
+        {callPopup}
+      </>
+    );
+  }
+
   return (
     <>
       <Header
@@ -188,6 +222,7 @@ export default function App() {
         openMenu={openMenu}
         toggleMenu={toggleMenu}
         onOpenCall={openCall}
+        onLogoClick={goHome}
       />
       <div className="page">
         <Hero onOpenCall={openCall} />
