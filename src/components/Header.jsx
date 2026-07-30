@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Dropdown from './Dropdown';
 import Logo from './Logo';
+import { phoneForCity } from '../data/phones';
 
 const NAV_ITEMS = [
   { label: 'Главная', href: '#top', active: true },
@@ -69,6 +70,7 @@ export default function Header({
   }, []);
 
   const closeMobile = () => setMobileOpen(false);
+  const cityPhone = phoneForCity(headerCity);
 
   return (
     <>
@@ -102,7 +104,7 @@ export default function Header({
             ))}
           </nav>
           <div className="site-header__actions">
-            <a href="tel:+77010836606" className="site-header__phone">+7 701 083-66-06</a>
+            <a href={cityPhone.href} className="site-header__phone">{cityPhone.display}</a>
             <Dropdown
               current={headerCity}
               open={openMenu === 'hcity'}
@@ -147,8 +149,8 @@ export default function Header({
               </a>
             ))}
           </nav>
-          <a href="tel:+77010836606" className="site-header__drawer-phone" onClick={closeMobile}>
-            +7 701 083-66-06
+          <a href={cityPhone.href} className="site-header__drawer-phone" onClick={closeMobile}>
+            {cityPhone.display}
           </a>
           <div className="site-header__drawer-row">
             <Dropdown

@@ -1,9 +1,13 @@
+import { phoneForCity } from './phones';
+
+const PHONE = phoneForCity('Усть-Каменогорск');
+
 export const EASTON = {
   slug: 'easton',
   name: 'Easton',
   city: 'Усть-Каменогорск',
-  phone: '8 775 386 40 10',
-  phoneHref: 'tel:+87753864010',
+  phone: PHONE.display,
+  phoneHref: PHONE.href,
   /** Replace digits only (with country code) without changing layout. */
   whatsappPhone: '77753864010',
   theme: {

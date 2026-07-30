@@ -1,4 +1,7 @@
 const IMG = '/images/avenue-park';
+import { phoneForCity } from './phones';
+
+const PHONE = phoneForCity('Актау');
 
 /**
  * ЖК Avenue Park (Актау) — построен на общем шаблоне страницы ЖК (Easton).
@@ -21,8 +24,8 @@ export const AVENUE_PARK = {
   slug: 'avenue-park',
   name: 'Avenue Park',
   city: 'Актау',
-  phone: '8 775 386 40 10',
-  phoneHref: 'tel:+87753864010',
+  phone: PHONE.display,
+  phoneHref: PHONE.href,
   /**
    * Номер WhatsApp менеджера пока не предоставлен (ТЗ 5.2).
    * Пока здесь null — форма «Скачать каталог» работает и показывает успешное

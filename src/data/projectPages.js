@@ -47,6 +47,7 @@ import { WHITE_HILL } from './whitehill';
 import { ORTA } from './orta';
 import { AVENUE_PARK } from './avenuePark';
 import { BS_TOWERS } from './bsTowers';
+import { phoneForCity } from './phones';
 
 const E_IMG = {
   featuresMain: '/images/easton/features-main.webp',
@@ -137,14 +138,16 @@ function buildMockPage({
   address,
   instagram,
   classLabel,
+  phoneCity,
 }) {
   const titleUpper = name.toUpperCase();
+  const cityPhone = phoneForCity(phoneCity ?? city);
   return {
     slug,
     name,
     city,
-    phone: '8 775 386 40 10',
-    phoneHref: 'tel:+87753864010',
+    phone: cityPhone.display,
+    phoneHref: cityPhone.href,
     whatsappPhone: '77753864010',
     theme: {
       accent: '#61D0C5',
@@ -337,6 +340,8 @@ const ORDA_PALACE = buildMockPage({
   slug: 'orda-palace',
   name: 'Orda Palace',
   city: 'Усть-Каменогорск',
+  /** Городской номер Актобе — по ТЗ отображения телефонов. */
+  phoneCity: 'Актобе',
   heroImage: '/images/project-orda-palace.webp',
   aboutText:
     'Orda Palace — жилой комплекс комфорт+ в центре Усть-Каменогорска. Удобное расположение, продуманные планировки и готовый дом для жизни.',

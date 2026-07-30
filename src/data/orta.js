@@ -1,4 +1,7 @@
 const IMG = '/images/orta';
+import { phoneForCity } from './phones';
+
+const PHONE = phoneForCity('Актау');
 
 /** Area options for «Получить расчет» — ORTA-specific. */
 export const ORTA_AREA_RANGES = [
@@ -11,8 +14,8 @@ export const ORTA = {
   slug: 'orta',
   name: 'ORTA',
   city: 'Актау',
-  phone: '8 775 386 40 10',
-  phoneHref: 'tel:+87753864010',
+  phone: PHONE.display,
+  phoneHref: PHONE.href,
   whatsappPhone: '77753864010',
   theme: {
     accent: '#61D0C5',

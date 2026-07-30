@@ -1,11 +1,14 @@
 const IMG = '/images/white-hill';
+import { phoneForCity } from './phones';
+
+const PHONE = phoneForCity('Актобе');
 
 export const WHITE_HILL = {
   slug: 'white-hill',
   name: 'White Hill',
   city: 'Актобе',
-  phone: '8 775 386 40 10',
-  phoneHref: 'tel:+87753864010',
+  phone: PHONE.display,
+  phoneHref: PHONE.href,
   whatsappPhone: '77753864010',
   theme: {
     accent: '#61D0C5',

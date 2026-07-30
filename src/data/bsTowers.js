@@ -1,4 +1,7 @@
 const IMG = '/images/bs-towers';
+import { phoneForCity } from './phones';
+
+const PHONE = phoneForCity('Актау');
 
 /**
  * ЖК BS Towers (Актау) — построен на общем шаблоне страницы ЖК (Easton).
@@ -28,8 +31,8 @@ export const BS_TOWERS = {
   slug: 'bs-towers',
   name: 'BS Towers',
   city: 'Актау',
-  phone: '8 775 386 40 10',
-  phoneHref: 'tel:+87753864010',
+  phone: PHONE.display,
+  phoneHref: PHONE.href,
   /**
    * Номер WhatsApp менеджера пока не предоставлен (ТЗ 5.2).
    * Пока здесь null — форма «Скачать каталог» работает и показывает успешное
