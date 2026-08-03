@@ -9,7 +9,6 @@ export const WHITE_HILL = {
   city: 'Актобе',
   phone: PHONE.display,
   phoneHref: PHONE.href,
-  whatsappPhone: '77753864010',
   theme: {
     accent: '#61D0C5',
     accentDark: '#1F6059',
@@ -184,7 +183,7 @@ export const WHITE_HILL = {
   consult: {
     title: 'Заполните контакты — мы зафиксируем для вас выгодную цену за м²',
     subtitle:
-      'Менеджер отправит в WhatsApp каталог, актуальные цены и условия рассрочки 0%.',
+      'Менеджер отправит каталог, актуальные цены и условия рассрочки 0%.',
     address: 'Актобе, микрорайон Алтын Орда, улица Ораза Татеулы',
     instagram: 'bs_holding.aktobe',
     hours: 'Ежедневно с 9:00 до 19:00',
@@ -194,7 +193,7 @@ export const WHITE_HILL = {
   },
   footer: {
     cols: [
-      { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
+      { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
       { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
       { title: 'Поддержка', items: ['Контакты'] },
       { title: 'Общее', items: ['График работы:\nЕжедневно с 09:00 по 19:00'] },

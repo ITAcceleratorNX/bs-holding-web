@@ -16,7 +16,6 @@ export const ORTA = {
   city: 'Актау',
   phone: PHONE.display,
   phoneHref: PHONE.href,
-  whatsappPhone: '77753864010',
   theme: {
     accent: '#61D0C5',
     accentDark: '#1F6059',
@@ -187,7 +186,7 @@ export const ORTA = {
   consult: {
     title: 'Заполните контакты — мы зафиксируем для вас выгодную цену за м²',
     subtitle:
-      'Менеджер отправит в WhatsApp каталог, актуальные цены и условия рассрочки 0%.',
+      'Менеджер отправит каталог, актуальные цены и условия рассрочки 0%.',
     address: 'г. Актау, 9 микрорайон',
     instagram: 'bs_holding.aktau',
     hours: 'Ежедневно с 9:00 до 19:00',
@@ -199,7 +198,7 @@ export const ORTA = {
     cols: [
       {
         title: 'Проекты',
-        items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'],
+        items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'],
       },
       { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
       { title: 'Поддержка', items: ['Контакты'] },

@@ -49,22 +49,6 @@ export const PROJECTS = [
   },
   {
     id: 4,
-    name: 'Orda Palace',
-    slug: 'orda-palace',
-    city: 'Усть-Каменогорск',
-    klass: 'Комфорт+',
-    classFull: 'Комфорт +',
-    term: 'Сдан',
-    termBadge: 'Сдан',
-    rooms: [2, 3, 4],
-    floors: 14,
-    price: 18200000,
-    image: '/images/project-orda-palace.webp',
-    meta: ['Усть-Каменогорск', 'Центр', '5 мин'],
-    href: '#/orda-palace',
-  },
-  {
-    id: 5,
     name: 'Easton',
     slug: 'easton',
     city: 'Усть-Каменогорск',
@@ -80,7 +64,7 @@ export const PROJECTS = [
     href: '#/easton',
   },
   {
-    id: 6,
+    id: 5,
     name: 'White Hill',
     slug: 'white-hill',
     city: 'Актобе',
@@ -95,7 +79,7 @@ export const PROJECTS = [
     href: '#/white-hill',
   },
   {
-    id: 7,
+    id: 6,
     name: 'ORTA',
     slug: 'orta',
     city: 'Актау',
@@ -110,7 +94,7 @@ export const PROJECTS = [
     href: '#/orta',
   },
   {
-    id: 8,
+    id: 7,
     name: 'BS Towers',
     slug: 'bs-towers',
     city: 'Актау',
@@ -193,14 +177,8 @@ export const COMMERCIAL = [
   },
 ];
 
-export const CONTACTS = [
-  { title: '+7 701 083-66-06', sub: 'Принимаем звонки ежедневно с 09:00 до 18:00 — для клиентов и общих обращений', href: 'tel:+77010836606' },
-  { title: '+7 701 083-66-06', sub: 'Для бизнес-клиентов, агентств и по вопросам коммерческой недвижимости', href: 'tel:+77010836606' },
-  { title: 'bsholding@gmail.com', sub: 'Для потенциальных инвесторов, вопросов и деловых предложений', href: 'mailto:bsholding@gmail.com' },
-];
-
 export const FOOTER_COLS = [
-  { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
+    { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
   { title: 'Компания', items: ['О нас', 'Вакансии', 'Новости'] },
   { title: 'Поддержка', items: ['Контакты', 'График работы'] },
   { title: 'Офисы продаж', items: ['Актау', 'Актобе', 'Усть-Каменогорск'] },
@@ -211,7 +189,7 @@ export const SOCIALS = ['IG', 'TG', 'FB', 'TT', 'YT'];
 
 export const FILTER_SPEC = [
   ['city', ['Все города', 'Актау', 'Актобе', 'Усть-Каменогорск']],
-  ['klass', ['Все классы', 'Премиум', 'Бизнес', 'Бизнес+', 'Комфорт', 'Комфорт+']],
+  ['klass', ['Все классы', 'Премиум', 'Бизнес', 'Бизнес+', 'Комфорт']],
   ['term', ['Любой срок', 'Сдан', '2026 год']],
   ['floor', ['Любой этаж', 'до 5 этажей', '5–10 этажей', '10 и выше']],
   ['rooms', ['Все комнаты', '1', '2', '3', '4']],

@@ -47,33 +47,6 @@ export function submitLead(payload) {
   });
 }
 
-/**
- * Digits-only WhatsApp number, or '' when the project has no number yet.
- * There is deliberately no shared fallback: a project without its own manager
- * number must show no link at all rather than route to someone else's chat.
- * Each page declares `whatsappPhone` in its data file (digits + country code).
- * @param {string|undefined|null} phone
- * @returns {string}
- */
-export function normalizeWhatsAppPhone(phone) {
-  return String(phone ?? '').replace(/\D/g, '');
-}
-
-/**
- * @param {string|undefined|null} phone
- * @param {string} [text]
- * @returns {boolean} false when no number is configured (nothing was opened)
- */
-export function openWhatsApp(phone, text = '') {
-  const n = normalizeWhatsAppPhone(phone);
-  if (!n) return false;
-  const url = text
-    ? `https://wa.me/${n}?text=${encodeURIComponent(text)}`
-    : `https://wa.me/${n}`;
-  window.open(url, '_blank', 'noopener,noreferrer');
-  return true;
-}
-
 export const AREA_RANGES = [
   { value: '1-комнатная — 40–55 м²', label: '1-комнатная — 40–55 м²' },
   { value: '2-комнатная — 60–80 м²', label: '2-комнатная — 60–80 м²' },

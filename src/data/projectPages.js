@@ -75,7 +75,7 @@ const E_IMG = {
 
 const SHARED_FOOTER = {
   cols: [
-    { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
+    { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
     { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
     { title: 'Поддержка', items: ['Контакты'] },
     { title: 'Общее', items: ['График работы:\nЕжедневно с 09:00 по 19:00'] },
@@ -87,7 +87,7 @@ const SHARED_FOOTER = {
 const SHARED_CONSULT = {
   title: 'Заполните контакты — мы зафиксируем для вас выгодную цену за м²',
   subtitle:
-    'Менеджер отправит в WhatsApp каталог, актуальные цены и условия рассрочки 0%.',
+    'Менеджер отправит каталог, актуальные цены и условия рассрочки 0%.',
   hours: 'Ежедневно с 9:00 до 19:00',
   policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
 };
@@ -96,7 +96,6 @@ const NAME_TO_SLUG = {
   'Central Park': 'central-park',
   'Avenue Park': 'avenue-park',
   'Adal Town': 'adal-town',
-  'Orda Palace': 'orda-palace',
   Easton: 'easton',
   'White Hill': 'white-hill',
   ORTA: 'orta',
@@ -148,7 +147,6 @@ function buildMockPage({
     city,
     phone: cityPhone.display,
     phoneHref: cityPhone.href,
-    whatsappPhone: '77753864010',
     theme: {
       accent: '#61D0C5',
       accentDark: '#1F6059',
@@ -336,39 +334,12 @@ const ADAL_TOWN = buildMockPage({
   classLabel: 'комфорт-класс',
 });
 
-const ORDA_PALACE = buildMockPage({
-  slug: 'orda-palace',
-  name: 'Orda Palace',
-  city: 'Усть-Каменогорск',
-  /** Городской номер Актобе — по ТЗ отображения телефонов. */
-  phoneCity: 'Актобе',
-  heroImage: '/images/project-orda-palace.webp',
-  aboutText:
-    'Orda Palace — жилой комплекс комфорт+ в центре Усть-Каменогорска. Удобное расположение, продуманные планировки и готовый дом для жизни.',
-  termText: 'Срок сдачи: сдан',
-  apartmentsCount: 'Комфорт+ · центр города',
-  locationTitle: 'Центр Усть-Каменогорска\nв пешей доступности от ключевых точек',
-  locationCards: [
-    { image: null, title: 'Центр', solid: true, icon: E_IMG.iconCar },
-    { image: E_IMG.locationTheatre, title: 'Культура', icon: E_IMG.iconTheatre },
-    { image: E_IMG.locationPark, title: 'Парки', icon: E_IMG.iconPark },
-  ],
-  locationNotes: [
-    'Расположение в центре города обеспечивает быстрый доступ к работе, учёбе и отдыху.',
-    'Благоустроенные улицы и транспортная доступность — комфорт ежедневных маршрутов.',
-  ],
-  address: 'г. Усть-Каменогорск, центральный район',
-  instagram: 'bs_holding.oskemen',
-  classLabel: 'комфорт+',
-});
-
 /** @type {Record<string, ProjectPageData>} */
 export const PROJECT_PAGES = {
   easton: EASTON_PAGE,
   'central-park': CENTRAL_PARK,
   'avenue-park': AVENUE_PARK,
   'adal-town': ADAL_TOWN,
-  'orda-palace': ORDA_PALACE,
   'white-hill': WHITE_HILL,
   orta: ORTA,
   'bs-towers': BS_TOWERS,

@@ -8,8 +8,6 @@ export const EASTON = {
   city: 'Усть-Каменогорск',
   phone: PHONE.display,
   phoneHref: PHONE.href,
-  /** Replace digits only (with country code) without changing layout. */
-  whatsappPhone: '77753864010',
   theme: {
     accent: '#61D0C5',
     accentDark: '#1F6059',
@@ -135,6 +133,7 @@ export const EASTON = {
         name: '1-комнатная · Блок 2',
         rooms: '1 комната',
         area: '45,57 м²',
+        price: 'от 23 236 350 ₸',
         image: '/images/easton/plans/block2-1r-45.png',
         meta: ['Блок 2'],
       },
@@ -150,7 +149,7 @@ export const EASTON = {
         id: 'e-b1-2',
         name: '2-комнатная · Блок 1',
         rooms: '2 комнаты',
-        area: '70,08 м²',
+        area: '72,65 м²',
         image: '/images/easton/plans/block1-2r-70.png',
         meta: ['Блок 1'],
       },
@@ -182,6 +181,7 @@ export const EASTON = {
         name: '3-комнатная · Блок 1',
         rooms: '3 комнаты',
         area: '102,50 м²',
+        price: 'от 35 235 250 ₸',
         image: '/images/easton/plans/block1-3r-102.png',
         meta: ['Блок 1'],
       },
@@ -198,6 +198,7 @@ export const EASTON = {
         name: '4-комнатная · Блок 2',
         rooms: '4 комнаты',
         area: '127,56 м²',
+        price: '73 192 000 ₸',
         image: '/images/easton/plans/block2-4r-127.png',
         meta: ['Блок 2'],
       },
@@ -231,7 +232,7 @@ export const EASTON = {
   consult: {
     title: 'Заполните контакты — мы зафиксируем для вас выгодную цену за м²',
     subtitle:
-      'Менеджер отправит в WhatsApp каталог, актуальные цены и условия рассрочки 0%.',
+      'Менеджер отправит каталог, актуальные цены и условия рассрочки 0%.',
     address: 'Оскемен, проспект Ильяса Есенбердина, 38/3',
     instagram: 'bs_holding.oskemen',
     hours: 'Ежедневно с 9:00 до 19:00',
@@ -239,7 +240,7 @@ export const EASTON = {
   },
   footer: {
     cols: [
-      { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
+      { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
       { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
       { title: 'Поддержка', items: ['Контакты'] },
       { title: 'Общее', items: ['График работы:\nЕжедневно с 09:00 по 19:00'] },

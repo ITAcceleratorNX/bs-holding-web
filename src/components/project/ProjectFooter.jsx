@@ -5,7 +5,6 @@ const PROJECT_NAMES = new Set([
   'Central Park',
   'Avenue Park',
   'Adal Town',
-  'Orda Palace',
   'White Hill',
   'Easton',
   'ORTA',

@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { nameOk, phoneOk } from '../../utils/format';
-import { LEAD_SOURCES, normalizeWhatsAppPhone, openWhatsApp, submitLead } from '../../utils/leads';
+import { LEAD_SOURCES, submitLead } from '../../utils/leads';
 
-export default function ProjectCatalogPopup({ open, onClose, projectName, city, whatsappPhone }) {
-  /** No manager number yet → submit works, but no broken link is created. */
-  const hasWhatsApp = Boolean(normalizeWhatsAppPhone(whatsappPhone));
+export default function ProjectCatalogPopup({ open, onClose, projectName, city }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [whatsapp, setWhatsapp] = useState(true);
   const [formState, setFormState] = useState('idle');
 
   useEffect(() => {
@@ -23,7 +20,6 @@ export default function ProjectCatalogPopup({ open, onClose, projectName, city, 
     if (!open) {
       setName('');
       setPhone('');
-      setWhatsapp(true);
       setFormState('idle');
     }
   }, [open]);
@@ -43,15 +39,8 @@ export default function ProjectCatalogPopup({ open, onClose, projectName, city, 
         source: LEAD_SOURCES.CATALOG,
         name: name.trim(),
         phone: phone.trim(),
-        whatsappCatalog: whatsapp,
       });
       setFormState('success');
-      if (whatsapp && hasWhatsApp) {
-        openWhatsApp(
-          whatsappPhone,
-          `Здравствуйте! Хочу получить каталог по ЖК ${projectName}. Меня зовут ${name.trim()}, телефон: ${phone.trim()}.`,
-        );
-      }
     } catch {
       setFormState('error');
     }
@@ -67,11 +56,7 @@ export default function ProjectCatalogPopup({ open, onClose, projectName, city, 
           <div className="project-lead-popup__success">
             <div className="project-lead-popup__title">Спасибо! Заявка принята.</div>
             <div className="project-lead-popup__sub">
-              {!whatsapp
-                ? 'Менеджер свяжется с вами и отправит каталог.'
-                : hasWhatsApp
-                  ? 'Менеджер отправит каталог в WhatsApp. Если чат не открылся — напишите нам сами.'
-                  : 'Менеджер отправит каталог в WhatsApp в рабочее время.'}
+              Менеджер свяжется с вами и отправит каталог.
             </div>
             <button type="button" className="easton-btn easton-btn--solid" onClick={onClose}>
               Закрыть
@@ -82,7 +67,7 @@ export default function ProjectCatalogPopup({ open, onClose, projectName, city, 
             <div className="project-lead-popup__intro">
               <div className="project-lead-popup__title">Скачать каталог</div>
               <div className="project-lead-popup__sub">
-                Оставьте имя и номер телефона — менеджер отправит каталог в WhatsApp.
+                Оставьте имя и номер телефона — менеджер отправит каталог.
               </div>
             </div>
             <label className="project-lead-popup__label">Имя</label>
@@ -99,11 +84,6 @@ export default function ProjectCatalogPopup({ open, onClose, projectName, city, 
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Номер телефона"
             />
-            <label className={`project-lead-popup__check${whatsapp ? ' is-checked' : ''}`}>
-              <input type="checkbox" checked={whatsapp} onChange={(e) => setWhatsapp(e.target.checked)} />
-              <span className="project-lead-popup__check-box" aria-hidden="true" />
-              <span>Получить каталог в WhatsApp</span>
-            </label>
             {formState === 'error' && (
               <div className="project-lead-popup__error">Укажите имя и корректный номер телефона.</div>
             )}

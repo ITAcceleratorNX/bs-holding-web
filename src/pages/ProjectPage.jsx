@@ -82,7 +82,6 @@ export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProjec
           onClose={() => setCatalogOpen(false)}
           projectName={data.consult?.projectName ?? data.name}
           city={data.consult?.city ?? data.city}
-          whatsappPhone={data.whatsappPhone}
         />
       </div>
     </>

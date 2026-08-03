@@ -101,6 +101,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
         phone: phone.trim(),
         plan: active?.name,
         ...(active?.area ? { area: active.area } : {}),
+        ...(active?.price ? { price: active.price } : {}),
       });
       setFormState('success');
     } catch {
@@ -217,6 +218,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                       </>
                     )}
                   </div>
+                  {item.price && <div className="wh-plan-card__price">{item.price}</div>}
                   <button type="button" className="easton-btn easton-btn--light" onClick={() => setActive(item)}>
                     {item.cta ?? 'Подробнее'}
                   </button>
@@ -259,6 +261,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                   {active.rooms && <li>{active.rooms}</li>}
                   {active.area && <li>Общая площадь: {active.area}</li>}
                   {active.areaLiving && <li>Жилая площадь: {active.areaLiving}</li>}
+                  {active.price && <li>Стоимость: {active.price}</li>}
                   {active.meta?.map((m) => (
                     <li key={m}>{m}</li>
                   ))}

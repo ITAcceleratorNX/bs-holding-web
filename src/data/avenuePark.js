@@ -8,7 +8,6 @@ const PHONE = phoneForCity('Актау');
  *
  * Материалы, которых пока нет (ТЗ, раздел 9):
  *  - реальные фото и рендеры → используются подписанные заглушки из `${IMG}`;
- *  - номер WhatsApp менеджера → `whatsappPhone: null` (см. ниже).
  *
  * Планировки подключены из квартирных листков по блокам А-1…А-3 и Д-1…Д-3.
  *
@@ -26,13 +25,6 @@ export const AVENUE_PARK = {
   city: 'Актау',
   phone: PHONE.display,
   phoneHref: PHONE.href,
-  /**
-   * Номер WhatsApp менеджера пока не предоставлен (ТЗ 5.2).
-   * Пока здесь null — форма «Скачать каталог» работает и показывает успешное
-   * сообщение, но не открывает нерабочую ссылку. Чтобы включить переход,
-   * достаточно вписать цифры с кодом страны, например '77001234567'.
-   */
-  whatsappPhone: null,
   theme: {
     accent: '#61D0C5',
     accentDark: '#1F6059',
@@ -670,7 +662,7 @@ export const AVENUE_PARK = {
   },
   consult: {
     title: 'Заполните контакты — мы зафиксируем для вас выгодную цену за м²',
-    subtitle: 'Менеджер отправит в WhatsApp каталог, актуальные цены и условия рассрочки 0%.',
+    subtitle: 'Менеджер отправит каталог, актуальные цены и условия рассрочки 0%.',
     address: 'г. Актау, 40-й микрорайон',
     instagram: 'bs_holding.aktau',
     hours: 'Ежедневно с 9:00 до 19:00',
@@ -682,7 +674,7 @@ export const AVENUE_PARK = {
     cols: [
       {
         title: 'Проекты',
-        items: ['Central Park', 'Avenue Park', 'Adal Town', 'Orda Palace', 'Easton', 'White Hill', 'ORTA', 'BS Towers'],
+        items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'],
       },
       { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
       { title: 'Поддержка', items: ['Контакты'] },
