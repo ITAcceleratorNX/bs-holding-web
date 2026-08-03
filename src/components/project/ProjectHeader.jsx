@@ -59,7 +59,7 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
             >
               {data.phone}
             </PhoneLink>
-            <button type="button" className="easton-btn easton-btn--ghost easton-header__call" onClick={onOpenCall}>
+            <button type="button" className="easton-btn easton-btn--light easton-header__call" onClick={onOpenCall}>
               Заказать звонок
             </button>
             <button

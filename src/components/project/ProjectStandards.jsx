@@ -4,7 +4,7 @@ import MediaCard from './MediaCard';
 export default function ProjectStandards({ data }) {
   const { standards } = data;
   return (
-    <section className="easton-section easton-section--dark">
+    <section id={standards.id ?? `${data.slug}-standards`} className="easton-section easton-section--dark">
       <div className="easton-split easton-split--top">
         <div>
           <SectionLabel>{standards.label}</SectionLabel>

@@ -4,7 +4,7 @@ export default function ProjectAbout({ data }) {
   const { about } = data;
   const hasTitle = Boolean(about.title);
   return (
-    <section className="easton-section easton-section--dark easton-about">
+    <section id={about.id ?? `${data.slug}-about`} className="easton-section easton-section--dark easton-about">
       <SectionLabel>{about.label}</SectionLabel>
       {hasTitle ? (
         <>

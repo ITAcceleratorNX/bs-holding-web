@@ -22,7 +22,7 @@ export default function ProjectHero({ data, onRequestApplication, onRequestPrese
           <button type="button" className="easton-btn easton-btn--solid" onClick={onRequestApplication}>
             Оставить заявку
           </button>
-          <button type="button" className="easton-btn easton-btn--ghost" onClick={onRequestPresentation}>
+          <button type="button" className="easton-btn easton-btn--light" onClick={onRequestPresentation}>
             Скачать презентацию
           </button>
         </div>

@@ -43,6 +43,7 @@ export default function AboutPage({
     <>
       <Header
         showTopBar={false}
+        overlay
         activeNav="О компании"
         headerCity={headerCity}
         setHeaderCity={setHeaderCity}
@@ -56,18 +57,17 @@ export default function AboutPage({
 
       <div className="about-page">
         <section className="about-hero">
-          <div className="about-shell">
+          <img className="about-hero__bg" src={hero.image} alt="" />
+          <div className="about-hero__overlay" />
+          <div className="about-hero__content">
             <h1 className="about-hero__title">
               <Lines text={hero.title} />
             </h1>
-            <div className="about-hero__media">
-              <img src={hero.image} alt="" />
-              <button type="button" className="about-hero__media-btn" onClick={scrollToProjects}>
-                {hero.cta}
-                <span aria-hidden="true">→</span>
-              </button>
-            </div>
             <p className="about-hero__subtitle">{hero.subtitle}</p>
+            <button type="button" className="about-hero__cta" onClick={scrollToProjects}>
+              {hero.cta}
+              <span aria-hidden="true">→</span>
+            </button>
           </div>
         </section>
 
