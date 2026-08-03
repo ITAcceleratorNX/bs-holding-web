@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import LeadHoneypot from './LeadHoneypot';
-import { CONSENT_POLICY, getLeadPreset } from '../../data/leadForms';
+import LeadConsent from './LeadConsent';
+import { getLeadPreset } from '../../data/leadForms';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
 import { useLeadForm } from '../../lead/useLeadForm';
 
@@ -33,7 +34,7 @@ export default function LeadPopup({
   panelClassName = '',
 }) {
   const preset = getLeadPreset(formCode);
-  const form = useLeadForm({ formCode, city, project, ctaLocation, details, validate });
+  const form = useLeadForm({ formCode, city, project, ctaLocation, details, validate, consentMode: 'explicit' });
   const panelRef = useRef(null);
   const { reset } = form;
 
@@ -139,6 +140,8 @@ export default function LeadPopup({
 
             {form.message && <div className="project-lead-popup__error">{form.message}</div>}
 
+            <LeadConsent form={form} errorClassName="project-lead-popup__error" />
+
             <button
               type="button"
               className="easton-btn easton-btn--solid"
@@ -147,8 +150,6 @@ export default function LeadPopup({
             >
               {form.isLoading ? 'Отправка…' : (submitLabel ?? preset?.submitLabel ?? 'Отправить')}
             </button>
-
-            <div className="lead-policy">{CONSENT_POLICY}</div>
           </>
         )}
       </div>

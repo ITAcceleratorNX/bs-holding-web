@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import InstallmentCalculator from './InstallmentCalculator';
 import LeadHoneypot from './lead/LeadHoneypot';
+import LeadConsent from './lead/LeadConsent';
+import { useI18n } from '../i18n/I18nContext';
 import {
   DEFAULT_INSTALLMENT_CITY,
   INSTALLMENT_CITY_OPTIONS,
   getCityCalculator,
   getInstallmentConfig,
 } from '../data/calculator';
-import { CONSENT_POLICY } from '../data/leadForms';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../lead/analytics';
 import { buildDetails } from '../lead/details';
 import { useLeadForm } from '../lead/useLeadForm';
@@ -69,7 +70,9 @@ export default function Calculator({
   setTermY,
   rate,
   setRate,
+  onReset,
 }) {
+  const { t } = useI18n();
   /**
    * Город рассрочки выбирается внутри калькулятора. Город из шапки задаёт
    * начальное значение и обновляет его при смене (ТЗ 2), но обратной связи нет:
@@ -102,6 +105,7 @@ export default function Calculator({
     formCode: 'calculator_mortgage',
     city,
     ctaLocation: 'Главная — ипотечный калькулятор',
+    consentMode: 'explicit',
     details: () =>
       buildDetails('calculator', [
         ['calc_mode', 'Режим расчёта', 'Ипотека'],
@@ -158,15 +162,20 @@ export default function Calculator({
             onClick={() => setCalcMode('Ипотека')}
             className={`calc-mode${mode === 'Ипотека' ? ' is-active' : ''}`}
           >
-            Ипотека
+            {t('calc.mortgage')}
           </button>
           <button
             type="button"
             onClick={() => setCalcMode('Рассрочка')}
             className={`calc-mode${mode === 'Рассрочка' ? ' is-active' : ''}`}
           >
-            Рассрочка
+            {t('calc.installment')}
           </button>
+          {onReset && (
+            <button type="button" className="calc-reset" onClick={onReset}>
+              {t('calc.reset')}
+            </button>
+          )}
         </div>
       )}
 
@@ -268,10 +277,10 @@ export default function Calculator({
                 {(form.errors.name || form.errors.phone || form.message) && (
                   <div className="form-error">{form.errors.name || form.errors.phone || form.message}</div>
                 )}
+                <LeadConsent form={form} />
                 <button type="button" className="btn-white" onClick={submitMortgage} disabled={form.isLoading}>
                   {form.isLoading ? 'Отправка…' : 'Получить расчёт'}
                 </button>
-                <div className="lead-policy">{CONSENT_POLICY}</div>
               </div>
             )}
           </div>

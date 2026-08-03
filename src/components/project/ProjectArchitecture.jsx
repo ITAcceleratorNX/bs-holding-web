@@ -1,9 +1,11 @@
 import SectionLabel from './SectionLabel';
+import { useImageLightbox } from '../../hooks/useImageLightbox';
 
 export default function ProjectArchitecture({ data, onRequestTour }) {
   const { architecture } = data;
   const accentDark = data.theme?.accentDark ?? '#1F6059';
   const gallery = architecture.gallery?.filter(Boolean) ?? [];
+  const { open, lightbox } = useImageLightbox(data.name);
 
   return (
     <section id={architecture.id} className="easton-section easton-section--cream">
@@ -20,6 +22,8 @@ export default function ProjectArchitecture({ data, onRequestTour }) {
           alt={`Архитектура ${data.name}`}
           loading="lazy"
           decoding="async"
+          className="is-clickable"
+          onClick={() => open(architecture.image, `Архитектура ${data.name}`)}
           style={architecture.imagePosition ? { objectPosition: architecture.imagePosition } : undefined}
         />
       </div>
@@ -27,7 +31,14 @@ export default function ProjectArchitecture({ data, onRequestTour }) {
         <div className={`easton-arch__gallery${gallery.length === 1 ? ' easton-arch__gallery--single' : ''}`}>
           {gallery.map((src) => (
             <div key={src} className="easton-arch__gallery-item">
-              <img src={src} alt={`Фасад ${data.name}`} loading="lazy" decoding="async" />
+              <img
+                src={src}
+                alt={`Фасад ${data.name}`}
+                loading="lazy"
+                decoding="async"
+                className="is-clickable"
+                onClick={() => open(src, `Фасад ${data.name}`)}
+              />
             </div>
           ))}
         </div>
@@ -43,6 +54,7 @@ export default function ProjectArchitecture({ data, onRequestTour }) {
           {architecture.ctaButton}
         </button>
       </div>
+      {lightbox}
     </section>
   );
 }

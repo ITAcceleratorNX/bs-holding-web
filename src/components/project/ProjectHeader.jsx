@@ -1,8 +1,22 @@
 import { useEffect, useState } from 'react';
+import Dropdown from '../Dropdown';
 import Logo from '../Logo';
 import PhoneLink from '../lead/PhoneLink';
+import { useI18n } from '../../i18n/I18nContext';
 
-export default function ProjectHeader({ data, onBack, onOpenCall }) {
+const LANGS = ['RU', 'KZ', 'EN'];
+
+export default function ProjectHeader({
+  data,
+  onBack,
+  onOpenCall,
+  langCur,
+  setLangCur,
+  openMenu,
+  toggleMenu,
+  closeMenu,
+}) {
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -40,7 +54,7 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
         <div className="easton-header__inner">
           <div className="easton-header__left">
             <button type="button" className="easton-header__logo" onClick={onBack} aria-label="На главную">
-              <Logo fill="#fff" width={51} height={48} />
+              <Logo fill="#fff" />
             </button>
             <nav className="easton-header__nav">
               {data.nav.map((item) => (
@@ -60,8 +74,23 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
               className="easton-header__phone"
             />
             <button type="button" className="easton-btn easton-btn--light easton-header__call" onClick={onOpenCall}>
-              Заказать звонок
+              {t('project.call')}
             </button>
+            {langCur && setLangCur && (
+              <Dropdown
+                variant="dark"
+                current={langCur}
+                open={openMenu === 'plang'}
+                onToggle={() => toggleMenu?.('plang')}
+                options={LANGS}
+                onSelect={(o) => {
+                  setLangCur(o);
+                  toggleMenu?.(null);
+                }}
+                onClose={closeMenu}
+                className="easton-header__lang"
+              />
+            )}
             <button
               type="button"
               className={`easton-header__burger${mobileOpen ? ' is-open' : ''}`}
@@ -99,7 +128,7 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
               onOpenCall();
             }}
           >
-            Заказать звонок
+            {t('project.call')}
           </button>
         </div>
       </header>

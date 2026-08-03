@@ -1,4 +1,8 @@
-export default function Hero({ onOpenCall }) {
+import { useI18n } from '../i18n/I18nContext';
+
+export default function Hero() {
+  const { t } = useI18n();
+
   return (
     <section id="top" className="hero">
       <div className="hero__main">
@@ -9,9 +13,9 @@ export default function Hero({ onOpenCall }) {
         />
         <div className="hero__overlay" />
         <div className="hero__content">
-          <h1 className="hero__title">Качество, которое Вы заслуживаете!</h1>
+          <h1 className="hero__title">{t('hero.title')}</h1>
           <a href="#catalog" className="btn-white hero__cta">
-            Все проекты BS Holding
+            {t('hero.cta')}
           </a>
         </div>
       </div>
@@ -22,12 +26,7 @@ export default function Hero({ onOpenCall }) {
           src="/images/paida-card-ref.webp"
           alt="BS Пайда — выгода до 9.5% при покупке в рассрочку. Партнёры: Freedom Bank, Altyn Bank, bcc.kz, Отбасы Банк. Ваша ипотека одобрена!"
         />
-        <button
-          type="button"
-          className="hero__paida-btn"
-          aria-label="Подробнее о BS Пайда"
-          onClick={onOpenCall}
-        />
+        <a href="#paida" className="hero__paida-btn" aria-label="Подробнее о BS Пайда" />
       </div>
     </section>
   );

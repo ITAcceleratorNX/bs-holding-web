@@ -119,6 +119,31 @@ export function projectHash(slug) {
 }
 
 /**
+ * @param {string} slug
+ * @param {string} name
+ * @param {string} heroImage
+ * @param {Array<{ name: string, rooms: string, area: string, price: string, image?: string }>} specs
+ */
+function mockFloorPlans(slug, name, heroImage, specs) {
+  const plansId = `${slug}-plans`;
+  return {
+    id: plansId,
+    label: 'Планировки',
+    title: `Планировки ${name}`,
+    text: 'Подберите планировку и оставьте заявку на консультацию.',
+    items: specs.map((p, i) => ({
+      id: `${slug}-plan-${i}`,
+      name: p.name,
+      rooms: p.rooms,
+      area: p.area,
+      price: p.price,
+      image: p.image ?? heroImage,
+      featured: i < 4,
+    })),
+  };
+}
+
+/**
  * Build a full project page dataset from catalog-level inputs (mock content).
  * @param {object} opts
  * @returns {ProjectPageData}
@@ -138,9 +163,11 @@ function buildMockPage({
   instagram,
   classLabel,
   phoneCity,
+  floorPlans,
 }) {
   const titleUpper = name.toUpperCase();
   const cityPhone = phoneForCity(phoneCity ?? city);
+  const plansId = `${slug}-plans`;
   return {
     slug,
     name,
@@ -151,11 +178,17 @@ function buildMockPage({
       accent: '#61D0C5',
       accentDark: '#1F6059',
     },
-    nav: [
-      { label: 'Расположение', href: `#${slug}-location` },
-      { label: 'Архитектура', href: `#${slug}-architecture` },
-      { label: 'Планировки', href: `#${slug}-quiz` },
-    ],
+    nav: floorPlans
+      ? [
+          { label: 'Расположение', href: `#${slug}-location` },
+          { label: 'Архитектура', href: `#${slug}-architecture` },
+          { label: 'Планировки', href: `#${plansId}` },
+        ]
+      : [
+          { label: 'Расположение', href: `#${slug}-location` },
+          { label: 'Архитектура', href: `#${slug}-architecture` },
+          { label: 'Планировки', href: `#${slug}-quiz` },
+        ],
     hero: {
       image: heroImage,
       title: titleUpper,
@@ -175,8 +208,8 @@ function buildMockPage({
       text: `${name} — пространство, где комфорт, эстетика и надёжность формируют современную городскую среду.`,
       cards: [
         { image: heroImage, title: 'Современный архитектурный дизайн', tall: true },
-        { image: E_IMG.featuresTop, title: 'Продуманную инфраструктуру' },
-        { image: E_IMG.featuresBottom, title: 'Высокое качество строительства' },
+        { image: heroImage, title: 'Продуманную инфраструктуру' },
+        { image: heroImage, title: 'Высокое качество строительства' },
       ],
     },
     location: {
@@ -190,7 +223,7 @@ function buildMockPage({
       id: `${slug}-architecture`,
       label: 'Архитектура и материалы',
       title: `Архитектура ${name} отражает индивидуальность и современное видение`,
-      image: E_IMG.architecture,
+      image: heroImage,
       points: [
         'Монолитный каркас обеспечивает прочность и долговечность всего жилого здания.',
         'Фасады выполнены с вниманием к деталям: качественные материалы и продуманная композиция.',
@@ -203,21 +236,20 @@ function buildMockPage({
       label: 'Дворовое пространство',
       title:
         'Двор спроектирован с приоритетом безопасности и комфорта: зоны отдыха, озеленение и пространство для семьи',
-      image: E_IMG.yard,
+      image: heroImage,
     },
     playground: {
       title: 'Современная игровая площадка',
       text: 'Двор — гармоничная среда для отдыха, общения и прогулок всей семьёй. Каждая деталь создана с учётом безопасности и комфорта.',
-      image: E_IMG.playground,
+      image: heroImage,
       cta: 'Получить консультацию',
     },
     kids: {
       label: 'Особое внимание - детям',
       gallery: [
-        { image: E_IMG.kids1, title: 'Безопасные\nматериалы' },
-        { image: E_IMG.kids2, title: 'Зона активных\nигр' },
-        { image: E_IMG.kids3, title: 'Место для творчества\nи отдыха' },
-        { image: E_IMG.kids4 },
+        { image: heroImage, title: 'Безопасные\nматериалы' },
+        { image: heroImage, title: 'Зона активных\nигр' },
+        { image: heroImage, title: 'Место для творчества\nи отдыха' },
       ],
       roomLabel: 'Kids Room',
       roomTitle: `Kids Room ${name} — уютное пространство для детей`,
@@ -228,7 +260,7 @@ function buildMockPage({
       title: 'Холлы комплекса — сочетание элегантности и современного стиля',
       text1: 'Оформление выполнено с вниманием к свету и пропорциям, создавая атмосферу уюта и комфорта.',
       text2: 'Холлы становятся не просто зоной ожидания, а пространством эстетического и эмоционального комфорта.',
-      image: E_IMG.hall,
+      image: heroImage,
       features: [
         'Дизайнерские входные группы',
         'Просторные холлы',
@@ -241,7 +273,7 @@ function buildMockPage({
       label: 'Квартиры',
       title: 'Каждая квартира — пространство комфорта, функциональности и современного стиля',
       text: 'Планировки позволяют использовать каждый метр максимально эффективно, сохраняя ощущение света и простора.',
-      image: E_IMG.apartments,
+      image: heroImage,
       cta: 'Получить консультацию',
       features: [
         'Продуманные планировки под разный сценарий жизни',
@@ -250,10 +282,11 @@ function buildMockPage({
         'Готовность к индивидуальному дизайну интерьера',
       ],
     },
+    floorPlans,
     parking: {
       label: 'Паркинг',
       title: `Паркинг ${name} — сочетание удобства, безопасности и продуманной организации`,
-      image: E_IMG.parking,
+      image: heroImage,
       points: [
         'Парковочные места организованы с учётом удобного въезда и навигации.',
         'Контроль доступа снижает риск попадания посторонних.',
@@ -264,7 +297,7 @@ function buildMockPage({
     boxroom: {
       label: 'BoxRoom',
       title: 'Boxroom — персональные кладовые помещения для хранения',
-      image: E_IMG.boxroom,
+      image: heroImage,
       text: 'Решение для велосипедов, колясок, сезонных вещей и спортинвентаря. Всё, что создаёт порядок в квартире, имеет своё место.',
     },
     consult: {
@@ -308,6 +341,22 @@ const CENTRAL_PARK = buildMockPage({
   address: 'г. Актау, первая береговая линия',
   instagram: 'bs_holding.aktau',
   classLabel: 'бизнес-класс',
+  floorPlans: mockFloorPlans('central-park', 'Central Park', '/images/project-central-park.webp', [
+    {
+      name: '2-комнатная',
+      rooms: '2 комнаты',
+      area: 'от 55 м²',
+      price: 'от 22 534 000 ₸',
+      image: '/images/bs-towers/plans/plan-2r.svg',
+    },
+    {
+      name: '3-комнатная',
+      rooms: '3 комнаты',
+      area: 'от 75 м²',
+      price: 'от 28 000 000 ₸',
+      image: '/images/bs-towers/plans/plan-3r.svg',
+    },
+  ]),
 });
 
 const ADAL_TOWN = buildMockPage({
@@ -332,6 +381,22 @@ const ADAL_TOWN = buildMockPage({
   address: 'г. Актау, развивающийся район',
   instagram: 'bs_holding.aktau',
   classLabel: 'комфорт-класс',
+  floorPlans: mockFloorPlans('adal-town', 'Adal Town', '/images/project-adal-town.webp', [
+    {
+      name: '1-комнатная',
+      rooms: '1 комната',
+      area: 'от 40 м²',
+      price: 'от 8 316 000 ₸',
+      image: '/images/bs-towers/plans/plan-1r.svg',
+    },
+    {
+      name: '2-комнатная',
+      rooms: '2 комнаты',
+      area: 'от 55 м²',
+      price: 'от 10 500 000 ₸',
+      image: '/images/bs-towers/plans/plan-2r.svg',
+    },
+  ]),
 });
 
 /** @type {Record<string, ProjectPageData>} */

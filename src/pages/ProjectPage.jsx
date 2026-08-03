@@ -21,7 +21,17 @@ import ProjectFooter from '../components/project/ProjectFooter';
 import ProjectCalcPopup from '../components/project/ProjectCalcPopup';
 import LeadPopup from '../components/lead/LeadPopup';
 
-export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProject }) {
+export default function ProjectPage({
+  data,
+  onBack,
+  onOpenCall,
+  onNavigateProject,
+  langCur,
+  setLangCur,
+  openMenu,
+  toggleMenu,
+  closeMenu,
+}) {
   const accent = data.theme?.accent ?? '#61D0C5';
   const accentDark = data.theme?.accentDark ?? '#1F6059';
 
@@ -57,7 +67,16 @@ export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProjec
 
   return (
     <>
-      <ProjectHeader data={data} onBack={onBack} onOpenCall={onOpenCall} />
+      <ProjectHeader
+        data={data}
+        onBack={onBack}
+        onOpenCall={onOpenCall}
+        langCur={langCur}
+        setLangCur={setLangCur}
+        openMenu={openMenu}
+        toggleMenu={toggleMenu}
+        closeMenu={closeMenu}
+      />
       <div
         className="page easton-page"
         style={{

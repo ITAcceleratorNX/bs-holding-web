@@ -2,14 +2,14 @@ import { useEffect, useRef } from 'react';
 import { PROMOTIONS_PAGE } from '../../data/promotions';
 import PromotionLeadForm from './PromotionLeadForm';
 
-function PromoMedia({ offer, stubOnly = false }) {
-  const showImage = !stubOnly && Boolean(offer.image);
+function PromoMedia({ offer }) {
+  const showImage = Boolean(offer.image);
   const showTag = !showImage || !offer.tagInImage;
   return (
     <div className={`promo-media${showImage ? '' : ' promo-media--stub'}`}>
       {showImage ? <img src={offer.image} alt="" className="promo-media__img" /> : null}
       {showTag ? <span className="promo-media__tag">{offer.tag}</span> : null}
-      <span className="promo-media__stub">{offer.stub}</span>
+      {!showImage && offer.stub ? <span className="promo-media__stub">{offer.stub}</span> : null}
     </div>
   );
 }
@@ -17,7 +17,7 @@ function PromoMedia({ offer, stubOnly = false }) {
 function PromoDetailBody({ offer, city, onClose }) {
   return (
     <>
-      <PromoMedia offer={offer} stubOnly />
+      <PromoMedia offer={offer} />
       {offer.applies ? <p className="promo-detail__applies">{offer.applies}</p> : null}
       <h2 className="promo-detail__title">{offer.title}</h2>
       {offer.description ? <p className="promo-detail__desc">{offer.description}</p> : null}

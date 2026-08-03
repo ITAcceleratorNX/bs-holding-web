@@ -1,17 +1,32 @@
 /**
  * Карточка-плитка с фоновым изображением.
- *
- * `imagePosition` — значение CSS `object-position` (например `'center 30%'`).
- * Плитки обрезают изображение по `object-fit: cover`, поэтому для рендеров с
- * высоким объектом (башня, фасад) кадр смещается без правки верстки.
  */
-export default function MediaCard({ image, imagePosition, title, tall, solid, icon }) {
+export default function MediaCard({ image, imagePosition, title, tall, solid, icon, onImageClick }) {
   return (
     <div
-      className={`easton-media-card${tall ? ' easton-media-card--tall' : ''}${solid ? ' easton-media-card--solid' : ''}`}
+      className={`easton-media-card${tall ? ' easton-media-card--tall' : ''}${solid ? ' easton-media-card--solid' : ''}${onImageClick ? ' easton-media-card--clickable' : ''}`}
+      onClick={onImageClick && image ? () => onImageClick(image, title) : undefined}
+      onKeyDown={
+        onImageClick && image
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onImageClick(image, title);
+              }
+            }
+          : undefined
+      }
+      role={onImageClick && image ? 'button' : undefined}
+      tabIndex={onImageClick && image ? 0 : undefined}
     >
       {!solid && image && (
-        <img src={image} alt="" loading="lazy" decoding="async" style={imagePosition ? { objectPosition: imagePosition } : undefined} />
+        <img
+          src={image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style={imagePosition ? { objectPosition: imagePosition } : undefined}
+        />
       )}
       {!solid && <div className="easton-media-card__shade" />}
       {icon && <img className="easton-media-card__icon" src={icon} alt="" width={48} height={48} />}

@@ -187,6 +187,15 @@ export const FOOTER_COLS = [
 
 export const SOCIALS = ['IG', 'TG', 'FB', 'TT', 'YT'];
 
+/** @type {Record<string, string>} */
+export const SOCIAL_LINKS = {
+  IG: 'https://www.instagram.com/bs_holding.aktau/',
+  TG: 'https://t.me/bsholding',
+  FB: 'https://www.facebook.com/bsholding',
+  TT: 'https://www.tiktok.com/@bsholding',
+  YT: 'https://www.youtube.com/@bsholding',
+};
+
 /**
  * Значение фильтра «город не выбран». В шапке такого пункта нет: там город —
  * это выбор пользователя «мой город» (телефон, город заявки), а в каталоге он

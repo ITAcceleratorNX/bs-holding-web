@@ -29,6 +29,7 @@ export default function PromotionsPage({
   setLangCur,
   openMenu,
   toggleMenu,
+  closeMenu,
   onOpenCall,
   onGoHome,
 }) {
@@ -49,6 +50,7 @@ export default function PromotionsPage({
         setLangCur={setLangCur}
         openMenu={openMenu}
         toggleMenu={toggleMenu}
+        closeMenu={closeMenu}
         onOpenCall={onOpenCall}
         onLogoClick={onGoHome}
       />

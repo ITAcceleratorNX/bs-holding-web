@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import Dropdown from './Dropdown';
 import LeadHoneypot from './lead/LeadHoneypot';
-import { CONSENT_POLICY } from '../data/leadForms';
+import LeadConsent from './lead/LeadConsent';
 import { CITIES, DEFAULT_CITY } from '../lead/contract';
 import { useLeadForm } from '../lead/useLeadForm';
 
 /**
  * Общая форма консультации на главной (код формы `main_consultation`).
- * Город выбирается в самой форме и по умолчанию — Актау (ТЗ 2, 3).
  */
 export default function Consultation() {
   const [cityOpen, setCityOpen] = useState(false);
@@ -17,6 +16,7 @@ export default function Consultation() {
     formCode: 'main_consultation',
     city,
     ctaLocation: 'Главная — блок консультации',
+    consentMode: 'explicit',
   });
 
   return (
@@ -60,6 +60,7 @@ export default function Consultation() {
                     setCity(next);
                     setCityOpen(false);
                   }}
+                  onClose={() => setCityOpen(false)}
                 />
               </div>
               <button
@@ -77,7 +78,7 @@ export default function Consultation() {
             {(form.errors.name || form.errors.phone || form.message) && (
               <div className="form-error">{form.errors.name || form.errors.phone || form.message}</div>
             )}
-            <div className="lead-policy">{CONSENT_POLICY}</div>
+            <LeadConsent form={form} />
           </div>
         )}
       </div>

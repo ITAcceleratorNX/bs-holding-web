@@ -40,6 +40,7 @@ export default function Catalog({
   setFilter,
   openMenu,
   toggleMenu,
+  closeMenu,
   applyFilter,
   resetFilter,
   filtered,
@@ -58,6 +59,7 @@ export default function Catalog({
               onToggle={() => toggleMenu(`f_${key}`)}
               options={opts}
               onSelect={(o) => setFilter(key, o)}
+              onClose={closeMenu}
               active={filter[key] !== opts[0]}
             />
           ))}

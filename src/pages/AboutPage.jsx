@@ -24,6 +24,7 @@ export default function AboutPage({
   setLangCur,
   openMenu,
   toggleMenu,
+  closeMenu,
   onOpenCall,
   onOpenProject,
   onGoHome,
@@ -61,6 +62,7 @@ export default function AboutPage({
         setLangCur={setLangCur}
         openMenu={openMenu}
         toggleMenu={toggleMenu}
+        closeMenu={closeMenu}
         onOpenCall={onOpenCall}
         onLogoClick={onGoHome}
       />
@@ -224,9 +226,6 @@ export default function AboutPage({
                       <div key={item.id} className="about-contrib__row">
                         <img className="about-contrib__thumb" src={item.image} alt="" />
                         <span className="about-contrib__name">{item.title}</span>
-                        <span className="about-contrib__chevron" aria-hidden="true">
-                          ›
-                        </span>
                       </div>
                     ))}
                   </div>

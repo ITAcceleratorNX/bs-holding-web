@@ -72,10 +72,18 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
     if (!active) return undefined;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setActive(null);
+        form.reset();
+      }
+    };
+    document.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = prev;
+      document.removeEventListener('keydown', onKey);
     };
-  }, [active]);
+  }, [active, form]);
 
   const items = floorPlans?.items ?? [];
   const enableFilters = Boolean(floorPlans?.enableFilters);
