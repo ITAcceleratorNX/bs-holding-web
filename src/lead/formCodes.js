@@ -43,6 +43,7 @@ export const FORM_CODES = {
     whatsapp: true,
     whatsappMessage: 'Здравствуйте! Хочу получить презентацию ЖК Easton.',
   },
+  promotion_offer: { title: 'Акции и предложения', scope: 'general' },
 };
 
 /**

@@ -8,7 +8,7 @@ export const MAIN_NAV_ITEMS = [
   { label: 'Главная', href: '#/', key: 'home' },
   { label: 'Жилые комплексы', href: '#catalog', key: 'catalog' },
   { label: 'О компании', href: '#/about', key: 'about' },
-  { label: 'Акции и предложения', href: '#paida', key: 'paida' },
+  { label: 'Акции и предложения', href: '#/akcii', key: 'akcii' },
 ];
 
 const CITIES = ['Актау', 'Актобе', 'Усть-Каменогорск'];
@@ -17,15 +17,15 @@ const LANGS = ['RU', 'KZ', 'EN'];
 function navKeyFromHash() {
   const path = (window.location.hash || '').replace(/^#\/?/, '').split(/[/?#]/)[0]?.toLowerCase() || '';
   if (path === 'about' || path === 'o-kompanii') return 'about';
+  if (path === 'akcii' || path === 'promotions' || path === 'paida') return 'akcii';
   if (path === 'catalog') return 'catalog';
-  if (path === 'paida') return 'paida';
   if (path && path !== 'top') return 'catalog';
   return 'home';
 }
 
 function isHomeSurface() {
   const path = (window.location.hash || '').replace(/^#\/?/, '').split(/[/?#]/)[0]?.toLowerCase() || '';
-  return !path || path === 'top' || path === 'catalog' || path === 'paida';
+  return !path || path === 'top' || path === 'catalog';
 }
 
 function navKeyFromProp(activeNav) {
@@ -66,7 +66,7 @@ export default function Header({
       let next = 'home';
       for (const section of [
         { id: 'catalog', key: 'catalog' },
-        { id: 'paida', key: 'paida' },
+        { id: 'paida', key: 'akcii' },
       ]) {
         const el = document.getElementById(section.id);
         if (el && el.offsetTop <= line) next = section.key;

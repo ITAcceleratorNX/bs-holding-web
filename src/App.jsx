@@ -14,6 +14,7 @@ import CallPopup from './components/CallPopup';
 import ProjectPage from './pages/ProjectPage';
 import AboutPage from './pages/AboutPage';
 import EastonQuizLandingPage from './pages/EastonQuizLandingPage';
+import PromotionsPage from './pages/PromotionsPage';
 import { DEFAULT_FILTER, PROJECTS } from './data/projects';
 import { getProjectPage, projectHash } from './data/projectPages';
 import { filterProjects } from './utils/format';
@@ -26,6 +27,9 @@ function getRoute() {
   }
   if (slug === 'easton-quiz') {
     return { type: 'easton-quiz' };
+  }
+  if (slug === 'akcii' || slug === 'promotions') {
+    return { type: 'promotions' };
   }
   if (slug && getProjectPage(slug)) {
     return { type: 'project', slug };
@@ -176,6 +180,24 @@ export default function App() {
           toggleMenu={toggleMenu}
           onOpenCall={openCall}
           onOpenProject={onOpenProject}
+          onGoHome={goHome}
+        />
+        {callPopup}
+      </>
+    );
+  }
+
+  if (route.type === 'promotions') {
+    return (
+      <>
+        <PromotionsPage
+          headerCity={headerCity}
+          setHeaderCity={setHeaderCity}
+          langCur={langCur}
+          setLangCur={setLangCur}
+          openMenu={openMenu}
+          toggleMenu={toggleMenu}
+          onOpenCall={openCall}
           onGoHome={goHome}
         />
         {callPopup}
