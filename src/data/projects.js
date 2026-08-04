@@ -89,7 +89,7 @@ export const PROJECTS = [
     termBadge: 'IV квартал 2026',
     rooms: [1, 2, 3],
     floors: 7,
-    image: '/images/project-orta.svg',
+    image: '/images/project-orta.webp',
     meta: ['Актау', '9 мкр', 'Море'],
     href: '#/orta',
   },
