@@ -1,6 +1,6 @@
 import SectionLabel from './SectionLabel';
 
-export default function ProjectApartments({ data, onScrollToConsult }) {
+export default function ProjectApartments({ data, onRequestConsult }) {
   const { apartments } = data;
   return (
     <section id={apartments.id} className="easton-section easton-section--dark">
@@ -13,7 +13,7 @@ export default function ProjectApartments({ data, onScrollToConsult }) {
       </div>
       <div className="easton-apartments__image">
         <img src={apartments.image} alt="" />
-        <button type="button" className="easton-btn easton-btn--light" onClick={onScrollToConsult}>
+        <button type="button" className="easton-btn easton-btn--light" onClick={onRequestConsult}>
           {apartments.cta}
         </button>
       </div>

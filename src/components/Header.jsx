@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Dropdown from './Dropdown';
 import Logo from './Logo';
 import { phoneForCity } from '../data/phones';
+import PhoneLink from './lead/PhoneLink';
 
 export const MAIN_NAV_ITEMS = [
   { label: 'Главная', href: '#/', key: 'home' },
@@ -182,7 +183,9 @@ export default function Header({
             ))}
           </nav>
           <div className="site-header__actions">
-            <a href={cityPhone.href} className="site-header__phone">{cityPhone.display}</a>
+            <PhoneLink href={cityPhone.href} city={headerCity} ctaLocation="Шапка сайта" className="site-header__phone">
+              {cityPhone.display}
+            </PhoneLink>
             <Dropdown
               current={headerCity}
               open={openMenu === 'hcity'}
@@ -227,9 +230,15 @@ export default function Header({
               </a>
             ))}
           </nav>
-          <a href={cityPhone.href} className="site-header__drawer-phone" onClick={closeMobile}>
+          <PhoneLink
+            href={cityPhone.href}
+            city={headerCity}
+            ctaLocation="Мобильное меню"
+            className="site-header__drawer-phone"
+            onClick={closeMobile}
+          >
             {cityPhone.display}
-          </a>
+          </PhoneLink>
           <div className="site-header__drawer-row">
             <Dropdown
               current={headerCity}

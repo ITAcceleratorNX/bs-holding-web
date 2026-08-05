@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import InstallmentCalculator from './InstallmentCalculator';
+import LeadHoneypot from './lead/LeadHoneypot';
 import {
   DEFAULT_INSTALLMENT_CITY,
   INSTALLMENT_CITY_OPTIONS,
   getCityCalculator,
   getInstallmentConfig,
 } from '../data/calculator';
+import { CONSENT_POLICY } from '../data/leadForms';
+import { LEAD_EVENTS, formEventParams, trackEvent } from '../lead/analytics';
+import { buildDetails } from '../lead/details';
+import { useLeadForm } from '../lead/useLeadForm';
 import { clampNumber, computeCalc, fmt, onlyDigits } from '../utils/format';
 
 /**
@@ -64,12 +69,6 @@ export default function Calculator({
   setTermY,
   rate,
   setRate,
-  leadName,
-  setLeadName,
-  leadPhone,
-  setLeadPhone,
-  leadState,
-  submitLead,
 }) {
   /**
    * Город рассрочки выбирается внутри калькулятора. Город из шапки задаёт
@@ -94,6 +93,34 @@ export default function Calculator({
   const isInstallment = mode === 'Рассрочка';
 
   const calc = computeCalc({ price, down, termY, rate });
+
+  /**
+   * Заявка из ипотечного калькулятора (код формы `calculator_mortgage`).
+   * В CRM уходят все введённые значения и рассчитанный платёж (ТЗ 6.3).
+   */
+  const form = useLeadForm({
+    formCode: 'calculator_mortgage',
+    city,
+    ctaLocation: 'Главная — ипотечный калькулятор',
+    details: () =>
+      buildDetails('calculator', [
+        ['calc_mode', 'Режим расчёта', 'Ипотека'],
+        ['calc_price', 'Стоимость недвижимости', `${fmt(price)} ₸`],
+        ['calc_down', 'Первоначальный взнос', `${fmt(down)} ₸`],
+        ['calc_term', 'Срок займа', `${termY} лет`],
+        ['calc_rate', 'Процентная ставка', `${rate}%`],
+        ['calc_monthly', 'Ежемесячный платёж', calc.mainValue],
+        ['calc_lang', 'Язык интерфейса', lang],
+      ]),
+  });
+
+  const submitMortgage = () => {
+    trackEvent(
+      LEAD_EVENTS.CALCULATOR_SUBMIT,
+      formEventParams({ formCode: 'calculator_mortgage', city, ctaLocation: 'Главная — ипотечный калькулятор' }),
+    );
+    form.submit();
+  };
 
   /** @param {number} next @param {boolean} commit приводить ли к нижней границе */
   const applyPrice = (next, commit) => {
@@ -219,7 +246,7 @@ export default function Calculator({
               <div className="calc-result-block__value calc-result-block__value--md">{calc.statValue}</div>
               <div className="calc-result-block__sub">{calc.statLabel}</div>
             </div>
-            {leadState === 'success' ? (
+            {form.isSuccess ? (
               <div className="calc-lead calc-lead--success">
                 <div className="calc-lead__title">Заявка отправлена!</div>
                 <div className="calc-lead__sub">Мы свяжемся с вами в течение 10 минут и рассчитаем ваши условия.</div>
@@ -229,23 +256,22 @@ export default function Calculator({
                 <div className="calc-lead__fields">
                   <input
                     className="input-dark"
-                    value={leadName}
-                    onChange={(e) => setLeadName(e.target.value)}
                     placeholder="Ваше имя"
+                    aria-label="Ваше имя"
+                    {...form.fields.name}
                   />
-                  <input
-                    className="input-dark"
-                    value={leadPhone}
-                    onChange={(e) => setLeadPhone(e.target.value)}
-                    placeholder="Номер телефона"
-                  />
+                  <input className="input-dark" aria-label="Номер телефона" {...form.fields.phone} />
                 </div>
-                {leadState === 'error' && (
-                  <div className="form-error">Укажите имя и корректный номер телефона.</div>
+
+                <LeadHoneypot {...form.honeypotProps} />
+
+                {(form.errors.name || form.errors.phone || form.message) && (
+                  <div className="form-error">{form.errors.name || form.errors.phone || form.message}</div>
                 )}
-                <button type="button" className="btn-white" onClick={submitLead}>
-                  {leadState === 'loading' ? 'Отправка…' : 'Получить расчёт'}
+                <button type="button" className="btn-white" onClick={submitMortgage} disabled={form.isLoading}>
+                  {form.isLoading ? 'Отправка…' : 'Получить расчёт'}
                 </button>
+                <div className="lead-policy">{CONSENT_POLICY}</div>
               </div>
             )}
           </div>

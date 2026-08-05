@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import ProjectHeader from '../components/project/ProjectHeader';
 import ProjectHero from '../components/project/ProjectHero';
 import ProjectAbout from '../components/project/ProjectAbout';
@@ -19,17 +19,29 @@ import ProjectExtras from '../components/project/ProjectExtras';
 import ProjectConsultForm from '../components/project/ProjectConsultForm';
 import ProjectFooter from '../components/project/ProjectFooter';
 import ProjectCalcPopup from '../components/project/ProjectCalcPopup';
-import ProjectCatalogPopup from '../components/project/ProjectCatalogPopup';
+import LeadPopup from '../components/lead/LeadPopup';
 
 export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProject }) {
   const accent = data.theme?.accent ?? '#61D0C5';
   const accentDark = data.theme?.accentDark ?? '#1F6059';
-  const [calcOpen, setCalcOpen] = useState(false);
-  const [catalogOpen, setCatalogOpen] = useState(false);
 
-  const scrollToConsult = () => {
+  /**
+   * Открытая форма: код формы и расположение кнопки, которая её вызвала (ТЗ 3, 4).
+   * Одно состояние на все всплывающие формы страницы — форма монтируется при
+   * открытии, поэтому поля и статус отправки всегда чистые.
+   * @type {[{ formCode: string, ctaLocation: string }|null, Function]}
+   */
+  const [lead, setLead] = useState(null);
+
+  const openLead = useCallback((formCode, ctaLocation) => setLead({ formCode, ctaLocation }), []);
+  const closeLead = useCallback(() => setLead(null), []);
+
+  const projectName = data.consult?.projectName ?? data.name;
+  const city = data.consult?.city ?? data.city;
+
+  const scrollToConsult = useCallback(() => {
     document.getElementById(`${data.slug}-consult`)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, [data.slug]);
 
   /**
    * Планировки и следующий за ними квиз по умолчанию идут после архитектуры,
@@ -53,36 +65,60 @@ export default function ProjectPage({ data, onBack, onOpenCall, onNavigateProjec
           '--project-accent-dark': accentDark,
         }}
       >
-        <ProjectHero data={data} onScrollToConsult={scrollToConsult} onOpenCatalog={() => setCatalogOpen(true)} />
+        <ProjectHero
+          data={data}
+          onRequestApplication={() => openLead('zhk_hero_application', 'Первый экран')}
+          onRequestPresentation={() => openLead('presentation_download', 'Первый экран')}
+        />
         <ProjectAbout data={data} />
         <ProjectStandards data={data} />
-        <ProjectLocation data={data} onOpenCalc={() => setCalcOpen(true)} />
-        <ProjectArchitecture data={data} onScrollToConsult={scrollToConsult} />
+        <ProjectLocation data={data} onOpenCalc={() => openLead('zhk_calculation', 'Блок «Локация»')} />
+        <ProjectArchitecture data={data} onRequestTour={() => openLead('tour_booking', 'Блок «Архитектура»')} />
         {!plansAfterApartments && plansBlock}
         {data.yard && <ProjectYard data={data} />}
-        {data.playground && <ProjectPlayground data={data} onScrollToConsult={scrollToConsult} />}
+        {data.playground && (
+          <ProjectPlayground
+            data={data}
+            onRequestConsult={() => openLead('zhk_consultation', 'Блок «Игровая площадка»')}
+          />
+        )}
         {data.kids && <ProjectKids data={data} />}
         {data.gym && <ProjectGym data={data} />}
         {data.hall && <ProjectHall data={data} />}
-        {data.apartments && <ProjectApartments data={data} onScrollToConsult={scrollToConsult} />}
+        {data.apartments && (
+          <ProjectApartments
+            data={data}
+            onRequestConsult={() => openLead('zhk_consultation', 'Блок «Квартиры»')}
+          />
+        )}
         {plansAfterApartments && plansBlock}
-        {data.parking && <ProjectParking data={data} onOpenCatalog={() => setCatalogOpen(true)} />}
+        {data.parking && (
+          <ProjectParking data={data} onOpenCatalog={() => openLead('catalog_download', 'Блок «Паркинг»')} />
+        )}
         {data.extras ? <ProjectExtras data={data} /> : data.boxroom ? <ProjectBoxroom data={data} /> : null}
         <ProjectConsultForm data={data} />
         <ProjectFooter data={data} onBack={onBack} onNavigateProject={onNavigateProject} />
-        <ProjectCalcPopup
-          open={calcOpen}
-          onClose={() => setCalcOpen(false)}
-          projectName={data.consult?.projectName ?? data.name}
-          city={data.consult?.city ?? data.city}
-          areaRanges={data.calcAreas}
-        />
-        <ProjectCatalogPopup
-          open={catalogOpen}
-          onClose={() => setCatalogOpen(false)}
-          projectName={data.consult?.projectName ?? data.name}
-          city={data.consult?.city ?? data.city}
-        />
+
+        {/* Форма «Получить расчет» отличается дополнительным полем квадратуры. */}
+        {lead?.formCode === 'zhk_calculation' ? (
+          <ProjectCalcPopup
+            open
+            onClose={closeLead}
+            projectName={projectName}
+            city={city}
+            areaRanges={data.calcAreas}
+            ctaLocation={lead.ctaLocation}
+          />
+        ) : lead ? (
+          <LeadPopup
+            open
+            onClose={closeLead}
+            formCode={lead.formCode}
+            project={projectName}
+            city={city}
+            ctaLocation={lead.ctaLocation}
+          />
+        ) : null}
       </div>
     </>
   );

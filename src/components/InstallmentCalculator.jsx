@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import LeadHoneypot from './lead/LeadHoneypot';
 import { AREA_STEP, ROOM_OPTIONS, getRoomOption } from '../data/calculator';
+import { LEAD_EVENTS, formEventParams, trackEvent } from '../lead/analytics';
+import { buildDetails } from '../lead/details';
+import { useLeadForm } from '../lead/useLeadForm';
 import { allowedTermRange, computeInstallment } from '../utils/installment';
-import { clampNumber, fmt, formatKzPhone, kzPhoneE164, kzPhoneOk, nameOk } from '../utils/format';
-import { LEAD_SOURCES, submitLead } from '../utils/leads';
+import { clampNumber, fmt } from '../utils/format';
 
 const tenge = (n) => `${fmt(n)} ₸`;
 /** @param {{min: number, max: number}} r */
@@ -118,11 +121,6 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
    * минимальный платёж.
    */
   const [months, setMonths] = useState(() => config.term.max);
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [consent, setConsent] = useState(false);
-  const [formState, setFormState] = useState('idle');
-  const [fieldErrors, setFieldErrors] = useState({});
   /** Итоговый расчёт показывается после успешной отправки формы (ТЗ 6). */
   const [submittedResult, setSubmittedResult] = useState(null);
 
@@ -138,8 +136,6 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
     setPaymentId(config.payments[0].id);
     setMonths(config.term.max);
     setSubmittedResult(null);
-    setFormState('idle');
-    setFieldErrors({});
   }, [config]);
 
   const room = getRoomOption(roomId) ?? ROOM_OPTIONS[0];
@@ -175,50 +171,65 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
 
   const resetResult = () => setSubmittedResult(null);
 
-  const submit = async () => {
-    const errors = {};
-    if (!nameOk(name)) errors.name = 'Укажите имя';
-    if (!kzPhoneOk(phone)) errors.phone = 'Укажите номер в формате +7 (7XX) XXX-XX-XX';
-    if (!consent) errors.consent = 'Необходимо согласие на обработку персональных данных';
-    setFieldErrors(errors);
-    if (Object.keys(errors).length > 0 || !result?.canSubmit) {
-      setFormState('error');
-      return;
-    }
+  /** Условия, с которыми ушла текущая отправка. */
+  const submittedFor = useRef(config);
 
-    setFormState('loading');
-    const submittedFor = config;
-    try {
-      await submitLead({
-        source: LEAD_SOURCES.INSTALLMENT_CALC,
+  /**
+   * Заявка из калькулятора рассрочки (код формы `calculator_installment`).
+   * В CRM уходят город, блок и все применённые городские условия (ТЗ 6.3).
+   */
+  const form = useLeadForm({
+    formCode: 'calculator_installment',
+    city: config.city,
+    project: projectName ?? '',
+    ctaLocation: 'Калькулятор рассрочки',
+    // Здесь стоит явная галочка согласия, поэтому режим — explicit (ТЗ 4).
+    consentMode: 'explicit',
+    details: () =>
+      buildDetails('calculator', [
+        ['calc_mode', 'Режим расчёта', 'Рассрочка'],
+        ['calc_city', 'Город расчёта', config.city],
+        ['calc_block', 'Блок', result?.block?.label],
+        ['calc_rooms', 'Комнатность', room.label],
+        ['calc_area', 'Площадь', `${result?.area} м²`],
+        ['calc_payment', 'Вариант оплаты', payment.title],
+        ['calc_down_percent', 'Первоначальный взнос, %', payment.full ? null : payment.downPercent],
+        ['calc_surcharge_percent', 'Надбавка на остаток, %', payment.surchargePercent],
+        ['calc_term', 'Срок рассрочки', payment.full ? null : `${result?.months} мес.`],
+        ['calc_price_per_m2', 'Цена за 1 м²', value(result?.pricePerM2)],
+        ['calc_total', 'Стоимость квартиры', value(result?.total)],
+        ['calc_down', 'Первоначальный взнос', payment.full ? null : value(result?.down)],
+        ['calc_remainder', 'Остаток', payment.full ? null : value(result?.remainder)],
+        ['calc_surcharge', 'Надбавка', result?.surcharge == null ? null : value(result.surcharge)],
+        ['calc_installment_sum', 'Сумма рассрочки', result?.installmentSum == null ? null : value(result.installmentSum)],
+        ['calc_monthly', 'Ежемесячный платёж', payment.full ? null : value(result?.monthly)],
+        ['calc_lang', 'Язык интерфейса', lang],
+      ]),
+    validate: () => (result?.canSubmit ? {} : { calc: 'Измените параметры расчёта' }),
+    onSuccess: () => {
+      // Заявка ушла с параметрами прежнего города — устаревший расчёт не показываем.
+      if (configRef.current === submittedFor.current) setSubmittedResult(result);
+    },
+  });
+
+  // Смена города сбрасывает и форму: показывать успех от прежних условий нельзя.
+  const { reset: resetForm } = form;
+  useEffect(() => {
+    resetForm();
+  }, [config, resetForm]);
+
+  const submitInstallment = () => {
+    submittedFor.current = config;
+    trackEvent(
+      LEAD_EVENTS.CALCULATOR_SUBMIT,
+      formEventParams({
+        formCode: 'calculator_installment',
         city: config.city,
-        ...(projectName ? { project: projectName } : {}),
-        ...(result.block ? { block: result.block.label } : {}),
-        name: name.trim(),
-        phone: kzPhoneE164(phone),
-        lang,
-        rooms: room.label,
-        area: `${result.area} м²`,
-        payment: payment.title,
-        downPercent: payment.full ? null : payment.downPercent,
-        surchargePercent: payment.surchargePercent ?? null,
-        months: result.months,
-        pricePerM2: result.pricePerM2,
-        total: result.total,
-        down: result.down,
-        remainder: result.remainder,
-        surcharge: result.surcharge,
-        installmentSum: result.installmentSum,
-        monthly: result.monthly,
-      });
-      // Заявка ушла с параметрами прежнего города — на экране показывать её не нужно.
-      if (configRef.current !== submittedFor) return;
-      setSubmittedResult(result);
-      setFormState('success');
-    } catch {
-      if (configRef.current !== submittedFor) return;
-      setFormState('error');
-    }
+        project: projectName ?? '',
+        ctaLocation: 'Калькулятор рассрочки',
+      }),
+    );
+    form.submit();
   };
 
   if (!result) return null;
@@ -349,7 +360,7 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
           </div>
         </div>
 
-        {formState === 'success' && submittedResult ? (
+        {form.isSuccess && submittedResult ? (
           <div className="calc-lead calc-lead--success">
             <div className="calc-lead__title">Ваш расчёт готов</div>
             <ResultRows result={submittedResult} />
@@ -361,60 +372,41 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
               <div className="calc-geo__field">
                 <input
                   className="input-dark"
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    setFieldErrors((p) => ({ ...p, name: undefined }));
-                  }}
                   placeholder="Ваше имя"
                   aria-label="Ваше имя"
-                  aria-invalid={Boolean(fieldErrors.name)}
+                  {...form.fields.name}
                 />
-                {fieldErrors.name && <div className="calc-geo__error">{fieldErrors.name}</div>}
+                {form.errors.name && <div className="calc-geo__error">{form.errors.name}</div>}
               </div>
               <div className="calc-geo__field">
-                <input
-                  className="input-dark"
-                  value={phone}
-                  onChange={(e) => {
-                    setPhone(formatKzPhone(e.target.value));
-                    setFieldErrors((p) => ({ ...p, phone: undefined }));
-                  }}
-                  placeholder="+7 (___) ___-__-__"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  aria-label="Номер телефона"
-                  aria-invalid={Boolean(fieldErrors.phone)}
-                />
-                {fieldErrors.phone && <div className="calc-geo__error">{fieldErrors.phone}</div>}
+                <input className="input-dark" aria-label="Номер телефона" {...form.fields.phone} />
+                {form.errors.phone && <div className="calc-geo__error">{form.errors.phone}</div>}
               </div>
             </div>
 
-            <label className={`calc-geo__consent${consent ? ' is-checked' : ''}`}>
+            <LeadHoneypot {...form.honeypotProps} />
+
+            <label className={`calc-geo__consent${form.consent ? ' is-checked' : ''}`}>
               <input
                 type="checkbox"
-                checked={consent}
-                onChange={(e) => {
-                  setConsent(e.target.checked);
-                  setFieldErrors((p) => ({ ...p, consent: undefined }));
-                }}
+                checked={form.consent}
+                onChange={(e) => form.setConsent(e.target.checked)}
               />
               <span className="calc-geo__consent-box" aria-hidden="true" />
               <span>Согласен на обработку персональных данных</span>
             </label>
-            {fieldErrors.consent && <div className="calc-geo__error">{fieldErrors.consent}</div>}
+            {form.errors.consent && <div className="calc-geo__error">{form.errors.consent}</div>}
+            {form.errors.calc && <div className="calc-geo__error">{form.errors.calc}</div>}
 
-            {formState === 'error' && !Object.values(fieldErrors).some(Boolean) && (
-              <div className="form-error">Не удалось отправить заявку. Попробуйте ещё раз.</div>
-            )}
+            {form.message && <div className="form-error">{form.message}</div>}
 
             <button
               type="button"
               className="btn-white"
-              onClick={submit}
-              disabled={formState === 'loading' || !result.canSubmit}
+              onClick={submitInstallment}
+              disabled={form.isLoading || !result.canSubmit}
             >
-              {formState === 'loading' ? 'Отправка…' : 'Получить расчет'}
+              {form.isLoading ? 'Отправка…' : 'Получить расчет'}
             </button>
           </div>
         )}

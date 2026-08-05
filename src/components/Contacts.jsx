@@ -1,4 +1,5 @@
 import { CITY_PHONES } from '../data/phones';
+import PhoneLink from './lead/PhoneLink';
 
 const PHONE_ICON = (
   <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -36,18 +37,21 @@ const CONTACT_ITEMS = [
     title: CITY_PHONES['Актау'].display,
     sub: 'Актау — принимаем звонки ежедневно с 09:00 до 18:00',
     href: CITY_PHONES['Актау'].href,
+    city: 'Актау',
     icon: PHONE_ICON,
   },
   {
     title: CITY_PHONES['Актобе'].display,
     sub: 'Актобе — принимаем звонки ежедневно с 09:00 до 18:00',
     href: CITY_PHONES['Актобе'].href,
+    city: 'Актобе',
     icon: PHONE_ICON,
   },
   {
     title: CITY_PHONES['Усть-Каменогорск'].display,
     sub: 'Усть-Каменогорск — принимаем звонки ежедневно с 09:00 до 18:00',
     href: CITY_PHONES['Усть-Каменогорск'].href,
+    city: 'Усть-Каменогорск',
     icon: PHONE_ICON,
   },
   {
@@ -66,9 +70,16 @@ export default function Contacts() {
         {CONTACT_ITEMS.map((c) => (
           <div key={c.title} className="contacts-item">
             {c.icon}
-            <a href={c.href} className="contacts-item__title">
-              {c.title}
-            </a>
+            {/* Клик по номеру фиксируется в аналитике, но лид не создаёт (ТЗ 7). */}
+            {c.city ? (
+              <PhoneLink href={c.href} city={c.city} ctaLocation="Блок «Поддержка»" className="contacts-item__title">
+                {c.title}
+              </PhoneLink>
+            ) : (
+              <a href={c.href} className="contacts-item__title">
+                {c.title}
+              </a>
+            )}
             <div className="contacts-item__sub">{c.sub}</div>
           </div>
         ))}

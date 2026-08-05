@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Logo from '../Logo';
+import PhoneLink from '../lead/PhoneLink';
 
 export default function ProjectHeader({ data, onBack, onOpenCall }) {
   const [scrolled, setScrolled] = useState(false);
@@ -50,9 +51,14 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
             </nav>
           </div>
           <div className="easton-header__right">
-            <a href={data.phoneHref} className="easton-header__phone">
+            <PhoneLink
+              href={data.phoneHref}
+              city={data.city}
+              ctaLocation="Шапка страницы ЖК"
+              className="easton-header__phone"
+            >
               {data.phone}
-            </a>
+            </PhoneLink>
             <button type="button" className="easton-btn easton-btn--ghost easton-header__call" onClick={onOpenCall}>
               Заказать звонок
             </button>
@@ -77,9 +83,15 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
               </a>
             ))}
           </nav>
-          <a href={data.phoneHref} className="easton-header__drawer-phone" onClick={closeMobile}>
+          <PhoneLink
+            href={data.phoneHref}
+            city={data.city}
+            ctaLocation="Мобильное меню страницы ЖК"
+            className="easton-header__drawer-phone"
+            onClick={closeMobile}
+          >
             {data.phone}
-          </a>
+          </PhoneLink>
           <button
             type="button"
             className="easton-btn easton-btn--light"

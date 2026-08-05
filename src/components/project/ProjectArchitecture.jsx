@@ -1,6 +1,6 @@
 import SectionLabel from './SectionLabel';
 
-export default function ProjectArchitecture({ data, onScrollToConsult }) {
+export default function ProjectArchitecture({ data, onRequestTour }) {
   const { architecture } = data;
   const accentDark = data.theme?.accentDark ?? '#1F6059';
   const gallery = architecture.gallery?.filter(Boolean) ?? [];
@@ -33,7 +33,7 @@ export default function ProjectArchitecture({ data, onScrollToConsult }) {
       </div>
       <div className="easton-banner">
         <div>{architecture.ctaQuestion}</div>
-        <button type="button" className="easton-btn easton-btn--light" onClick={onScrollToConsult}>
+        <button type="button" className="easton-btn easton-btn--light" onClick={onRequestTour}>
           {architecture.ctaButton}
         </button>
       </div>

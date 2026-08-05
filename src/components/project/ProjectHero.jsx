@@ -1,4 +1,11 @@
-export default function ProjectHero({ data, onScrollToConsult, onOpenCatalog }) {
+/**
+ * Первый экран страницы ЖК.
+ *
+ * Обе кнопки создают лид: «Оставить заявку» — форму первого экрана
+ * (`zhk_hero_application`), «Скачать презентацию» — форму презентации
+ * (`presentation_download`), после которой открывается WhatsApp (ТЗ 3, 7).
+ */
+export default function ProjectHero({ data, onRequestApplication, onRequestPresentation }) {
   const mobile = data.hero.imageMobile;
   return (
     <section className="easton-hero">
@@ -12,10 +19,10 @@ export default function ProjectHero({ data, onScrollToConsult, onOpenCatalog }) 
         <p className="easton-hero__city">{data.hero.location}</p>
         {data.hero.tagline && <p className="easton-hero__tagline">{data.hero.tagline}</p>}
         <div className="easton-hero__cta">
-          <button type="button" className="easton-btn easton-btn--solid" onClick={onScrollToConsult}>
+          <button type="button" className="easton-btn easton-btn--solid" onClick={onRequestApplication}>
             Оставить заявку
           </button>
-          <button type="button" className="easton-btn easton-btn--ghost" onClick={onOpenCatalog}>
+          <button type="button" className="easton-btn easton-btn--ghost" onClick={onRequestPresentation}>
             Скачать презентацию
           </button>
         </div>

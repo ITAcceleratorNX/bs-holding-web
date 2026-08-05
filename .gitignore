@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Секреты. Вебхук Bitrix24 хранится только в переменных окружения (ТЗ 8, 9).
+.env
+.env.*
+!.env.example
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

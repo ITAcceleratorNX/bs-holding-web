@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import SectionLabel from './SectionLabel';
-import { nameOk, phoneOk } from '../../utils/format';
-import { submitLead } from '../../utils/leads';
+import LeadHoneypot from '../lead/LeadHoneypot';
+import { CONSENT_POLICY } from '../../data/leadForms';
+import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
+import { buildDetails } from '../../lead/details';
+import { useLeadForm } from '../../lead/useLeadForm';
 
 function uniqueSorted(values) {
   return [...new Set(values.filter(Boolean))].sort((a, b) => {
@@ -24,11 +27,27 @@ function itemMatchesFilters(item, block, floor) {
 export default function ProjectFloorPlans({ data, onScrollToConsult }) {
   const { floorPlans } = data;
   const [active, setActive] = useState(null);
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [formState, setFormState] = useState('idle');
   const [block, setBlock] = useState('all');
   const [floor, setFloor] = useState('all');
+
+  /**
+   * Заявка из popup выбранной планировки (код формы `layout_application`).
+   * В CRM уходят ЖК, название планировки, комнатность, площадь и цена (ТЗ 6.2).
+   */
+  const form = useLeadForm({
+    formCode: 'layout_application',
+    project: data.name,
+    city: data.city,
+    ctaLocation: 'Popup планировки',
+    details: () =>
+      buildDetails('layout', [
+        ['layout_id', 'ID планировки', active?.id],
+        ['layout_name', 'Планировка', active?.name],
+        ['layout_rooms', 'Комнатность', active?.rooms],
+        ['layout_area', 'Площадь', active?.area],
+        ['layout_price', 'Цена', active?.price],
+      ]),
+  });
 
   useEffect(() => {
     if (!active) return undefined;
@@ -76,37 +95,26 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
   const close = () => {
     setActive(null);
-    setName('');
-    setPhone('');
-    setFormState('idle');
+    form.reset();
+  };
+
+  const openPlan = (item) => {
+    setActive(item);
+    form.reset();
+    trackEvent(
+      LEAD_EVENTS.FORM_OPEN,
+      formEventParams({
+        formCode: 'layout_application',
+        city: data.city,
+        project: data.name,
+        ctaLocation: 'Popup планировки',
+      }),
+    );
   };
 
   const resetFilters = () => {
     setBlock('all');
     setFloor('all');
-  };
-
-  const submit = async () => {
-    if (!nameOk(name) || !phoneOk(phone)) {
-      setFormState('error');
-      return;
-    }
-    setFormState('loading');
-    try {
-      await submitLead({
-        project: data.name,
-        city: data.city,
-        source: 'Планировка — подробнее',
-        name: name.trim(),
-        phone: phone.trim(),
-        plan: active?.name,
-        ...(active?.area ? { area: active.area } : {}),
-        ...(active?.price ? { price: active.price } : {}),
-      });
-      setFormState('success');
-    } catch {
-      setFormState('error');
-    }
   };
 
   return (
@@ -219,7 +227,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                     )}
                   </div>
                   {item.price && <div className="wh-plan-card__price">{item.price}</div>}
-                  <button type="button" className="easton-btn easton-btn--light" onClick={() => setActive(item)}>
+                  <button type="button" className="easton-btn easton-btn--light" onClick={() => openPlan(item)}>
                     {item.cta ?? 'Подробнее'}
                   </button>
                 </div>
@@ -270,31 +278,37 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                     <li>{active.note ?? 'Характеристики уточняются'} — оставьте заявку, и менеджер пришлёт планировку.</li>
                   )}
                 </ul>
-                {formState === 'success' ? (
+                {form.isSuccess ? (
                   <div>
                     <div className="easton-consult__success-title">Заявка принята</div>
                     <div className="easton-consult__success-sub">Мы свяжемся с вами в течение дня.</div>
                   </div>
                 ) : (
                   <div className="wh-plan-popup__form">
-                    <label>Ваше Ф.И.О.</label>
-                    <input className="input-dark" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ваше имя" />
-                    <label>Телефон</label>
-                    <input className="input-dark" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Номер телефона" />
-                    {formState === 'error' && (
-                      <div className="easton-consult__error">Укажите имя и корректный номер телефона.</div>
-                    )}
+                    <label htmlFor="plan-lead-name">Ваше Ф.И.О.</label>
+                    <input id="plan-lead-name" className="input-dark" placeholder="Ваше имя" {...form.fields.name} />
+                    {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
+
+                    <label htmlFor="plan-lead-phone">Телефон</label>
+                    <input id="plan-lead-phone" className="input-dark" {...form.fields.phone} />
+                    {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
+
+                    <LeadHoneypot {...form.honeypotProps} />
+
+                    {form.message && <div className="easton-consult__error">{form.message}</div>}
+
                     <button
                       type="button"
                       className="easton-btn easton-btn--light"
-                      onClick={submit}
-                      disabled={formState === 'loading'}
+                      onClick={form.submit}
+                      disabled={form.isLoading}
                     >
-                      {formState === 'loading' ? 'Отправка…' : 'Оставить заявку'}
+                      {form.isLoading ? 'Отправка…' : 'Оставить заявку'}
                     </button>
                     <button type="button" className="easton-btn easton-btn--ghost" onClick={() => { close(); onScrollToConsult?.(); }}>
                       Консультация по объекту
                     </button>
+                    <div className="lead-policy">{CONSENT_POLICY}</div>
                   </div>
                 )}
               </div>

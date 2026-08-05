@@ -15,7 +15,7 @@ import ProjectPage from './pages/ProjectPage';
 import AboutPage from './pages/AboutPage';
 import { DEFAULT_FILTER, PROJECTS } from './data/projects';
 import { getProjectPage, projectHash } from './data/projectPages';
-import { filterProjects, nameOk, phoneOk } from './utils/format';
+import { filterProjects } from './utils/format';
 
 function getRoute() {
   const hash = window.location.hash.replace(/^#\/?/, '');
@@ -34,7 +34,7 @@ export default function App() {
   const [openMenu, setOpenMenu] = useState(null);
   const [headerCity, setHeaderCity] = useState('Актау');
   const [langCur, setLangCur] = useState('RU');
-  const [call, setCall] = useState({ open: false, name: '', phone: '', state: 'idle' });
+  const [callOpen, setCallOpen] = useState(false);
   const [filter, setFilterState] = useState({ ...DEFAULT_FILTER });
   const [appliedFilter, setAppliedFilter] = useState({ ...DEFAULT_FILTER });
   const [activeTab, setActiveTab] = useState('Central Park');
@@ -43,13 +43,6 @@ export default function App() {
   const [down, setDown] = useState(7500000);
   const [termY, setTermY] = useState(15);
   const [rate, setRate] = useState(7.5);
-  const [leadName, setLeadName] = useState('');
-  const [leadPhone, setLeadPhone] = useState('');
-  const [leadState, setLeadState] = useState('idle');
-  const [consultName, setConsultName] = useState('');
-  const [consultPhone, setConsultPhone] = useState('');
-  const [consultCity, setConsultCity] = useState('Актау');
-  const [consultState, setConsultState] = useState('idle');
 
   useEffect(() => {
     const onHash = () => {
@@ -118,59 +111,15 @@ export default function App() {
     [appliedFilter],
   );
 
-  const openCall = useCallback(() => {
-    setCall({ open: true, name: '', phone: '', state: 'idle' });
-  }, []);
-
-  const closeCall = useCallback(() => {
-    setCall((prev) => ({ ...prev, open: false }));
-  }, []);
-
-  const submitCall = useCallback(() => {
-    setCall((prev) => {
-      if (!nameOk(prev.name) || !phoneOk(prev.phone)) {
-        return { ...prev, state: 'error' };
-      }
-      setTimeout(() => {
-        setCall((c) => ({ ...c, state: 'success' }));
-      }, 900);
-      return { ...prev, state: 'loading' };
-    });
-  }, []);
-
-  const submitLead = useCallback(() => {
-    if (!nameOk(leadName) || !phoneOk(leadPhone)) {
-      setLeadState('error');
-      return;
-    }
-    setLeadState('loading');
-    setTimeout(() => setLeadState('success'), 900);
-  }, [leadName, leadPhone]);
-
-  const submitConsult = useCallback(() => {
-    if (!nameOk(consultName) || !phoneOk(consultPhone)) {
-      setConsultState('error');
-      return;
-    }
-    setConsultState('loading');
-    setTimeout(() => setConsultState('success'), 900);
-  }, [consultName, consultPhone]);
+  const openCall = useCallback(() => setCallOpen(true), []);
+  const closeCall = useCallback(() => setCallOpen(false), []);
 
   const onOpenProject = useCallback((p) => {
     if (p?.slug) goProject(p.slug);
   }, [goProject]);
 
-  const callPopup = (
-    <CallPopup
-      call={{
-        ...call,
-        setName: (name) => setCall((prev) => ({ ...prev, name })),
-        setPhone: (phone) => setCall((prev) => ({ ...prev, phone })),
-      }}
-      onClose={closeCall}
-      onSubmit={submitCall}
-    />
-  );
+  // Форма звонка общая для всех маршрутов: город берётся из шапки (ТЗ 3).
+  const callPopup = <CallPopup open={callOpen} onClose={closeCall} city={headerCity} />;
 
   if (route.type === 'project') {
     const projectData = getProjectPage(route.slug);
@@ -250,24 +199,9 @@ export default function App() {
           setTermY={setTermY}
           rate={rate}
           setRate={setRate}
-          leadName={leadName}
-          setLeadName={setLeadName}
-          leadPhone={leadPhone}
-          setLeadPhone={setLeadPhone}
-          leadState={leadState}
-          submitLead={submitLead}
         />
         <Banks />
-        <Consultation
-          consultName={consultName}
-          setConsultName={setConsultName}
-          consultPhone={consultPhone}
-          setConsultPhone={setConsultPhone}
-          consultCity={consultCity}
-          setConsultCity={setConsultCity}
-          consultState={consultState}
-          submitConsult={submitConsult}
-        />
+        <Consultation />
         <Commercial />
         <Contacts />
         <Footer />

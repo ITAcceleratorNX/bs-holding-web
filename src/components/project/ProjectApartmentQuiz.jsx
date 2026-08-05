@@ -1,7 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SectionLabel from './SectionLabel';
-import { nameOk, phoneOk } from '../../utils/format';
-import { LEAD_SOURCES, submitLead } from '../../utils/leads';
+import LeadHoneypot from '../lead/LeadHoneypot';
+import { CONSENT_POLICY } from '../../data/leadForms';
+import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
+import { buildDetails } from '../../lead/details';
+import { useLeadForm } from '../../lead/useLeadForm';
 
 const DEFAULT_STEPS = [
   {
@@ -53,58 +56,57 @@ function buildSteps(quiz) {
   ];
 }
 
+/**
+ * Квиз подбора квартиры (код формы `apartment_quiz`).
+ *
+ * В CRM уходят все ответы в понятном виде — подписью варианта, а не его
+ * кодом, — плюс ЖК и город страницы (ТЗ 6.1).
+ */
 export default function ProjectApartmentQuiz({ data }) {
   const steps = useMemo(() => buildSteps(data.quiz), [data.quiz]);
   const totalSteps = steps.length + 1;
 
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState({
-    rooms: '',
-    floor: '',
-    layout: '',
-    payment: '',
+  /** Ответ хранится вместе с подписью: в карточку лида уходит именно подпись. */
+  const [answers, setAnswers] = useState({});
+
+  const project = data.consult?.projectName ?? data.name;
+  const city = data.consult?.city ?? data.city;
+
+  const form = useLeadForm({
+    formCode: 'apartment_quiz',
+    project,
+    city,
+    ctaLocation: 'Квиз подбора квартиры',
+    details: () =>
+      buildDetails(
+        'quiz',
+        steps.map((s) => [`quiz_${s.key}`, s.title, answers[s.key]?.label]),
+      ),
+    // Ответы собраны заранее, но пользователь мог вернуться назад и не выбрать заново.
+    validate: () =>
+      steps.every((s) => answers[s.key]) ? {} : { quiz: 'Ответьте на все вопросы квиза' },
   });
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [formState, setFormState] = useState('idle');
 
   const isContact = step >= steps.length;
   const progress = ((step + 1) / totalSteps) * 100;
 
-  const selectOption = (key, value) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
-    setFormState('idle');
+  // Квиз пройден — фиксируем событие до отправки контактов (ТЗ 10).
+  useEffect(() => {
+    if (isContact) {
+      trackEvent(
+        LEAD_EVENTS.QUIZ_COMPLETE,
+        formEventParams({ formCode: 'apartment_quiz', city, project, ctaLocation: 'Квиз подбора квартиры' }),
+      );
+    }
+  }, [isContact, city, project]);
+
+  const selectOption = (key, option) => {
+    setAnswers((prev) => ({ ...prev, [key]: option }));
     setTimeout(() => setStep((s) => Math.min(s + 1, steps.length)), 180);
   };
 
-  const goBack = () => {
-    setFormState('idle');
-    setStep((s) => Math.max(0, s - 1));
-  };
-
-  const submit = async () => {
-    if (!nameOk(name) || !phoneOk(phone)) {
-      setFormState('error');
-      return;
-    }
-    setFormState('loading');
-    try {
-      await submitLead({
-        project: data.consult?.projectName ?? data.name,
-        city: data.consult?.city ?? data.city,
-        source: LEAD_SOURCES.QUIZ,
-        name: name.trim(),
-        phone: phone.trim(),
-        rooms: answers.rooms,
-        floor: answers.floor,
-        layout: answers.layout,
-        payment: answers.payment,
-      });
-      setFormState('success');
-    } catch {
-      setFormState('error');
-    }
-  };
+  const goBack = () => setStep((s) => Math.max(0, s - 1));
 
   return (
     <section id={`${data.slug}-quiz`} className="easton-section easton-section--cream project-quiz">
@@ -115,7 +117,7 @@ export default function ProjectApartmentQuiz({ data }) {
       </p>
 
       <div className="project-quiz__card">
-        {formState === 'success' ? (
+        {form.isSuccess ? (
           <div className="project-quiz__success">
             <div className="project-quiz__success-title">Спасибо! Заявка принята.</div>
             <div className="project-quiz__success-sub">Мы свяжемся с вами и подберём варианты по вашим ответам.</div>
@@ -144,8 +146,8 @@ export default function ProjectApartmentQuiz({ data }) {
                     <button
                       key={opt.value}
                       type="button"
-                      className={`project-quiz__option${answers[steps[step].key] === opt.value ? ' is-active' : ''}`}
-                      onClick={() => selectOption(steps[step].key, opt.value)}
+                      className={`project-quiz__option${answers[steps[step].key]?.value === opt.value ? ' is-active' : ''}`}
+                      onClick={() => selectOption(steps[step].key, opt)}
                     >
                       {opt.label}
                     </button>
@@ -156,31 +158,33 @@ export default function ProjectApartmentQuiz({ data }) {
               <>
                 <h3 className="project-quiz__step-title">Контакты</h3>
                 <div className="project-quiz__form">
-                  <label>Имя</label>
+                  <label htmlFor={`${data.slug}-quiz-name`}>Имя</label>
                   <input
+                    id={`${data.slug}-quiz-name`}
                     className="input-dark"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
                     placeholder="Ваше имя"
+                    {...form.fields.name}
                   />
-                  <label>Телефон</label>
-                  <input
-                    className="input-dark"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Номер телефона"
-                  />
-                  {formState === 'error' && (
-                    <div className="easton-consult__error">Укажите имя и корректный номер телефона.</div>
-                  )}
+                  {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
+
+                  <label htmlFor={`${data.slug}-quiz-phone`}>Телефон</label>
+                  <input id={`${data.slug}-quiz-phone`} className="input-dark" {...form.fields.phone} />
+                  {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
+
+                  <LeadHoneypot {...form.honeypotProps} />
+
+                  {form.errors.quiz && <div className="easton-consult__error">{form.errors.quiz}</div>}
+                  {form.message && <div className="easton-consult__error">{form.message}</div>}
+
                   <button
                     type="button"
                     className="easton-btn easton-btn--light"
-                    onClick={submit}
-                    disabled={formState === 'loading'}
+                    onClick={form.submit}
+                    disabled={form.isLoading}
                   >
-                    {formState === 'loading' ? 'Отправка…' : 'Получить консультацию'}
+                    {form.isLoading ? 'Отправка…' : 'Получить консультацию'}
                   </button>
+                  <div className="lead-policy">{CONSENT_POLICY}</div>
                 </div>
               </>
             )}

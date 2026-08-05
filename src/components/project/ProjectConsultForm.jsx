@@ -1,32 +1,21 @@
-import { useState } from 'react';
-import { nameOk, phoneOk } from '../../utils/format';
-import { LEAD_SOURCES, submitLead } from '../../utils/leads';
+import LeadHoneypot from '../lead/LeadHoneypot';
+import { useLeadForm } from '../../lead/useLeadForm';
 
+/**
+ * Нижняя форма консультации страницы ЖК (код формы `zhk_final_consultation`).
+ * Город и ЖК берутся из данных страницы и не запрашиваются у пользователя (ТЗ 3).
+ */
 export default function ProjectConsultForm({ data }) {
   const { consult } = data;
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [formState, setFormState] = useState('idle');
+  const project = consult.projectName || data.name || '';
+  const city = consult.city || data.city || '';
 
-  const submit = async () => {
-    if (!nameOk(name) || !phoneOk(phone)) {
-      setFormState('error');
-      return;
-    }
-    setFormState('loading');
-    try {
-      await submitLead({
-        project: consult.projectName || data.name || '',
-        city: consult.city || data.city || '',
-        source: LEAD_SOURCES.CONSULT,
-        name: name.trim(),
-        phone: phone.trim(),
-      });
-      setFormState('success');
-    } catch {
-      setFormState('error');
-    }
-  };
+  const form = useLeadForm({
+    formCode: 'zhk_final_consultation',
+    project,
+    city,
+    ctaLocation: 'Нижняя форма страницы ЖК',
+  });
 
   return (
     <section id={`${data.slug}-consult`} className="easton-consult">
@@ -40,34 +29,37 @@ export default function ProjectConsultForm({ data }) {
         </div>
       </div>
       <div className="easton-consult__form">
-        {formState === 'success' ? (
+        {form.isSuccess ? (
           <div>
             <div className="easton-consult__success-title">Спасибо! Заявка принята.</div>
             <div className="easton-consult__success-sub">Мы свяжемся с вами в течение дня.</div>
           </div>
         ) : (
           <>
-            <input type="hidden" name="city" value={consult.city || data.city || ''} readOnly />
-            <input type="hidden" name="project" value={consult.projectName || data.name || ''} readOnly />
-            <label>Ваше Ф.И.О.</label>
+            <label htmlFor={`${data.slug}-consult-name`}>Ваше Ф.И.О.</label>
             <input
+              id={`${data.slug}-consult-name`}
               className="input-dark"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
               placeholder="Ваше имя"
+              {...form.fields.name}
             />
-            <label>Ваш номер телефона</label>
-            <input
-              className="input-dark"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Номер телефона"
-            />
-            {formState === 'error' && (
-              <div className="easton-consult__error">Укажите имя и корректный номер телефона.</div>
-            )}
-            <button type="button" className="easton-btn easton-btn--light" onClick={submit} disabled={formState === 'loading'}>
-              {formState === 'loading' ? 'Отправка…' : 'Получить консультацию'}
+            {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
+
+            <label htmlFor={`${data.slug}-consult-phone`}>Ваш номер телефона</label>
+            <input id={`${data.slug}-consult-phone`} className="input-dark" {...form.fields.phone} />
+            {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
+
+            <LeadHoneypot {...form.honeypotProps} />
+
+            {form.message && <div className="easton-consult__error">{form.message}</div>}
+
+            <button
+              type="button"
+              className="easton-btn easton-btn--light"
+              onClick={form.submit}
+              disabled={form.isLoading}
+            >
+              {form.isLoading ? 'Отправка…' : 'Получить консультацию'}
             </button>
             <div className="easton-consult__policy">{consult.policy}</div>
           </>

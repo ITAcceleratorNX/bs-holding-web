@@ -1551,6 +1551,33 @@ input:focus {
   color: #c0392b;
 }
 
+/* Поле-ловушка для ботов. Убрано за пределы экрана, а не спрятано через
+   display:none — часть ботов пропускает поля, скрытые этим свойством. */
+.lead-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Текст политики под кнопкой отправки. Он же — фиксация согласия на
+   обработку персональных данных по факту отправки формы. */
+.lead-policy {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+/* Запасная ссылка в WhatsApp, если браузер заблокировал новую вкладку. */
+.lead-whatsapp-fallback {
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 /* Hero */
 .hero {
   display: flex;
