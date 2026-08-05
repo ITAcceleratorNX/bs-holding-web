@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AREA_STEP, ROOM_OPTIONS, getRoomOption } from '../data/calculator';
-import { computeInstallment } from '../utils/installment';
-import { fmt, formatKzPhone, kzPhoneE164, kzPhoneOk, nameOk } from '../utils/format';
+import { allowedTermRange, computeInstallment } from '../utils/installment';
+import { clampNumber, fmt, formatKzPhone, kzPhoneE164, kzPhoneOk, nameOk } from '../utils/format';
 import { LEAD_SOURCES, submitLead } from '../utils/leads';
 
 const tenge = (n) => `${fmt(n)} ₸`;
@@ -9,26 +9,6 @@ const tenge = (n) => `${fmt(n)} ₸`;
 const tengeRange = (r) => (r.min === r.max ? tenge(r.min) : `${fmt(r.min)} – ${fmt(r.max)} ₸`);
 /** Значение может быть числом (точный расчёт) или диапазоном (расчёт «от–до»). */
 const value = (v) => (v == null ? '—' : typeof v === 'number' ? tenge(v) : tengeRange(v));
-
-/**
- * Начальный срок — максимальный из доступных, чтобы калькулятор открывался
- * с реалистичным платежом. Для расчёта диапазоном срок дополнительно
- * ограничивается правилом минимального платежа, иначе поле стартовало бы
- * с ошибкой (ТЗ 5.4).
- * @param {object} config
- * @returns {number}
- */
-function defaultMonths(config) {
-  if (config.kind !== 'range') return config.term.max;
-  const probe = computeInstallment({
-    config,
-    roomId: ROOM_OPTIONS[0].id,
-    area: ROOM_OPTIONS[0].areaMin,
-    paymentId: config.payments[0].id,
-    months: config.term.max,
-  });
-  return probe?.maxAllowedMonths ?? config.term.min;
-}
 
 function OptionGroup({ label, options, current, onSelect, name }) {
   return (
@@ -123,13 +103,21 @@ function ResultRows({ result }) {
 /**
  * Калькулятор рассрочки с условиями выбранного города.
  * Тарифы и формулы приходят извне: data/calculator.js и utils/installment.js.
+ *
+ * Город выбирается внутри калькулятора (`cityOptions` + `cityId`), выбор города
+ * в шапке сайта при этом не меняется — им управляет родительский компонент.
  */
-export default function InstallmentCalculator({ config, lang, projectName }) {
+export default function InstallmentCalculator({ config, lang, projectName, cityOptions, cityId, onCityChange }) {
   const [blockId, setBlockId] = useState(() => config.blocks?.[0]?.id ?? null);
   const [roomId, setRoomId] = useState(ROOM_OPTIONS[0].id);
   const [area, setArea] = useState(ROOM_OPTIONS[0].areaMin);
   const [paymentId, setPaymentId] = useState(() => config.payments[0].id);
-  const [months, setMonths] = useState(() => defaultMonths(config));
+  /**
+   * Хранится «желаемый» срок: к допустимому диапазону он приводится ниже.
+   * Калькулятор открывается на максимальном сроке города — так виден
+   * минимальный платёж.
+   */
+  const [months, setMonths] = useState(() => config.term.max);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [consent, setConsent] = useState(false);
@@ -148,7 +136,7 @@ export default function InstallmentCalculator({ config, lang, projectName }) {
     configRef.current = config;
     setBlockId(config.blocks?.[0]?.id ?? null);
     setPaymentId(config.payments[0].id);
-    setMonths(defaultMonths(config));
+    setMonths(config.term.max);
     setSubmittedResult(null);
     setFormState('idle');
     setFieldErrors({});
@@ -165,9 +153,21 @@ export default function InstallmentCalculator({ config, lang, projectName }) {
     setSubmittedResult(null);
   };
 
+  /**
+   * Срок доступен только в допустимом диапазоне: границы города, а для
+   * Усть-Каменогорска — ещё и правило минимального платежа (ТЗ 5.4).
+   * Ползунок не даёт выйти за них, а сохранённый срок приводится к диапазону
+   * при смене остальных параметров.
+   */
+  const termRange = useMemo(
+    () => allowedTermRange({ config, roomId, area, paymentId }),
+    [config, roomId, area, paymentId],
+  );
+  const safeMonths = clampNumber(months, termRange.min, termRange.max);
+
   const result = useMemo(
-    () => computeInstallment({ config, blockId, roomId, area, paymentId, months }),
-    [config, blockId, roomId, area, paymentId, months],
+    () => computeInstallment({ config, blockId, roomId, area, paymentId, months: safeMonths }),
+    [config, blockId, roomId, area, paymentId, safeMonths],
   );
 
   const payment = result?.payment ?? config.payments[0];
@@ -231,14 +231,29 @@ export default function InstallmentCalculator({ config, lang, projectName }) {
         sub: `${result.months} мес. · первоначальный взнос ${payment.downPercent}%`,
       };
 
+  // Верхняя граница ниже городской — из-за минимального платежа. Об этом нужно
+  // сказать явно, иначе «недоступный» участок ползунка выглядит ошибкой (ТЗ 7).
   const termHint =
-    config.minMonthlyPayment && result.maxAllowedMonths
-      ? `При текущих параметрах доступен срок до ${result.maxAllowedMonths} мес.`
+    config.minMonthlyPayment && termRange.max < config.term.max
+      ? `Минимальный ежемесячный платёж — ${tenge(config.minMonthlyPayment)}, поэтому при текущих параметрах доступен срок до ${termRange.max} мес. из ${config.term.max}.`
       : null;
 
   return (
     <div className="calc-panel calc-geo">
       <div className="calc-panel__form">
+        {cityOptions?.length > 1 && (
+          <OptionGroup
+            name="calc-city"
+            label="Город"
+            options={cityOptions}
+            current={cityId}
+            onSelect={(id) => {
+              if (id === cityId) return;
+              onCityChange?.(id);
+            }}
+          />
+        )}
+
         {config.blocks && (
           <OptionGroup
             name="calc-block"
@@ -292,14 +307,14 @@ export default function InstallmentCalculator({ config, lang, projectName }) {
             id="calc-term"
             label="Срок рассрочки"
             valueText={`${result.months} мес.`}
-            min={config.term.min}
-            max={config.term.max}
+            min={termRange.min}
+            max={termRange.max}
             current={result.months}
             onChange={(v) => {
-              setMonths(v);
+              setMonths(clampNumber(v, termRange.min, termRange.max));
               resetResult();
             }}
-            boundsText={[`${config.term.min} мес.`, `${config.term.max} мес.`]}
+            boundsText={[`${termRange.min} мес.`, `${termRange.max} мес.`]}
             hint={termHint}
             error={result.error?.field === 'months' ? result.error.message : null}
           />

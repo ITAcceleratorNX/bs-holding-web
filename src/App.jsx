@@ -43,7 +43,6 @@ export default function App() {
   const [down, setDown] = useState(7500000);
   const [termY, setTermY] = useState(15);
   const [rate, setRate] = useState(7.5);
-  const [termM, setTermM] = useState(12);
   const [leadName, setLeadName] = useState('');
   const [leadPhone, setLeadPhone] = useState('');
   const [leadState, setLeadState] = useState('idle');
@@ -251,8 +250,6 @@ export default function App() {
           setTermY={setTermY}
           rate={rate}
           setRate={setRate}
-          termM={termM}
-          setTermM={setTermM}
           leadName={leadName}
           setLeadName={setLeadName}
           leadPhone={leadPhone}

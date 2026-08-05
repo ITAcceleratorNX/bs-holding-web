@@ -7,6 +7,21 @@ export function onlyDigits(v) {
   return Number(String(v).replace(/\D/g, '')) || 0;
 }
 
+/**
+ * Число, приведённое к границам поля. Ручной ввод не должен давать значение
+ * вне допустимого диапазона (стоимость, взнос, срок, ставка).
+ * @param {unknown} value
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+export function clampNumber(value, min, max) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return min;
+  if (max < min) return min;
+  return Math.min(max, Math.max(min, n));
+}
+
 export function phoneOk(p) {
   return String(p).replace(/\D/g, '').length >= 10;
 }
@@ -93,31 +108,21 @@ export function filterProjects(projects, filter) {
   });
 }
 
-export function computeCalc({ price, down, termY, rate, termM, calcMode }) {
-  const isIp = calcMode === 'Ипотека';
+/**
+ * Ипотечный расчёт: аннуитетный платёж по стоимости, взносу, сроку и ставке.
+ * Рассрочка считается отдельно — по условиям города (utils/installment.js).
+ */
+export function computeCalc({ price, down, termY, rate }) {
   const loan = Math.max(price - down, 0);
+  const r = rate / 100 / 12;
+  const n = termY * 12;
+  const monthly = r > 0 ? (loan * r) / (1 - Math.pow(1 + r, -n)) : loan / n;
 
-  if (isIp) {
-    const r = rate / 100 / 12;
-    const n = termY * 12;
-    const monthly = r > 0 ? (loan * r) / (1 - Math.pow(1 + r, -n)) : loan / n;
-    return {
-      isIp,
-      mainLabel: 'Ежемесячный платёж',
-      mainValue: `${fmt(monthly)} ₸`,
-      mainSub: 'На весь срок ипотеки',
-      statValue: `${rate}%`,
-      statLabel: 'Ставка вознаграждения (диапазон 18.5–22.5%)',
-    };
-  }
-
-  const monthly = termM > 0 ? loan / termM : 0;
   return {
-    isIp,
     mainLabel: 'Ежемесячный платёж',
     mainValue: `${fmt(monthly)} ₸`,
-    mainSub: 'До срока сдачи объекта',
-    statValue: `${fmt(loan)} ₸`,
-    statLabel: 'Остаток после первоначального взноса',
+    mainSub: 'На весь срок ипотеки',
+    statValue: `${rate}%`,
+    statLabel: 'Ставка вознаграждения (диапазон 18.5–22.5%)',
   };
 }

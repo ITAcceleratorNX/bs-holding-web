@@ -1,8 +1,17 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CITY_CALCULATORS, ROOM_OPTIONS, getRoomOption } from '../data/calculator.js';
 import {
+  CITY_CALCULATORS,
+  DEFAULT_INSTALLMENT_CITY,
+  INSTALLMENT_CITIES,
+  INSTALLMENT_CITY_OPTIONS,
+  ROOM_OPTIONS,
+  getInstallmentConfig,
+  getRoomOption,
+} from '../data/calculator.js';
+import {
+  allowedTermRange,
   clampAreaToRoom,
   clampMonths,
   computeInstallment,
@@ -73,6 +82,71 @@ describe('срок рассрочки', () => {
   it('границы городов соответствуют ТЗ', () => {
     assert.deepEqual(AKTOBE.term, { min: 1, max: 13 });
     assert.deepEqual(OSKEMEN.term, { min: 1, max: 23 });
+  });
+});
+
+describe('допустимый диапазон срока для ползунка', () => {
+  it('Актобе — границы города без дополнительных ограничений', () => {
+    for (const paymentId of ['30', '50', '100']) {
+      assert.deepEqual(
+        allowedTermRange({ config: AKTOBE, roomId: '1', area: 40, paymentId }),
+        { min: 1, max: 13 },
+      );
+    }
+  });
+
+  it('Усть-Каменогорск — верх ограничен минимальным платежом', () => {
+    // Наименьшая рассрочка: минимальная площадь и максимальный взнос.
+    const tight = allowedTermRange({ config: OSKEMEN, roomId: '1', area: 40, paymentId: '70' });
+    assert.equal(tight.min, 1);
+    assert.ok(tight.max < OSKEMEN.term.max, 'срок обрезан правилом 500 000 ₸');
+
+    // Крупная квартира с минимальным взносом укладывается в полный срок.
+    const wide = allowedTermRange({ config: OSKEMEN, roomId: '4', area: 140, paymentId: '30' });
+    assert.deepEqual(wide, { min: 1, max: 23 });
+  });
+
+  it('на границе диапазона платёж не опускается ниже порога', () => {
+    const params = { config: OSKEMEN, roomId: '1', area: 40, paymentId: '70' };
+    const { max } = allowedTermRange(params);
+
+    const atMax = computeInstallment({ ...params, months: max });
+    assert.ok(atMax.monthly.min >= OSKEMEN.minMonthlyPayment);
+    assert.equal(atMax.canSubmit, true);
+
+    // Следующий месяц ползунку уже недоступен — и он действительно нарушал бы порог.
+    const overMax = computeInstallment({ ...params, months: max + 1 });
+    assert.ok(overMax.monthly.min < OSKEMEN.minMonthlyPayment);
+  });
+
+  it('диапазон не зависит от текущего срока', () => {
+    const params = { config: OSKEMEN, roomId: '2', area: 70, paymentId: '50' };
+    assert.deepEqual(allowedTermRange(params), allowedTermRange(params));
+    assert.ok(allowedTermRange(params).max >= 1);
+  });
+});
+
+describe('выбор города внутри калькулятора', () => {
+  it('переключатель содержит оба города с условиями рассрочки', () => {
+    assert.deepEqual(INSTALLMENT_CITY_OPTIONS.map((o) => o.id), ['Актобе', 'Усть-Каменогорск']);
+    assert.deepEqual(INSTALLMENT_CITIES.map((c) => c.city), ['Актобе', 'Усть-Каменогорск']);
+  });
+
+  it('город без условий рассрочки откатывается к городу по умолчанию', () => {
+    assert.equal(getInstallmentConfig('Актау').city, DEFAULT_INSTALLMENT_CITY);
+    assert.equal(getInstallmentConfig(undefined).city, DEFAULT_INSTALLMENT_CITY);
+    assert.equal(getInstallmentConfig('Усть-Каменогорск').city, 'Усть-Каменогорск');
+  });
+
+  it('у каждого города свои условия и формулы', () => {
+    assert.equal(AKTOBE.kind, 'exact');
+    assert.ok(AKTOBE.blocks.length === 2, 'для Актобе выбирается блок 1/2');
+    assert.deepEqual(AKTOBE.payments.map((p) => p.id), ['30', '50', '100']);
+
+    assert.equal(OSKEMEN.kind, 'range');
+    assert.equal(OSKEMEN.blocks, undefined, 'для Усть-Каменогорска блок не выбирается');
+    assert.deepEqual(OSKEMEN.payments.map((p) => p.id), ['30', '50', '70']);
+    assert.equal(OSKEMEN.minMonthlyPayment, 500000);
   });
 });
 

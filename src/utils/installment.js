@@ -197,3 +197,28 @@ export function computeInstallment({ config, blockId, roomId, area, paymentId, m
     ? computeExact({ config, blockId, roomId, area: safeArea, paymentId, months })
     : computeRange({ config, roomId, area: safeArea, paymentId, months });
 }
+
+/**
+ * Диапазон срока, доступный ползунку при текущих параметрах.
+ *
+ * Для Актобе это границы города (1–13 мес.). Для Усть-Каменогорска верхняя
+ * граница дополнительно ограничена правилом минимального платежа (ТЗ 5.4):
+ * ползунок физически не даёт выбрать срок, при котором платёж опустился бы
+ * ниже 500 000 ₸. Значение не зависит от текущего срока — надбавка и сумма
+ * рассрочки считаются до деления на месяцы.
+ *
+ * @param {object} params
+ * @param {object} params.config
+ * @param {string} params.roomId
+ * @param {number} params.area
+ * @param {string} params.paymentId
+ * @returns {{ min: number, max: number }}
+ */
+export function allowedTermRange({ config, roomId, area, paymentId }) {
+  const { min, max } = config.term;
+  if (!config.minMonthlyPayment) return { min, max };
+
+  const probe = computeInstallment({ config, roomId, area, paymentId, months: min });
+  const allowed = probe?.maxAllowedMonths ?? max;
+  return { min, max: Math.min(max, Math.max(min, allowed)) };
+}

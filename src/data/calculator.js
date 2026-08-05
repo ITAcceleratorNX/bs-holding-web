@@ -105,9 +105,34 @@ export const CITY_CALCULATORS = {
 };
 
 /**
+ * Города с утверждёнными условиями рассрочки. Порядок задаёт порядок кнопок
+ * в переключателе города внутри калькулятора.
+ */
+export const INSTALLMENT_CITIES = Object.values(CITY_CALCULATORS);
+
+/** Опции для переключателя города внутри калькулятора. */
+export const INSTALLMENT_CITY_OPTIONS = INSTALLMENT_CITIES.map((c) => ({ id: c.city, label: c.city }));
+
+/**
+ * Город калькулятора по умолчанию — используется, когда в шапке выбран город
+ * без утверждённых условий рассрочки (например, Актау).
+ */
+export const DEFAULT_INSTALLMENT_CITY = INSTALLMENT_CITIES[0].city;
+
+/**
  * @param {string} city
  * @returns {typeof CITY_CALCULATORS[keyof typeof CITY_CALCULATORS] | null}
  */
 export function getCityCalculator(city) {
   return CITY_CALCULATORS[city] ?? null;
+}
+
+/**
+ * Конфигурация рассрочки с гарантированным результатом: неизвестный город
+ * заменяется городом по умолчанию, чтобы вкладка «Рассрочка» работала всегда.
+ * @param {string} city
+ * @returns {typeof CITY_CALCULATORS[keyof typeof CITY_CALCULATORS]}
+ */
+export function getInstallmentConfig(city) {
+  return getCityCalculator(city) ?? CITY_CALCULATORS[DEFAULT_INSTALLMENT_CITY];
 }

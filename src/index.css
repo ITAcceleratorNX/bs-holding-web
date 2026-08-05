@@ -4441,6 +4441,11 @@ input:focus {
   margin: -8px 0 24px;
 }
 
+/* Подпись под переключателем «Ипотека / Рассрочка» — ближе к вкладкам. */
+.calc-modes + .calculator__subtitle {
+  margin-top: -16px;
+}
+
 .calc-geo__group {
   gap: 10px;
 }
