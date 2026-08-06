@@ -69,6 +69,13 @@ export const LEAD_FORM_PRESETS = {
     successTitle: 'Спасибо! Заявка принята.',
     successText: 'Открываем WhatsApp — менеджер отправит презентацию в переписке.',
   },
+  easton_quiz_landing_presentation: {
+    title: 'Скачать презентацию',
+    subtitle: () => 'Оставьте контакты — откроется WhatsApp, менеджер отправит презентацию Easton.',
+    submitLabel: 'Скачать презентацию',
+    successTitle: 'Спасибо! Заявка принята.',
+    successText: 'Открываем WhatsApp — менеджер отправит презентацию в переписке.',
+  },
 };
 
 /**

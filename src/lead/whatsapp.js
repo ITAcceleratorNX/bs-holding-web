@@ -19,7 +19,10 @@ import { getFormMeta } from './formCodes';
  * @returns {string}
  */
 export function buildWhatsappMessage({ formCode, project, city }) {
-  const topic = getFormMeta(formCode)?.title ?? 'Заявка с сайта';
+  const meta = getFormMeta(formCode);
+  if (meta?.whatsappMessage) return meta.whatsappMessage;
+
+  const topic = meta?.title ?? 'Заявка с сайта';
   const parts = [`Здравствуйте! Тема обращения: ${topic}.`];
   if (project) parts.push(`ЖК: ${project}.`);
   if (city) parts.push(`Город: ${city}.`);

@@ -14,6 +14,7 @@
  * @property {string} title Название формы для темы лида и карточки в CRM.
  * @property {'general'|'project'} scope Общая форма сайта или форма страницы ЖК.
  * @property {boolean} [whatsapp] После создания лида открывается WhatsApp (ТЗ 7).
+ * @property {string} [whatsappMessage] Фиксированный текст первого сообщения вместо сгенерированного.
  */
 
 /** @type {Record<string, FormMeta>} */
@@ -31,6 +32,12 @@ export const FORM_CODES = {
   presentation_download: { title: 'Получение презентации', scope: 'project', whatsapp: true },
   zhk_consultation: { title: 'Консультация по ЖК', scope: 'project' },
   zhk_final_consultation: { title: 'Консультация — нижняя форма', scope: 'project' },
+  easton_quiz_landing_presentation: {
+    title: 'Квиз-лендинг Easton — презентация',
+    scope: 'project',
+    whatsapp: true,
+    whatsappMessage: 'Здравствуйте! Хочу получить презентацию ЖК Easton.',
+  },
 };
 
 /**

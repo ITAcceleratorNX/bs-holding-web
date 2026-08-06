@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import CallPopup from './components/CallPopup';
 import ProjectPage from './pages/ProjectPage';
 import AboutPage from './pages/AboutPage';
+import EastonQuizLandingPage from './pages/EastonQuizLandingPage';
 import { DEFAULT_FILTER, PROJECTS } from './data/projects';
 import { getProjectPage, projectHash } from './data/projectPages';
 import { filterProjects } from './utils/format';
@@ -22,6 +23,9 @@ function getRoute() {
   const slug = hash.split(/[/?#]/)[0]?.toLowerCase();
   if (slug === 'about' || slug === 'o-kompanii') {
     return { type: 'about' };
+  }
+  if (slug === 'easton-quiz') {
+    return { type: 'easton-quiz' };
   }
   if (slug && getProjectPage(slug)) {
     return { type: 'project', slug };
@@ -46,6 +50,17 @@ export default function App() {
 
   useEffect(() => {
     const onHash = () => {
+      // Якорь на текущей странице (пункт меню ЖК-страницы вида #easton-location)
+      // не должен переключать маршрут на главную — только прокручивать к блоку.
+      // Настоящие маршруты всегда идут с ведущим слэшем (#/slug), поэтому конфликта
+      // с якорями секций (id вида "<slug>-location") не возникает.
+      const rawSlug = window.location.hash.replace(/^#\/?/, '').split(/[/?#]/)[0];
+      const anchorTarget = rawSlug && document.getElementById(rawSlug);
+      if (anchorTarget) {
+        anchorTarget.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
       const next = getRoute();
       setRoute(next);
       window.scrollTo(0, 0);
@@ -135,6 +150,15 @@ export default function App() {
           onOpenCall={openCall}
           onNavigateProject={goProject}
         />
+        {callPopup}
+      </>
+    );
+  }
+
+  if (route.type === 'easton-quiz') {
+    return (
+      <>
+        <EastonQuizLandingPage onBack={goHome} onOpenCall={openCall} onNavigateProject={goProject} />
         {callPopup}
       </>
     );
