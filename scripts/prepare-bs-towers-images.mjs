@@ -52,6 +52,9 @@ const SLOTS = [
   { name: 'yard-sport', w: 900, h: 1010 },
   { name: 'yard-lounge', w: 900, h: 1010 },
   { name: 'apartments', w: 2400, h: 1280 },
+  // Карточка ЖК в каталоге на главной. Лежит рядом с карточками других
+  // проектов (`public/images/project-*.webp`), а не в папке BS Towers.
+  { name: 'project-bs-towers', out: join(ROOT, 'public/images'), w: 1264, h: 960, from: ['card', 'main'] },
   // Планировки: имя файла = блок, комнатность и площадь с самого листа,
   // чтобы файл нельзя было перепутать (`plan-7r` — это 4 комнаты, а не 7).
   { name: 'plans/b2-1r-54', from: ['plan-4r'], plan: true },
@@ -189,7 +192,7 @@ for (const slot of SLOTS) {
     missing.push(slot.name);
     continue;
   }
-  const out = join(OUT, `${slot.name}.webp`);
+  const out = join(slot.out ?? OUT, `${slot.name}.webp`);
   const { w: sw, h: sh } = size(src);
 
   if (slot.plan) {

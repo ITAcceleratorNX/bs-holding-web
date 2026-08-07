@@ -103,7 +103,7 @@ export const PROJECTS = [
     // Срок сдачи и цена не предоставлены — поля намеренно отсутствуют.
     rooms: [1, 2, 3, 4],
     floors: 18,
-    image: '/images/bs-towers/card.svg',
+    image: '/images/project-bs-towers.webp',
     meta: ['Актау', '40-й микрорайон', 'Парк Первого Президента'],
     href: '#/bs-towers',
   },
