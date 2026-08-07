@@ -101,7 +101,8 @@ export const EASTON = {
       { image: '/images/easton/hall-2.webp' },
       { image: '/images/easton/hall-3.webp' },
       { image: '/images/easton/hall-4.webp' },
-      { image: '/images/easton/hall-5.webp' },
+      /* Четвёртая карточка стоит над подписью «Бесшумные лифты Xizi Gots» (правка 7). */
+      { image: '/images/easton/hall-lift.webp' },
     ],
     features: [
       'Дизайнерские входные группы',
@@ -144,6 +145,7 @@ export const EASTON = {
         name: '1-комнатная · Блок 3',
         rooms: '1 комната',
         area: '46,21 м²',
+        price: 'от 23 236 350 ₸',
         image: '/images/easton/plans/block3-1r-46.png',
         meta: ['Блок 3'],
       },
@@ -152,6 +154,9 @@ export const EASTON = {
         name: '2-комнатная · Блок 1',
         rooms: '2 комнаты',
         area: '72,65 м²',
+        // ОЦЕНКА, не подтверждённая прайсом: интерполяция ₸/м² между 1- и 3-комнатными.
+        // Заменить на фактическую цену до публикации.
+        price: 'от 30 700 000 ₸',
         image: '/images/easton/plans/block1-2r-70.png',
         meta: ['Блок 1'],
       },
@@ -160,6 +165,8 @@ export const EASTON = {
         name: '2-комнатная',
         rooms: '2 комнаты',
         area: '72,65 м²',
+        // ОЦЕНКА — см. комментарий у «2-комнатная · Блок 1».
+        price: 'от 30 700 000 ₸',
         image: '/images/easton/plans/2r-72.png',
       },
       {
@@ -167,6 +174,8 @@ export const EASTON = {
         name: '2-комнатная · Блок 2',
         rooms: '2 комнаты',
         area: '74,06 м²',
+        // ОЦЕНКА — см. комментарий у «2-комнатная · Блок 1».
+        price: 'от 30 700 000 ₸',
         image: '/images/easton/plans/block2-2r-74.png',
         meta: ['Блок 2'],
       },
@@ -175,6 +184,8 @@ export const EASTON = {
         name: '2-комнатная · Блок 3',
         rooms: '2 комнаты',
         area: '70,08 м²',
+        // ОЦЕНКА — см. комментарий у «2-комнатная · Блок 1».
+        price: 'от 30 700 000 ₸',
         image: '/images/easton/plans/block3-2r-70.png',
         meta: ['Блок 3'],
       },
@@ -192,6 +203,7 @@ export const EASTON = {
         name: '3-комнатная · Блок 3',
         rooms: '3 комнаты',
         area: '102,50 м²',
+        price: 'от 35 235 250 ₸',
         image: '/images/easton/plans/block3-3r-102.png',
         meta: ['Блок 3'],
       },
@@ -209,6 +221,7 @@ export const EASTON = {
         name: '4-комнатная · Блок 3',
         rooms: '4 комнаты',
         area: '130 м²',
+        price: 'от 73 192 000 ₸',
         image: '/images/easton/plans/block3-4r-130.png',
         meta: ['Блок 3'],
       },

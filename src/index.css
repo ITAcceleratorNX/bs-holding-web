@@ -1251,6 +1251,8 @@ input:focus {
   display: flex;
   gap: 48px;
   margin-bottom: 48px;
+  /* Колонки не растягиваются под самую высокую: текст больше не тянет пустоту (правка 9). */
+  align-items: flex-start;
 }
 
 .easton-hall__text,
@@ -1263,16 +1265,18 @@ input:focus {
   margin-top: 24px;
 }
 
+/* Портретный рендер: ширину колонки ограничиваем, иначе при height:auto
+   картинка вырастает до 1400px и рядом с текстом появляется пустота. */
 .easton-hall__image {
+  flex: 0 0 420px;
   border-radius: 16px;
   overflow: hidden;
-  height: 718px;
 }
 
+/* Без фиксированной высоты и cover: надпись EASTON на рендере не срезается (правка 6). */
 .easton-hall__image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
 }
 
@@ -1295,14 +1299,16 @@ input:focus {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  height: 615px;
   margin-bottom: 40px;
 }
 
+/* Кадр кадрируем от верха: рука и замок видны целиком, срезается только
+   пустой низ двери — раньше обрезалась именно рука (правка 8). */
 .easton-apartments__image img {
   width: 100%;
-  height: 100%;
+  height: 700px;
   object-fit: cover;
+  object-position: center top;
   display: block;
 }
 
@@ -1354,9 +1360,10 @@ input:focus {
   justify-content: center;
 }
 
+/* Тонкое начертание — как у примечания под ним (правка 14). */
 .easton-parking__point {
   font-size: 21px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1.35;
 }
 
@@ -3465,12 +3472,25 @@ input:focus {
 
   .easton-arch__image,
   .easton-playground__image,
-  .easton-apartments__image,
   .easton-boxroom__image {
     height: 220px;
     border-radius: 12px;
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+
+  /* Узкий экран: кадрирование по высоте срезало бы руку по бокам — показываем
+     фото целиком по своей пропорции (правка 8). */
+  .easton-apartments__image {
+    height: auto;
+    border-radius: 12px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .easton-apartments__image img {
+    height: auto;
+    object-fit: fill;
   }
 
   /* Последняя картинка в секции: её нижний margin складывался с padding секции
@@ -3522,8 +3542,10 @@ input:focus {
     margin-bottom: 28px;
   }
 
+  /* На мобильном тоже без фиксированной высоты — иначе рендер снова режется. */
   .easton-hall__image {
-    height: 220px;
+    flex: none;
+    height: auto;
     border-radius: 12px;
     margin-top: 20px;
   }
