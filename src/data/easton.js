@@ -24,7 +24,8 @@ export const EASTON = {
   },
   about: {
     label: 'О жилом комплексе',
-    text: 'Easton - первый проект компании BS Holding в городе Усть-Каменогорск. Новый символ современного города, в котором соединяются архитектура, комфорт и стиль жизни.',
+    title: 'Easton – первый жилой комплекс BS Holding в Усть-Каменогорске',
+    text: 'Бизнес-класс с панорамными окнами, потолками 3,2 метра, собственным фитнес-залом и детской комнатой.',
     stats: [
       { icon: '/images/easton/icon-key.svg', text: 'Срок сдачи: 2027 год' },
       { icon: '/images/easton/icon-building.svg', text: 'Всего 208 квартир в I очереди' },
@@ -32,18 +33,18 @@ export const EASTON = {
   },
   standards: {
     label: 'Easton',
-    title: 'Созданный по стандартам BS, комплекс объединяет:',
+    title: 'Easton объединяет всё, что важно для комфортной жизни',
     text: 'Easton символизирует новый этап городской среды - пространство, где комфорт, эстетика и надёжность формируют современное лицо Усть-Каменогорска.',
     cards: [
       { image: '/images/easton/features-main.webp', title: 'Современный архитектурный дизайн', tall: true },
-      { image: '/images/easton/features-top.webp', title: 'Продуманную инфраструктуру' },
+      { image: '/images/easton/features-top.webp', title: 'Продуманная инфраструктура' },
       { image: '/images/easton/features-bottom.webp', title: 'Высокое качество строительства' },
     ],
   },
   location: {
     id: 'easton-location',
     label: 'Локация',
-    title: 'Пересечение улиц Есенберлина\nи Сәтпаева - новое сердце города',
+    title: 'Пересечение улиц Есенберлина\nи Сатпаева - новое сердце города',
     cards: [
       { image: '/images/easton/location-sport.webp', title: 'Спорткомплекс', icon: '/images/easton/icon-building.svg' },
       { image: '/images/easton/location-theatre.webp', title: 'Театр', icon: '/images/easton/icon-theatre.webp' },
@@ -52,6 +53,7 @@ export const EASTON = {
     notes: [
       'Инфраструктура тщательно продумана: в шаговой доступности всё необходимое для жизни, отдыха и развития.',
       'Благоустроенные улицы, транспортная доступность и продуманные пешеходные маршруты обеспечивают комфорт и безопасность передвижения.',
+      'Рядом — школа, спорткомплекс, остановка общественного транспорта и больница.',
     ],
   },
   architecture: {
@@ -83,7 +85,7 @@ export const EASTON = {
       { image: '/images/easton/kids-1.webp', title: 'Безопасные\nматериалы' },
       { image: '/images/easton/kids-2.webp', title: 'Зона активных\nигр' },
       { image: '/images/easton/kids-3.webp', title: 'Место для творчества\nи отдыха' },
-      { image: '/images/easton/kids-4.webp' },
+      { image: '/images/easton/kids-4.webp', title: 'Kids Room' },
     ],
     roomLabel: 'Kids Room',
     roomTitle: 'Kids Room Easton - уютное и тёплое пространство для детей',

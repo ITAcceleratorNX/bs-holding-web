@@ -35,6 +35,24 @@ input:focus {
   outline: none;
 }
 
+/*
+ * Скрытый номер — кнопка, открывающая форму показа номера. Правило стоит в
+ * базовой части: оформление номера задают классы точек показа
+ * (.site-header__phone, .easton-header__phone, .contacts-item__title),
+ * и они должны выигрывать у этого сброса по порядку в каскаде.
+ */
+.phone-reveal-trigger {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
 ::placeholder {
   color: rgba(0, 0, 0, 0.4);
 }
@@ -2496,6 +2514,14 @@ input:focus {
   font-family: inherit;
 }
 
+/* Открытый номер отдела продаж в форме показа номера. */
+.phone-reveal__number {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0D403B;
+  white-space: nowrap;
+}
+
 /* ========== Responsive: tablet ========== */
 @media (max-width: 1100px) {
   .hero {
@@ -3136,6 +3162,10 @@ input:focus {
     font-size: 22px;
   }
 
+  .phone-reveal__number {
+    font-size: 26px;
+  }
+
   .call-popup__close {
     top: 12px;
     right: 8px;
@@ -3293,7 +3323,9 @@ input:focus {
   }
 
   .easton-about__stats {
-    gap: 28px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 16px;
     margin-top: 36px;
   }
 
@@ -3303,11 +3335,19 @@ input:focus {
   }
 
   .easton-about__stat {
-    max-width: 280px;
+    max-width: none;
+    flex: 1;
+    min-width: 0;
+    gap: 10px;
+  }
+
+  .easton-about__stat img {
+    width: 36px;
+    height: 36px;
   }
 
   .easton-about__stat span {
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
   }
 
@@ -3337,8 +3377,25 @@ input:focus {
     gap: 20px;
   }
 
+  /* flex-basis: 220px в .easton-arch__points был расчитан на строчный wrap;
+     в колоночном режиме на мобильном он трактуется как высота и раздувает
+     короткие абзацы пустым местом — сбрасываем его здесь. */
+  .easton-arch__points p {
+    flex: none;
+  }
+
   .easton-split--top {
     margin-bottom: 24px;
+  }
+
+  /* В колонке gap уже разделяет заголовок и текст — margin-top сверху давал разрыв в 48px. */
+  .easton-split .easton-body {
+    margin-top: 0;
+  }
+
+  /* Подписи под картинкой набираем тонким начертанием, как замыкающий абзац. */
+  .easton-parking__point {
+    font-weight: 500;
   }
 
   .easton-standards-grid {
@@ -3416,6 +3473,14 @@ input:focus {
     margin-bottom: 20px;
   }
 
+  /* Последняя картинка в секции: её нижний margin складывался с padding секции
+     и давал разрыв под 100px перед следующим блоком. */
+  .easton-playground__image:last-child,
+  .easton-apartments__image:last-child,
+  .easton-boxroom__image:last-child {
+    margin-bottom: 0;
+  }
+
   .easton-arch__gallery {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -3447,9 +3512,10 @@ input:focus {
     height: 180px;
   }
 
+  /* На мобильном текст Kids Room идёт сразу под заголовком блока,
+     а дублирующая мелкая подпись слева не нужна. */
   .easton-kids__room-label {
-    min-width: 0;
-    padding-top: 0;
+    display: none;
   }
 
   .easton-hall {
@@ -3493,14 +3559,19 @@ input:focus {
 
   .easton-yard {
     height: 480px;
+    display: flex;
+    align-items: flex-end;
   }
 
+  /* `position: relative` + `bottom` сдвигал текст ВВЕРХ за пределы секции.
+     Прижимаем блок к нижнему краю флексом и задаём отступы от краёв. */
   .easton-yard__content {
     top: auto;
-    bottom: 36px;
+    bottom: auto;
     transform: none;
-    padding: 0 16px;
+    padding: 0 16px 36px;
     max-width: 100%;
+    width: 100%;
   }
 
   .easton-yard__content h2 {
@@ -3778,6 +3849,29 @@ input:focus {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.wh-plan-card__cta {
+  margin-top: auto;
+}
+
+.wh-plans-show-more {
+  display: block;
+  margin: 20px auto 0;
+  padding: 14px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.wh-plans-show-more:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
 .wh-plan-card__name {

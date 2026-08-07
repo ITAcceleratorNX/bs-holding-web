@@ -20,6 +20,13 @@ export const CONSENT_POLICY =
 
 /** @type {Record<string, LeadFormPreset>} */
 export const LEAD_FORM_PRESETS = {
+  sales_phone_reveal: {
+    title: 'Получить номер отдела продаж',
+    subtitle: () => 'Оставьте свой номер — покажем прямой номер отдела продаж.',
+    submitLabel: 'Показать номер',
+    successTitle: 'Номер отдела продаж',
+    successText: 'Звоните ежедневно с 09:00 до 18:00 — менеджер ответит на вопросы по квартирам и оплате.',
+  },
   zhk_hero_application: {
     title: 'Оставить заявку',
     subtitle: (project) => `Оставьте контакты — менеджер расскажет об актуальных квартирах и ценах ${project}.`,

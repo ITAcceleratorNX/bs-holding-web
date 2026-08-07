@@ -167,8 +167,10 @@ export function normalizeLead(raw) {
   const meta = getFormMeta(formCode);
   if (!meta) errors.formCode = 'Неизвестный код формы';
 
+  // Часть форм имя не спрашивает (показ номера отдела продаж) — там пустое
+  // поле не ошибка. Решает реестр форм, а не присланная заявка.
   const name = text(input.name, LIMITS.name.max);
-  if (name.length < LIMITS.name.min) errors.name = 'Укажите имя';
+  if (meta?.requiresName !== false && name.length < LIMITS.name.min) errors.name = 'Укажите имя';
 
   const rawPhone = text(input.phone, 40);
   if (!kzPhoneOk(rawPhone)) errors.phone = 'Укажите номер в формате +7 (7XX) XXX-XX-XX';

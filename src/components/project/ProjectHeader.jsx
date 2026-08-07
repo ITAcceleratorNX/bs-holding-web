@@ -54,6 +54,7 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
             <PhoneLink
               href={data.phoneHref}
               city={data.city}
+              project={data.name}
               ctaLocation="Шапка страницы ЖК"
               className="easton-header__phone"
             >
@@ -86,6 +87,7 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
           <PhoneLink
             href={data.phoneHref}
             city={data.city}
+            project={data.name}
             ctaLocation="Мобильное меню страницы ЖК"
             className="easton-header__drawer-phone"
             onClick={closeMobile}

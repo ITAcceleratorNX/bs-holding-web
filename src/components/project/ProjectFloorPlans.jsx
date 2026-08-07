@@ -24,11 +24,30 @@ function itemMatchesFilters(item, block, floor) {
   return true;
 }
 
+/** Мобильный брейкпоинт, при котором список планировок сворачивается до 4 карточек. */
+const MOBILE_QUERY = '(max-width: 768px)';
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches,
+  );
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const onChange = () => setIsMobile(mql.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+  return isMobile;
+}
+
 export default function ProjectFloorPlans({ data, onScrollToConsult }) {
   const { floorPlans } = data;
   const [active, setActive] = useState(null);
   const [block, setBlock] = useState('all');
   const [floor, setFloor] = useState('all');
+  const [rooms, setRooms] = useState('all');
+  const [expanded, setExpanded] = useState(false);
+  const isMobile = useIsMobile();
 
   /**
    * Заявка из popup выбранной планировки (код формы `layout_application`).
@@ -60,7 +79,12 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
   const items = floorPlans?.items ?? [];
   const enableFilters = Boolean(floorPlans?.enableFilters);
-  const filtersActive = block !== 'all' || floor !== 'all';
+  const filtersActive = block !== 'all' || floor !== 'all' || rooms !== 'all';
+
+  /** Фильтр «Комнатность» работает независимо от block/floor и включается автоматически,
+   * когда у планировок есть поле `rooms` и вариантов больше одного. */
+  const roomsOptions = useMemo(() => uniqueSorted(items.map((item) => item.rooms)), [items]);
+  const showRoomsFilter = roomsOptions.length > 1;
 
   const blockOptions = useMemo(
     () => (enableFilters ? uniqueSorted(items.map((item) => item.block)) : []),
@@ -79,19 +103,32 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
     }
   }, [enableFilters, floor, floorOptions]);
 
+  const byRoom = useMemo(
+    () => (rooms === 'all' ? items : items.filter((item) => item.rooms === rooms)),
+    [items, rooms],
+  );
+
   const filtered = useMemo(() => {
-    if (!enableFilters) return items;
+    if (!enableFilters) return byRoom;
     if (!filtersActive) {
-      const featured = items.filter((item) => item.featured);
-      return featured.length ? featured : items.slice(0, 9);
+      const featured = byRoom.filter((item) => item.featured);
+      return featured.length ? featured : byRoom.slice(0, 9);
     }
-    return items.filter((item) => itemMatchesFilters(item, block, floor));
-  }, [items, enableFilters, filtersActive, block, floor]);
+    return byRoom.filter((item) => itemMatchesFilters(item, block, floor));
+  }, [byRoom, enableFilters, filtersActive, block, floor]);
+
+  // Новый фильтр — сворачиваем мобильный список планировок обратно к первым 4 карточкам.
+  useEffect(() => {
+    setExpanded(false);
+  }, [rooms, block, floor]);
+
+  const visible = isMobile && !expanded ? filtered.slice(0, 4) : filtered;
+  const showMore = isMobile && !expanded && filtered.length > 4;
 
   if (!floorPlans) return null;
 
   const hasItems = items.length > 0;
-  const showFilters = enableFilters && (blockOptions.length > 1 || floorOptions.length > 1);
+  const showFilters = showRoomsFilter || (enableFilters && (blockOptions.length > 1 || floorOptions.length > 1));
 
   const close = () => {
     setActive(null);
@@ -115,6 +152,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
   const resetFilters = () => {
     setBlock('all');
     setFloor('all');
+    setRooms('all');
   };
 
   return (
@@ -127,6 +165,31 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
       {showFilters && (
         <div className="wh-plans-filters">
+          {showRoomsFilter && (
+            <div className="wh-plans-filters__group">
+              <span className="wh-plans-filters__label">Комнатность</span>
+              <div className="wh-plans-filters__chips" role="group" aria-label="Фильтр по комнатности">
+                <button
+                  type="button"
+                  className={`wh-plans-filter-chip${rooms === 'all' ? ' is-active' : ''}`}
+                  onClick={() => setRooms('all')}
+                >
+                  Все
+                </button>
+                {roomsOptions.map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    className={`wh-plans-filter-chip${rooms === opt ? ' is-active' : ''}`}
+                    onClick={() => setRooms(opt)}
+                  >
+                    {opt}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {blockOptions.length > 1 && (
             <div className="wh-plans-filters__group">
               <span className="wh-plans-filters__label">Блок</span>
@@ -194,46 +257,57 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
       {hasItems ? (
         filtered.length > 0 ? (
-          <div
-            className={[
-              'wh-plans-grid',
-              filtered.length === 2 ? 'wh-plans-grid--2' : '',
-              filtered.length === 4 ? 'wh-plans-grid--4' : '',
-              (filtered.length > 4 || filtered.some((i) => i.sheet)) && filtered.length !== 2
-                ? 'wh-plans-grid--sheets'
-                : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {filtered.map((item) => (
-              <article
-                key={item.id}
-                className={`wh-plan-card${item.placeholder ? ' wh-plan-card--placeholder' : ''}${item.sheet ? ' wh-plan-card--sheet' : ''}`}
-              >
-                <div className="wh-plan-card__media">
-                  <img src={item.image} alt={item.name} loading="lazy" />
-                </div>
-                <div className="wh-plan-card__body">
-                  <div className="wh-plan-card__name">{item.name}</div>
-                  <div className="wh-plan-card__meta">
-                    {item.placeholder ? (
-                      <span>{item.note ?? 'Характеристики уточняются'}</span>
-                    ) : (
-                      <>
-                        {item.rooms && <span>{item.rooms}</span>}
-                        {item.area && <span>{item.area}</span>}
-                      </>
-                    )}
+          <>
+            <div
+              className={[
+                'wh-plans-grid',
+                filtered.length === 2 ? 'wh-plans-grid--2' : '',
+                filtered.length === 4 ? 'wh-plans-grid--4' : '',
+                (filtered.length > 4 || filtered.some((i) => i.sheet)) && filtered.length !== 2
+                  ? 'wh-plans-grid--sheets'
+                  : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {visible.map((item) => (
+                <article
+                  key={item.id}
+                  className={`wh-plan-card${item.placeholder ? ' wh-plan-card--placeholder' : ''}${item.sheet ? ' wh-plan-card--sheet' : ''}`}
+                >
+                  <div className="wh-plan-card__media">
+                    <img src={item.image} alt={item.name} loading="lazy" />
                   </div>
-                  {item.price && <div className="wh-plan-card__price">{item.price}</div>}
-                  <button type="button" className="easton-btn easton-btn--light" onClick={() => openPlan(item)}>
-                    {item.cta ?? 'Подробнее'}
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
+                  <div className="wh-plan-card__body">
+                    <div className="wh-plan-card__name">{item.name}</div>
+                    <div className="wh-plan-card__meta">
+                      {item.placeholder ? (
+                        <span>{item.note ?? 'Характеристики уточняются'}</span>
+                      ) : (
+                        <>
+                          {item.rooms && <span>{item.rooms}</span>}
+                          {item.area && <span>{item.area}</span>}
+                        </>
+                      )}
+                    </div>
+                    {item.price && <div className="wh-plan-card__price">{item.price}</div>}
+                    <button
+                      type="button"
+                      className="easton-btn easton-btn--light wh-plan-card__cta"
+                      onClick={() => openPlan(item)}
+                    >
+                      {item.cta ?? 'Подробнее'}
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+            {showMore && (
+              <button type="button" className="wh-plans-show-more" onClick={() => setExpanded(true)}>
+                Показать ещё
+              </button>
+            )}
+          </>
         ) : (
           <div className="wh-plans-empty">
             Нет планировок по выбранным фильтрам.

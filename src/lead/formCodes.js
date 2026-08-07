@@ -13,6 +13,7 @@
  * @typedef {Object} FormMeta
  * @property {string} title Название формы для темы лида и карточки в CRM.
  * @property {'general'|'project'} scope Общая форма сайта или форма страницы ЖК.
+ * @property {boolean} [requiresName] Форма спрашивает имя. По умолчанию да.
  * @property {boolean} [whatsapp] После создания лида открывается WhatsApp (ТЗ 7).
  * @property {string} [whatsappMessage] Фиксированный текст первого сообщения вместо сгенерированного.
  */
@@ -20,6 +21,9 @@
 /** @type {Record<string, FormMeta>} */
 export const FORM_CODES = {
   callback_header: { title: 'Заказать звонок', scope: 'general' },
+  // Пользователь просит номер, а не консультацию: лишнее поле имени здесь
+  // только снижает шанс отправки, менеджеру для звонка хватает телефона.
+  sales_phone_reveal: { title: 'Получить номер отдела продаж', scope: 'general', requiresName: false },
   main_consultation: { title: 'Общая консультация', scope: 'general' },
   calculator_mortgage: { title: 'Калькулятор — ипотека', scope: 'general' },
   calculator_installment: { title: 'Калькулятор — рассрочка', scope: 'general' },

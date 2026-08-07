@@ -111,9 +111,9 @@ export default function ProjectApartmentQuiz({ data }) {
   return (
     <section id={`${data.slug}-quiz`} className="easton-section easton-section--cream project-quiz">
       <SectionLabel color={data.theme?.accentDark ?? '#1F6059'}>Подбор квартиры</SectionLabel>
-      <h2 className="easton-h2 easton-h2--dark">Подберите квартиру под ваши предпочтения</h2>
+      <h2 className="easton-h2 easton-h2--dark">Подберите свою квартиру в {data.name} за 1 минуту</h2>
       <p className="easton-body easton-body--dark project-quiz__lead">
-        Ответьте на несколько вопросов — менеджер подготовит консультацию по {data.name}.
+        Ответьте на 4 вопроса — покажем подходящие планировки, актуальные цены и условия покупки.
       </p>
 
       <div className="project-quiz__card">
@@ -182,7 +182,7 @@ export default function ProjectApartmentQuiz({ data }) {
                     onClick={form.submit}
                     disabled={form.isLoading}
                   >
-                    {form.isLoading ? 'Отправка…' : 'Получить консультацию'}
+                    {form.isLoading ? 'Отправка…' : 'Получить подбор'}
                   </button>
                   <div className="lead-policy">{CONSENT_POLICY}</div>
                 </div>
