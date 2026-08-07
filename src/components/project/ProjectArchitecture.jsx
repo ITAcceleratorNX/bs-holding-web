@@ -15,13 +15,19 @@ export default function ProjectArchitecture({ data, onRequestTour }) {
         </p>
       ) : null}
       <div className="easton-arch__image">
-        <img src={architecture.image} alt={`Архитектура ${data.name}`} />
+        <img
+          src={architecture.image}
+          alt={`Архитектура ${data.name}`}
+          loading="lazy"
+          decoding="async"
+          style={architecture.imagePosition ? { objectPosition: architecture.imagePosition } : undefined}
+        />
       </div>
       {gallery.length > 0 && (
         <div className={`easton-arch__gallery${gallery.length === 1 ? ' easton-arch__gallery--single' : ''}`}>
           {gallery.map((src) => (
             <div key={src} className="easton-arch__gallery-item">
-              <img src={src} alt={`Фасад ${data.name}`} />
+              <img src={src} alt={`Фасад ${data.name}`} loading="lazy" decoding="async" />
             </div>
           ))}
         </div>

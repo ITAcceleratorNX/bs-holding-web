@@ -11,7 +11,7 @@ export default function ProjectKids({ data }) {
       <SectionLabel color={accentDark}>{kids.label}</SectionLabel>
       <div className={`easton-kids__grid easton-kids__grid--${kids.gallery.length}`}>
         {kids.gallery.map((g, i) => (
-          <MediaCard key={i} image={g.image} title={g.title} />
+          <MediaCard key={i} image={g.image} imagePosition={g.imagePosition} title={g.title} />
         ))}
       </div>
       {hasRoom && (

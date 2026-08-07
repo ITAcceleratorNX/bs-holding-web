@@ -13,10 +13,15 @@ export default function ProjectStandards({ data }) {
         <p className="easton-body">{standards.text}</p>
       </div>
       <div className="easton-standards-grid">
-        <MediaCard image={standards.cards[0].image} title={standards.cards[0].title} tall />
+        <MediaCard
+          image={standards.cards[0].image}
+          imagePosition={standards.cards[0].imagePosition}
+          title={standards.cards[0].title}
+          tall
+        />
         <div className="easton-standards-grid__stack">
           {standards.cards.slice(1).map((c) => (
-            <MediaCard key={c.title} image={c.image} title={c.title} />
+            <MediaCard key={c.title} image={c.image} imagePosition={c.imagePosition} title={c.title} />
           ))}
         </div>
       </div>
