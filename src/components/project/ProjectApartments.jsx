@@ -12,7 +12,13 @@ export default function ProjectApartments({ data, onRequestConsult }) {
         <p className="easton-body">{apartments.text}</p>
       </div>
       <div className="easton-apartments__image">
-        <img src={apartments.image} alt="" />
+        <img
+          src={apartments.image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style={apartments.imagePosition ? { objectPosition: apartments.imagePosition } : undefined}
+        />
         <button type="button" className="easton-btn easton-btn--light" onClick={onRequestConsult}>
           {apartments.cta}
         </button>

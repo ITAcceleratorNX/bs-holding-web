@@ -15,8 +15,22 @@ export default function ProjectAbout({ data }) {
         <p className="easton-about__text">{about.text}</p>
       )}
       {about.image && (
-        <div className="easton-about__image">
-          <img src={about.image} alt={about.imageAlt ?? ''} />
+        /**
+         * `imageRatio` ('2560 / 1433') отдаёт высоту блока пропорции рендера
+         * вместо фиксированных 420px. Тогда кадр не обрезается ни на одной
+         * ширине экрана — нужно там, где важно показать здание целиком.
+         */
+        <div
+          className="easton-about__image"
+          style={about.imageRatio ? { aspectRatio: about.imageRatio, height: 'auto' } : undefined}
+        >
+          <img
+            src={about.image}
+            alt={about.imageAlt ?? ''}
+            loading="lazy"
+            decoding="async"
+            style={about.imagePosition ? { objectPosition: about.imagePosition } : undefined}
+          />
         </div>
       )}
       <div className={`easton-about__stats${about.stats.length > 2 ? ' easton-about__stats--triple' : ''}`}>

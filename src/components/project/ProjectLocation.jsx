@@ -10,7 +10,13 @@ export default function ProjectLocation({ data, onOpenCalc }) {
       <h2 className="easton-h2 easton-h2--dark easton-location__title">{location.title}</h2>
       {location.mapImage && (
         <div className="easton-arch__image easton-location__map">
-          <img src={location.mapImage} alt={location.title.replace(/\n/g, ' ')} />
+          <img
+            src={location.mapImage}
+            alt={location.title.replace(/\n/g, ' ')}
+            loading="lazy"
+            decoding="async"
+            style={location.mapPosition ? { objectPosition: location.mapPosition } : undefined}
+          />
         </div>
       )}
       <div className={`easton-location__cards${location.cards.length > 3 ? ' easton-location__cards--four' : ''}`}>

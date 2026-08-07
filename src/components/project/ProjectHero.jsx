@@ -11,7 +11,14 @@ export default function ProjectHero({ data, onRequestApplication, onRequestPrese
     <section className="easton-hero">
       <picture>
         {mobile && <source media="(max-width: 768px)" srcSet={mobile} />}
-        <img className="easton-hero__bg" src={data.hero.image} alt="" />
+        <img
+          className="easton-hero__bg"
+          src={data.hero.image}
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          style={data.hero.imagePosition ? { objectPosition: data.hero.imagePosition } : undefined}
+        />
       </picture>
       <div className="easton-hero__overlay" />
       <div className="easton-hero__content">
