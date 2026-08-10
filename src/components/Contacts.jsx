@@ -34,21 +34,21 @@ const MAIL_ICON = (
 
 const CONTACT_ITEMS = [
   {
-    title: CITY_PHONES['Актау'].display,
+    title: CITY_PHONES['Актау'].full,
     sub: 'Актау — принимаем звонки ежедневно с 09:00 до 18:00',
     href: CITY_PHONES['Актау'].href,
     city: 'Актау',
     icon: PHONE_ICON,
   },
   {
-    title: CITY_PHONES['Актобе'].display,
+    title: CITY_PHONES['Актобе'].full,
     sub: 'Актобе — принимаем звонки ежедневно с 09:00 до 18:00',
     href: CITY_PHONES['Актобе'].href,
     city: 'Актобе',
     icon: PHONE_ICON,
   },
   {
-    title: CITY_PHONES['Усть-Каменогорск'].display,
+    title: CITY_PHONES['Усть-Каменогорск'].full,
     sub: 'Усть-Каменогорск — принимаем звонки ежедневно с 09:00 до 18:00',
     href: CITY_PHONES['Усть-Каменогорск'].href,
     city: 'Усть-Каменогорск',

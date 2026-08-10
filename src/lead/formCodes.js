@@ -21,8 +21,9 @@
 /** @type {Record<string, FormMeta>} */
 export const FORM_CODES = {
   callback_header: { title: 'Заказать звонок', scope: 'general' },
-  // Пользователь просит номер, а не консультацию: лишнее поле имени здесь
-  // только снижает шанс отправки, менеджеру для звонка хватает телефона.
+  // Формы на сайте больше нет — номера показаны сразу. Код оставлен: он уже
+  // стоит в лидах Bitrix24, а `requiresName: false` описывает контракт для форм
+  // без имени.
   sales_phone_reveal: { title: 'Получить номер отдела продаж', scope: 'general', requiresName: false },
   main_consultation: { title: 'Общая консультация', scope: 'general' },
   calculator_mortgage: { title: 'Калькулятор — ипотека', scope: 'general' },

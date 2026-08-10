@@ -6,9 +6,8 @@ import { useLeadForm } from '../../lead/useLeadForm';
  * Нижняя форма консультации страницы ЖК (код формы `zhk_final_consultation`).
  * Город и ЖК берутся из данных страницы и не запрашиваются у пользователя (ТЗ 3).
  *
- * Рядом с формой стоят контакты. Номер показан только у ЖК со своим
- * колл-центром (`data.phones`) и по той же логике, что и в шапке: до заявки
- * он скрыт звёздочками, после — открывается ссылкой на звонок (ТЗ 7).
+ * Рядом с формой стоят контакты. Номера показаны только у ЖК со своим
+ * колл-центром (`data.phones`) — все линии сразу и ссылкой на звонок (ТЗ 7).
  */
 export default function ProjectConsultForm({ data }) {
   const { consult } = data;
@@ -33,9 +32,7 @@ export default function ProjectConsultForm({ data }) {
             <PhoneLink
               href={data.phoneHref}
               phone={data.phones}
-              hours={data.hours}
               city={city}
-              project={project}
               ctaLocation="Нижний блок контактов страницы ЖК"
             />
           )}

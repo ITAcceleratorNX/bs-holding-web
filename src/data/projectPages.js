@@ -145,7 +145,7 @@ function buildMockPage({
     slug,
     name,
     city,
-    phone: cityPhone.display,
+    phone: cityPhone.full,
     phoneHref: cityPhone.href,
     theme: {
       accent: '#61D0C5',

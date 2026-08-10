@@ -183,9 +183,7 @@ export default function Header({
             ))}
           </nav>
           <div className="site-header__actions">
-            <PhoneLink href={cityPhone.href} city={headerCity} ctaLocation="Шапка сайта" className="site-header__phone">
-              {cityPhone.display}
-            </PhoneLink>
+            <PhoneLink href={cityPhone.href} city={headerCity} ctaLocation="Шапка сайта" className="site-header__phone" />
             <Dropdown
               current={headerCity}
               open={openMenu === 'hcity'}
@@ -236,9 +234,7 @@ export default function Header({
             ctaLocation="Мобильное меню"
             className="site-header__drawer-phone"
             onClick={closeMobile}
-          >
-            {cityPhone.display}
-          </PhoneLink>
+          />
           <div className="site-header__drawer-row">
             <Dropdown
               current={headerCity}

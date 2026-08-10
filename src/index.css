@@ -35,28 +35,7 @@ input:focus {
   outline: none;
 }
 
-/*
- * Скрытый номер — кнопка, открывающая форму показа номера. Правило стоит в
- * базовой части: оформление номера задают классы точек показа
- * (.site-header__phone, .easton-header__phone, .contacts-item__title),
- * и они должны выигрывать у этого сброса по порядку в каскаде.
- */
-.phone-reveal-trigger {
-  appearance: none;
-  background: none;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  font: inherit;
-  color: inherit;
-  text-align: inherit;
-  cursor: pointer;
-}
-
-/*
- * Несколько линий колл-центра в одной точке показа. Строки идут столбцом и до
- * заявки, и после неё, поэтому высота блока при показе номеров не прыгает.
- */
+/* Несколько линий колл-центра в одной точке показа — списком, каждая кликабельна. */
 .phone-links {
   display: flex;
   flex-direction: column;
@@ -2536,29 +2515,6 @@ input:focus {
   font-family: inherit;
 }
 
-/* Открытый номер отдела продаж в форме показа номера. */
-.phone-reveal__number {
-  font-size: 32px;
-  font-weight: 700;
-  color: #0D403B;
-  white-space: nowrap;
-}
-
-/* Колл-центр ЖК отдаёт несколько линий — показываем их списком. */
-.phone-reveal__numbers {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
-
-.phone-reveal__hours {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0D403B;
-  white-space: pre-line;
-}
-
 /* ========== Responsive: tablet ========== */
 @media (max-width: 1100px) {
   .hero {
@@ -3197,10 +3153,6 @@ input:focus {
 
   .call-popup__title {
     font-size: 22px;
-  }
-
-  .phone-reveal__number {
-    font-size: 26px;
   }
 
   .call-popup__close {

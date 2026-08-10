@@ -4,17 +4,16 @@ import { phoneForProject } from './phones';
 /** Колл-центр White Hill принимает звонки на две линии. */
 const PHONES = phoneForProject('white-hill');
 
-/** График приёма звонков — один текст на шапку, нижний блок и футер. */
+/** График приёма звонков — один текст на нижний блок контактов и футер. */
 const HOURS = 'Пн–Пт: 09:00–19:00\nСб–Вс: 10:00–17:00';
 
 export const WHITE_HILL = {
   slug: 'white-hill',
   name: 'White Hill',
   city: 'Актобе',
-  phone: PHONES.display,
+  phone: PHONES.full,
   phoneHref: PHONES.href,
   phones: PHONES,
-  hours: HOURS,
   theme: {
     accent: '#61D0C5',
     accentDark: '#1F6059',

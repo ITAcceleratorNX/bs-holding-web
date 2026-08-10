@@ -23,7 +23,7 @@ export const AVENUE_PARK = {
   slug: 'avenue-park',
   name: 'Avenue Park',
   city: 'Актау',
-  phone: PHONE.display,
+  phone: PHONE.full,
   phoneHref: PHONE.href,
   theme: {
     accent: '#61D0C5',

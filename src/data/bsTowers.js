@@ -86,7 +86,7 @@ export const BS_TOWERS = {
   slug: 'bs-towers',
   name: 'BS Towers',
   city: 'Актау',
-  phone: PHONE.display,
+  phone: PHONE.full,
   phoneHref: PHONE.href,
   theme: {
     accent: '#61D0C5',
