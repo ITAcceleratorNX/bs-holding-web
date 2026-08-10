@@ -8,6 +8,9 @@
  * ломать деплой сразу, а не превращаться в молча теряемые заявки.
  */
 
+import { logger } from './logger.js';
+import { CITY_FUNNEL_KEYS, cityKey } from './bitrix/routing.js';
+
 /** Адрес вебхука: https://portal.bitrix24.kz/rest/<id>/<token>/ */
 const WEBHOOK_RE = /^https:\/\/[a-z0-9-]+\.bitrix24\.[a-z]{2,3}\/rest\/\d+\/[a-z0-9]+\/?$/i;
 
@@ -59,6 +62,52 @@ function userFields(source) {
 }
 
 /**
+ * Идентификатор воронки: неотрицательное целое (0 — общая воронка портала).
+ *
+ * Опечатка не должна уронить приём заявок, поэтому неверное значение не
+ * бросает исключение, а игнорируется: заявка уйдёт в лиды и точно не потеряется.
+ * В журнал при этом пишется явная ошибка — её видно в Runtime Logs.
+ * @param {string|undefined} value
+ * @param {string} envKey
+ * @returns {string}
+ */
+function funnelId(value, envKey) {
+  const raw = String(value ?? '').trim();
+  if (!raw) return '';
+  if (!/^\d+$/.test(raw)) {
+    logger.error('funnel_config_invalid', {
+      key: envKey,
+      message: 'Ожидается номер воронки (целое число). Значение проигнорировано, заявки уйдут в лиды.',
+    });
+    return '';
+  }
+  return raw;
+}
+
+/**
+ * Воронки городов: `BITRIX_FUNNEL_AKTAU=1`, `BITRIX_FUNNEL_AKTOBE=2`, …
+ *
+ * Пока переменной для города нет, его заявки создаются лидами — как до
+ * подключения воронок. Города можно включать по одному.
+ * @param {Record<string, string|undefined>} source
+ * @returns {Record<string, string>}
+ */
+function cityFunnels(source) {
+  /** @type {Record<string, string>} */
+  const map = {};
+  for (const { city, keys } of CITY_FUNNEL_KEYS) {
+    for (const key of keys) {
+      const envKey = `BITRIX_FUNNEL_${key}`;
+      const id = funnelId(source[envKey], envKey);
+      if (id === '') continue;
+      map[cityKey(city)] = id;
+      break;
+    }
+  }
+  return map;
+}
+
+/**
  * @typedef {Object} LeadConfig
  * @property {string} webhookUrl
  * @property {string} sourceId
@@ -69,6 +118,8 @@ function userFields(source) {
  * @property {{ max: number, windowMs: number }} rateLimit
  * @property {'first'|'last'} utmPriority
  * @property {Record<string, string>} userFields
+ * @property {Record<string, string>} cityFunnels Ключ — город в нижнем регистре, значение — CATEGORY_ID.
+ * @property {string} defaultFunnel Воронка для городов без своей настройки. Пусто — лид.
  * @property {boolean} debug
  */
 
@@ -108,6 +159,8 @@ export function readConfig(source = process.env) {
     // он сохраняется при первом входе и живёт 30 дней (ТЗ 5).
     utmPriority: String(source.BITRIX_UTM_PRIORITY ?? '').trim() === 'last' ? 'last' : 'first',
     userFields: userFields(source),
+    cityFunnels: cityFunnels(source),
+    defaultFunnel: funnelId(source.BITRIX_FUNNEL_DEFAULT, 'BITRIX_FUNNEL_DEFAULT'),
     debug: String(source.LEAD_DEBUG ?? '') === '1',
   };
 }

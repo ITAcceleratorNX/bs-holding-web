@@ -43,6 +43,9 @@ beforeEach(() => {
   process.env.BITRIX_WEBHOOK_URL = WEBHOOK;
   process.env.LEAD_RATE_LIMIT = '100/60';
   delete process.env.LEAD_ALLOWED_ORIGINS;
+  for (const key of Object.keys(process.env)) {
+    if (key.startsWith('BITRIX_FUNNEL_')) delete process.env[key];
+  }
   resetConfig();
   resetDedupe();
   resetRateLimit();
@@ -225,6 +228,121 @@ describe('handleLeadRequest — ошибки CRM', () => {
     assert.equal(failed.status, 502);
     assert.equal(retried.status, 200);
     assert.equal(retried.body.leadId, 999);
+  });
+});
+
+describe('handleLeadRequest — воронки городов', () => {
+  /** Разные ответы портала по методам: поиск контакта, создание контакта, сделка. */
+  function portal({ contactFound = 0, dealId = 5555, contactId = 321 } = {}) {
+    const calls = [];
+    const fetchMock = mock.fn(async (url, init) => {
+      const method = String(url).split('/').pop().replace('.json', '');
+      calls.push({ method, fields: JSON.parse(init.body).fields });
+      if (method === 'crm.duplicate.findbycomm') {
+        return new Response(JSON.stringify({ result: contactFound ? { CONTACT: [contactFound] } : {} }), {
+          status: 200,
+        });
+      }
+      return bitrixOk(method === 'crm.deal.add' ? dealId : contactId);
+    });
+    globalThis.fetch = fetchMock;
+    return { calls, fetchMock };
+  }
+
+  beforeEach(() => {
+    process.env.BITRIX_FUNNEL_AKTAU = '1';
+    process.env.BITRIX_FUNNEL_AKTOBE = '2';
+    process.env.BITRIX_FUNNEL_UST_KAMENOGORSK = '3';
+    resetConfig();
+  });
+
+  for (const [city, categoryId] of [
+    ['Актау', '1'],
+    ['Актобе', '2'],
+    ['Усть-Каменогорск', '3'],
+  ]) {
+    it(`заявка из города ${city} создаёт сделку в воронке ${categoryId}`, async () => {
+      const { calls } = portal();
+
+      const res = await post(body({ city, project: 'ЖК тестовый' }));
+      const deal = calls.find((c) => c.method === 'crm.deal.add');
+
+      assert.equal(res.status, 200);
+      assert.equal(res.body.entity, 'deal');
+      assert.equal(res.body.leadId, 5555);
+      assert.equal(deal.fields.CATEGORY_ID, categoryId);
+    });
+  }
+
+  it('привязывает к сделке новый контакт с телефоном', async () => {
+    const { calls } = portal({ contactId: 321 });
+
+    await post(body({ city: 'Актобе' }));
+
+    const contact = calls.find((c) => c.method === 'crm.contact.add');
+    const deal = calls.find((c) => c.method === 'crm.deal.add');
+
+    assert.equal(contact.fields.PHONE[0].VALUE, '+77071234567');
+    assert.equal(deal.fields.CONTACT_ID, 321);
+  });
+
+  it('повторное обращение с того же номера не плодит контакты', async () => {
+    const { calls } = portal({ contactFound: 42 });
+
+    await post(body({ city: 'Актобе' }));
+
+    assert.equal(
+      calls.some((c) => c.method === 'crm.contact.add'),
+      false,
+    );
+    assert.equal(calls.find((c) => c.method === 'crm.deal.add').fields.CONTACT_ID, 42);
+  });
+
+  it('город без настроенной воронки создаёт лид', async () => {
+    delete process.env.BITRIX_FUNNEL_AKTOBE;
+    resetConfig();
+    const { calls } = portal();
+
+    const res = await post(body({ city: 'Актобе' }));
+
+    assert.equal(res.body.entity, 'lead');
+    assert.deepEqual(
+      calls.map((c) => c.method),
+      ['crm.lead.add'],
+    );
+  });
+
+  it('в комментарии сделки есть имя, телефон, город и ЖК', async () => {
+    const { calls } = portal();
+
+    await post(body({ city: 'Актау', project: 'ORTA' }));
+    const comments = calls.find((c) => c.method === 'crm.deal.add').fields.COMMENTS;
+
+    assert.match(comments, /Айгерим/);
+    assert.match(comments, /\+77071234567/);
+    assert.match(comments, /Актау/);
+    assert.match(comments, /ORTA/);
+  });
+
+  it('сделка создаётся даже если контакт завести не удалось', async () => {
+    globalThis.fetch = mock.fn(async (url) => {
+      const method = String(url).split('/').pop().replace('.json', '');
+      return method === 'crm.deal.add' ? bitrixOk(777) : bitrixError('ACCESS_DENIED');
+    });
+
+    const res = await post(body({ city: 'Актау' }));
+
+    assert.equal(res.status, 200);
+    assert.equal(res.body.leadId, 777);
+  });
+
+  it('не показывает успех, если сделку создать не удалось', async () => {
+    globalThis.fetch = mock.fn(async () => bitrixError('ACCESS_DENIED'));
+
+    const res = await post(body({ city: 'Актау' }));
+
+    assert.equal(res.status, 502);
+    assert.equal(res.body.ok, false);
   });
 });
 

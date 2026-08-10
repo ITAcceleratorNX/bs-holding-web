@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "test": "node --test src server",
+    "check:bitrix": "node scripts/bitrix-check.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

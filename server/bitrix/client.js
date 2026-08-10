@@ -113,27 +113,81 @@ export async function callBitrix(method, params, config) {
 }
 
 /**
- * Создаёт лид и возвращает его идентификатор.
- * @param {Record<string, unknown>} fields Поля лида.
+ * Создаёт элемент CRM и возвращает его идентификатор.
+ * @param {string} method
+ * @param {Record<string, unknown>} fields
  * @param {import('../env.js').LeadConfig} config
  * @returns {Promise<number>}
  */
-export async function addLead(fields, config) {
+async function addEntity(method, fields, config) {
   const result = await callBitrix(
-    'crm.lead.add',
+    method,
     {
       fields,
-      // Лид проходит стандартную обработку портала: роботы, уведомления,
+      // Элемент проходит стандартную обработку портала: роботы, уведомления,
       // распределение по ответственным (ТЗ 9 — настройка на стороне Bitrix24).
       params: { REGISTER_SONET_EVENT: 'Y' },
     },
     config,
   );
 
-  const leadId = Number(result);
-  if (!Number.isInteger(leadId) || leadId <= 0) {
-    // Без подтверждённого номера лида успех показывать нельзя (ТЗ 8).
-    throw new BitrixError('NO_LEAD_ID', 'Портал не вернул идентификатор лида');
+  const id = Number(result);
+  if (!Number.isInteger(id) || id <= 0) {
+    // Без подтверждённого номера успех показывать нельзя (ТЗ 8).
+    throw new BitrixError('NO_LEAD_ID', `Портал не вернул идентификатор (${method})`);
   }
-  return leadId;
+  return id;
+}
+
+/**
+ * Создаёт лид и возвращает его идентификатор.
+ * @param {Record<string, unknown>} fields Поля лида.
+ * @param {import('../env.js').LeadConfig} config
+ * @returns {Promise<number>}
+ */
+export function addLead(fields, config) {
+  return addEntity('crm.lead.add', fields, config);
+}
+
+/**
+ * Создаёт сделку в воронке города и возвращает её идентификатор.
+ * @param {Record<string, unknown>} fields Поля сделки, включая `CATEGORY_ID`.
+ * @param {import('../env.js').LeadConfig} config
+ * @returns {Promise<number>}
+ */
+export function addDeal(fields, config) {
+  return addEntity('crm.deal.add', fields, config);
+}
+
+/**
+ * Создаёт контакт и возвращает его идентификатор.
+ * @param {Record<string, unknown>} fields Поля контакта.
+ * @param {import('../env.js').LeadConfig} config
+ * @returns {Promise<number>}
+ */
+export function addContact(fields, config) {
+  return addEntity('crm.contact.add', fields, config);
+}
+
+/**
+ * Ищет существующий контакт по номеру телефона.
+ *
+ * Повторное обращение того же человека не должно плодить карточки: если
+ * контакт уже есть, сделка привязывается к нему. Поиск — вспомогательный шаг,
+ * поэтому его сбой не считается ошибкой заявки: вернём 0 и создадим контакт.
+ *
+ * @param {string} phone Формат +7XXXXXXXXXX.
+ * @param {import('../env.js').LeadConfig} config
+ * @returns {Promise<number>}
+ */
+export async function findContactIdByPhone(phone, config) {
+  const result = await callBitrix(
+    'crm.duplicate.findbycomm',
+    { entity_type: 'CONTACT', type: 'PHONE', values: [phone] },
+    config,
+  );
+
+  const ids = /** @type {any} */ (result)?.CONTACT;
+  const id = Number(Array.isArray(ids) ? ids[0] : 0);
+  return Number.isInteger(id) && id > 0 ? id : 0;
 }

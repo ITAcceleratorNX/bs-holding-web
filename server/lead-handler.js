@@ -15,8 +15,8 @@ import { getConfig } from './env.js';
 import { logger } from './logger.js';
 import { checkRateLimit } from './rate-limit.js';
 import { onceBySubmissionId } from './dedupe.js';
-import { addLead, BitrixError } from './bitrix/client.js';
-import { buildLeadFields } from './bitrix/mapper.js';
+import { BitrixError } from './bitrix/client.js';
+import { createFromLead } from './bitrix/create.js';
 
 /** Заявка со всеми полями укладывается в единицы килобайт. */
 const MAX_BODY_BYTES = 32 * 1024;
@@ -193,17 +193,27 @@ export async function handleLeadRequest(request) {
   };
 
   try {
-    const { result: leadId, duplicate } = await onceBySubmissionId(lead.submissionId, () =>
-      addLead(buildLeadFields(lead, config), config),
+    const { result: created, duplicate } = await onceBySubmissionId(lead.submissionId, () =>
+      createFromLead(lead, config),
     );
 
     logger.info(duplicate ? 'lead_duplicate_ignored' : 'lead_created', {
       ...context,
-      leadId,
+      leadId: created.id,
+      // Куда легла заявка: лид или сделка в воронке города. По этой паре видно,
+      // сработала ли маршрутизация, не открывая CRM.
+      entity: created.entity,
+      categoryId: created.categoryId,
       durationMs: Date.now() - startedAt,
     });
 
-    return reply(200, { ok: true, leadId, submissionId: lead.submissionId, duplicate });
+    return reply(200, {
+      ok: true,
+      leadId: created.id,
+      entity: created.entity,
+      submissionId: lead.submissionId,
+      duplicate,
+    });
   } catch (error) {
     const code = error instanceof BitrixError ? error.code : 'UNEXPECTED';
     logger.error('lead_failed', {

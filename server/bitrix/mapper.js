@@ -45,9 +45,10 @@ function formatMoment(date) {
  * Собирает строки комментария по группам (ТЗ 4).
  * @param {import('../../src/lead/contract.js').NormalizedLead} lead
  * @param {Date} submittedAt
+ * @param {{ withContact?: boolean }} [options]
  * @returns {Map<string, [string, string][]>}
  */
-function collectGroups(lead, submittedAt) {
+function collectGroups(lead, submittedAt, options = {}) {
   /** @type {Map<string, [string, string][]>} */
   const groups = new Map();
   /** @param {string} group @param {string} label @param {string} value */
@@ -56,6 +57,14 @@ function collectGroups(lead, submittedAt) {
     if (!groups.has(group)) groups.set(group, []);
     groups.get(group).push([label, value]);
   };
+
+  // У сделки нет собственных полей имени и телефона — они живут в привязанном
+  // контакте. Дублируем их в комментарий, чтобы менеджер видел, кому звонить,
+  // даже если контакт по какой-то причине не создался.
+  if (options.withContact) {
+    add('context', 'Имя', lead.name);
+    add('context', 'Телефон', lead.phone);
+  }
 
   add('context', 'Форма', `${lead.formTitle} (${lead.formCode})`);
   add('context', 'Город', lead.city);
@@ -89,13 +98,14 @@ function collectGroups(lead, submittedAt) {
 }
 
 /**
- * Читаемый блок для карточки лида.
+ * Читаемый блок для карточки лида или сделки.
  * @param {import('../../src/lead/contract.js').NormalizedLead} lead
  * @param {Date} submittedAt
+ * @param {{ withContact?: boolean }} [options]
  * @returns {string}
  */
-export function buildComments(lead, submittedAt) {
-  const groups = collectGroups(lead, submittedAt);
+export function buildComments(lead, submittedAt, options = {}) {
+  const groups = collectGroups(lead, submittedAt, options);
   const lines = ['<b>Заявка с сайта BS Holding</b>'];
 
   for (const group of GROUP_ORDER) {
@@ -135,6 +145,43 @@ function utmFields(lead, config) {
 }
 
 /**
+ * Описание источника: название формы и, если оно его не повторяет,
+ * расположение кнопки.
+ * @param {import('../../src/lead/contract.js').NormalizedLead} lead
+ * @returns {string}
+ */
+function sourceDescription(lead) {
+  return [lead.formTitle, lead.ctaLocation === lead.formTitle ? '' : lead.ctaLocation]
+    .filter(Boolean)
+    .join(' · ');
+}
+
+/**
+ * Дописывает настроенные пользовательские поля (ТЗ 9).
+ *
+ * Коды полей задаются переменными окружения и относятся к той сущности,
+ * которую создаёт сайт: подключили воронки — поля нужно завести у сделок,
+ * иначе портал их проигнорирует. В комментарий значения попадают всегда.
+ * @param {Record<string, unknown>} fields
+ * @param {import('../../src/lead/contract.js').NormalizedLead} lead
+ * @param {import('../env.js').LeadConfig} config
+ */
+function applyUserFields(fields, lead, config) {
+  for (const { slot, value } of UF_SLOTS) {
+    const field = fieldForSlot(slot, config.userFields);
+    if (!field) continue;
+    const text = value(lead);
+    if (text) fields[field] = text;
+  }
+
+  // Отдельные значения квиза, планировки и расчёта — если под них завели поля.
+  for (const detail of lead.details) {
+    const field = fieldForDetail(detail.key, config.userFields);
+    if (field) fields[field] = detail.value;
+  }
+}
+
+/**
  * Поля лида для `crm.lead.add`.
  * @param {import('../../src/lead/contract.js').NormalizedLead} lead
  * @param {import('../env.js').LeadConfig} config
@@ -149,10 +196,7 @@ export function buildLeadFields(lead, config, submittedAt = new Date()) {
     NAME: lead.name,
     PHONE: [{ VALUE: lead.phone, VALUE_TYPE: 'MOBILE' }],
     SOURCE_ID: config.sourceId,
-    // Расположение CTA добавляем, только если оно не повторяет название формы.
-    SOURCE_DESCRIPTION: [lead.formTitle, lead.ctaLocation === lead.formTitle ? '' : lead.ctaLocation]
-      .filter(Boolean)
-      .join(' · '),
+    SOURCE_DESCRIPTION: sourceDescription(lead),
     ADDRESS_CITY: lead.city,
     COMMENTS: buildComments(lead, submittedAt),
     OPENED: 'Y',
@@ -160,20 +204,66 @@ export function buildLeadFields(lead, config, submittedAt = new Date()) {
   };
 
   if (config.assignedById) fields.ASSIGNED_BY_ID = config.assignedById;
+  applyUserFields(fields, lead, config);
 
-  // Пользовательские поля верхнего уровня — только настроенные (ТЗ 9).
-  for (const { slot, value } of UF_SLOTS) {
-    const field = fieldForSlot(slot, config.userFields);
-    if (!field) continue;
-    const text = value(lead);
-    if (text) fields[field] = text;
-  }
+  return fields;
+}
 
-  // Отдельные значения квиза, планировки и расчёта — если под них завели поля.
-  for (const detail of lead.details) {
-    const field = fieldForDetail(detail.key, config.userFields);
-    if (field) fields[field] = detail.value;
-  }
+/**
+ * Поля сделки для `crm.deal.add` — заявка города, у которого настроена воронка.
+ *
+ * Стадию не задаём: Bitrix24 сам ставит первую стадию указанной воронки, и
+ * заявка появляется в её начале. `CATEGORY_ID` — это и есть «воронка»
+ * (Актау, Актобе, Усть-Каменогорск).
+ *
+ * @param {import('../../src/lead/contract.js').NormalizedLead} lead
+ * @param {import('../env.js').LeadConfig} config
+ * @param {{ categoryId: string, contactId?: number }} destination
+ * @param {Date} [submittedAt]
+ * @returns {Record<string, unknown>}
+ */
+export function buildDealFields(lead, config, destination, submittedAt = new Date()) {
+  /** @type {Record<string, unknown>} */
+  const fields = {
+    TITLE: buildLeadTitle({ formCode: lead.formCode, project: lead.project }),
+    CATEGORY_ID: destination.categoryId,
+    SOURCE_ID: config.sourceId,
+    SOURCE_DESCRIPTION: sourceDescription(lead),
+    COMMENTS: buildComments(lead, submittedAt, { withContact: true }),
+    OPENED: 'Y',
+    ...utmFields(lead, config),
+  };
+
+  if (destination.contactId) fields.CONTACT_ID = destination.contactId;
+  if (config.assignedById) fields.ASSIGNED_BY_ID = config.assignedById;
+  applyUserFields(fields, lead, config);
+
+  return fields;
+}
+
+/**
+ * Поля контакта для `crm.contact.add`.
+ *
+ * Сделка сама по себе телефон не хранит — звонить менеджер будет по контакту,
+ * поэтому он создаётся вместе с ней. Часть форм имени не спрашивает: без него
+ * в CRM попадёт понятная подпись вместо пустой строки.
+ *
+ * @param {import('../../src/lead/contract.js').NormalizedLead} lead
+ * @param {import('../env.js').LeadConfig} config
+ * @returns {Record<string, unknown>}
+ */
+export function buildContactFields(lead, config) {
+  /** @type {Record<string, unknown>} */
+  const fields = {
+    NAME: lead.name || 'Клиент с сайта',
+    PHONE: [{ VALUE: lead.phone, VALUE_TYPE: 'MOBILE' }],
+    SOURCE_ID: config.sourceId,
+    SOURCE_DESCRIPTION: sourceDescription(lead),
+    TYPE_ID: 'CLIENT',
+    OPENED: 'Y',
+  };
+
+  if (config.assignedById) fields.ASSIGNED_BY_ID = config.assignedById;
 
   return fields;
 }
