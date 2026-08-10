@@ -16,6 +16,7 @@ export const CONSENT_POLICY =
  * @property {string} submitLabel
  * @property {string} successTitle
  * @property {string} successText
+ * @property {string} [successHours]
  */
 
 /** @type {Record<string, LeadFormPreset>} */
@@ -25,7 +26,9 @@ export const LEAD_FORM_PRESETS = {
     subtitle: () => 'Оставьте свой номер — покажем прямой номер отдела продаж.',
     submitLabel: 'Показать номер',
     successTitle: 'Номер отдела продаж',
-    successText: 'Звоните ежедневно с 09:00 до 18:00 — менеджер ответит на вопросы по квартирам и оплате.',
+    successText: 'Менеджер ответит на вопросы по квартирам и оплате.',
+    /** График по умолчанию. Точка показа со своим графиком передаёт `hours`. */
+    successHours: 'Звоните ежедневно с 09:00 до 18:00',
   },
   zhk_hero_application: {
     title: 'Оставить заявку',

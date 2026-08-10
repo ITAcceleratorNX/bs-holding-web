@@ -11,6 +11,8 @@ import PhoneRevealPopup from './PhoneRevealPopup';
  *
  * Открытый номер запоминается на время вкладки: повторно просить телефон у
  * того, кто его уже оставил, — только терять звонок и плодить дубли в CRM.
+ * У колл-центра ЖК несколько линий, но запись одна — по ссылке первой линии:
+ * заявка открывает весь набор сразу.
  */
 
 const PhoneRevealContext = createContext(null);
@@ -82,7 +84,7 @@ export function PhoneRevealProvider({ children }) {
 }
 
 /**
- * @returns {{ isRevealed: (phoneHref: string) => boolean, openReveal: (request: { phoneHref: string, city?: string, project?: string, ctaLocation?: string }) => void }}
+ * @returns {{ isRevealed: (phoneHref: string) => boolean, openReveal: (request: { phoneHref: string, phone?: Object, city?: string, project?: string, ctaLocation?: string, hours?: string }) => void }}
  */
 export function usePhoneReveal() {
   return useContext(PhoneRevealContext) ?? NO_PROVIDER;
