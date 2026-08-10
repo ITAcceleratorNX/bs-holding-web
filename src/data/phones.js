@@ -28,11 +28,56 @@ export const CITY_PHONES = {
 };
 
 /**
+ * Номера колл-центров отдельных ЖК.
+ *
+ * У ЖК может быть своя линия сверх городской: звонки принимает колл-центр
+ * проекта, и клиенту показывают все его номера сразу. Набор хранится отдельно
+ * от `CITY_PHONES`, потому что городской номер стоит в шапке сайта и в блоке
+ * «Поддержка» — расширять его линиями одного ЖК там нечего.
+ *
+ * Ключ — слаг страницы ЖК.
+ */
+export const PROJECT_PHONES = {
+  'white-hill': {
+    full: '+7 702 111-80-70',
+    display: '+7 702 ***-**-70',
+    href: 'tel:+77021118070',
+    whatsapp: '77021118070',
+    numbers: [
+      { full: '+7 702 111-80-70', display: '+7 702 ***-**-70', href: 'tel:+77021118070' },
+      { full: '+7 778 111-80-70', display: '+7 778 ***-**-70', href: 'tel:+77781118070' },
+    ],
+  },
+};
+
+/**
  * @param {string} city
  * @returns {{ full: string, display: string, href: string, whatsapp: string }}
  */
 export function phoneForCity(city) {
   return CITY_PHONES[city] ?? CITY_PHONES['Актау'];
+}
+
+/**
+ * Номера колл-центра ЖК. `null` — у проекта своей линии нет, точка показа
+ * возьмёт городской номер.
+ * @param {string} slug
+ * @returns {{ full: string, display: string, href: string, whatsapp: string, numbers: Array<{ full: string, display: string, href: string }> }|null}
+ */
+export function phoneForProject(slug) {
+  return PROJECT_PHONES[slug] ?? null;
+}
+
+/**
+ * Все линии точки показа. У городского номера линия одна, у колл-центра ЖК их
+ * несколько — форма показа открывает сразу все, поэтому обходить их удобнее
+ * одним списком, не разбирая, откуда пришёл номер.
+ * @param {{ full: string, display: string, href: string, numbers?: Array<{ full: string, display: string, href: string }> }|null} phone
+ * @returns {Array<{ full: string, display: string, href: string }>}
+ */
+export function phoneNumbers(phone) {
+  if (!phone) return [];
+  return phone.numbers ?? [{ full: phone.full, display: phone.display, href: phone.href }];
 }
 
 /**

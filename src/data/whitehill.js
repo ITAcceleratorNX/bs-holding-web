@@ -1,14 +1,20 @@
 const IMG = '/images/white-hill';
-import { phoneForCity } from './phones';
+import { phoneForProject } from './phones';
 
-const PHONE = phoneForCity('Актобе');
+/** Колл-центр White Hill принимает звонки на две линии. */
+const PHONES = phoneForProject('white-hill');
+
+/** График приёма звонков — один текст на шапку, нижний блок и футер. */
+const HOURS = 'Пн–Пт: 09:00–19:00\nСб–Вс: 10:00–17:00';
 
 export const WHITE_HILL = {
   slug: 'white-hill',
   name: 'White Hill',
   city: 'Актобе',
-  phone: PHONE.display,
-  phoneHref: PHONE.href,
+  phone: PHONES.display,
+  phoneHref: PHONES.href,
+  phones: PHONES,
+  hours: HOURS,
   theme: {
     accent: '#61D0C5',
     accentDark: '#1F6059',
@@ -46,10 +52,28 @@ export const WHITE_HILL = {
     id: 'white-hill-location',
     label: 'Локация',
     title: 'Актобе, микрорайон Алтын Орда,\nулица Ораза Татеулы',
+    // Кадры смещены `imagePosition`: плитки узкие и высокие, при центральной
+    // обрезке вывески объектов уходят за край.
     cards: [
-      { image: `${IMG}/location.webp`, title: 'НИШ', icon: `${IMG}/icon-building.svg` },
-      { image: `${IMG}/architecture-wide.webp`, title: 'Школа Aqbobek', icon: `${IMG}/icon-building.svg` },
-      { image: `${IMG}/yard-detail.webp`, title: 'Школа Достык', icon: `${IMG}/icon-building.svg` },
+      { image: `${IMG}/location-nis.webp`, title: 'НИШ', icon: `${IMG}/icon-building.svg` },
+      {
+        image: `${IMG}/location-aqbobek.webp`,
+        imagePosition: '58% center',
+        title: 'Школа Aqbobek',
+        icon: `${IMG}/icon-building.svg`,
+      },
+      {
+        image: `${IMG}/location-ace.webp`,
+        imagePosition: '40% center',
+        title: 'ACE — теннисный корт',
+        icon: `${IMG}/icon-building.svg`,
+      },
+      {
+        image: `${IMG}/location-dostyq.webp`,
+        imagePosition: '85% center',
+        title: 'Бассейн «Достык»',
+        icon: `${IMG}/icon-building.svg`,
+      },
     ],
     notes: [
       'Микрорайон Алтын Орда — один из самых перспективных и быстроразвивающихся районов Актобе.',
@@ -180,7 +204,7 @@ export const WHITE_HILL = {
       'Менеджер отправит каталог, актуальные цены и условия рассрочки 0%.',
     address: 'Актобе, микрорайон Алтын Орда, улица Ораза Татеулы',
     instagram: 'bs_holding.aktobe',
-    hours: 'Ежедневно с 9:00 до 19:00',
+    hours: HOURS,
     policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
     projectName: 'White Hill',
     city: 'Актобе',
@@ -190,7 +214,7 @@ export const WHITE_HILL = {
       { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
       { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
       { title: 'Поддержка', items: ['Контакты'] },
-      { title: 'Общее', items: ['График работы:\nЕжедневно с 09:00 по 19:00'] },
+      { title: 'Общее', items: [`График работы:\n${HOURS}`] },
     ],
     policy: 'Используя данный сайт вы соглашаетесь с нашей политикой обработки конфиденциальных данных.',
     copyright: 'ТОО TengizStroy, Все права на данном сайте защищены авторским правом.',

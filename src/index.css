@@ -53,6 +53,18 @@ input:focus {
   cursor: pointer;
 }
 
+/*
+ * Несколько линий колл-центра в одной точке показа. Строки идут столбцом и до
+ * заявки, и после неё, поэтому высота блока при показе номеров не прыгает.
+ */
+.phone-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  line-height: 1.25;
+}
+
 ::placeholder {
   color: rgba(0, 0, 0, 0.4);
 }
@@ -1416,10 +1428,13 @@ input:focus {
 .easton-consult__contacts {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
   color: #0D403B;
   font-size: 21px;
   font-weight: 700;
+  /* График занимает две строки — переносы приходят из данных. */
+  white-space: pre-line;
 }
 
 .easton-consult__form {
@@ -2527,6 +2542,21 @@ input:focus {
   font-weight: 700;
   color: #0D403B;
   white-space: nowrap;
+}
+
+/* Колл-центр ЖК отдаёт несколько линий — показываем их списком. */
+.phone-reveal__numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.phone-reveal__hours {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0D403B;
+  white-space: pre-line;
 }
 
 /* ========== Responsive: tablet ========== */

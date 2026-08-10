@@ -51,15 +51,16 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
             </nav>
           </div>
           <div className="easton-header__right">
+            {/* Номер(а) берём записью: у ЖК со своим колл-центром линий несколько. */}
             <PhoneLink
               href={data.phoneHref}
+              phone={data.phones}
+              hours={data.hours}
               city={data.city}
               project={data.name}
               ctaLocation="Шапка страницы ЖК"
               className="easton-header__phone"
-            >
-              {data.phone}
-            </PhoneLink>
+            />
             <button type="button" className="easton-btn easton-btn--light easton-header__call" onClick={onOpenCall}>
               Заказать звонок
             </button>
@@ -86,14 +87,14 @@ export default function ProjectHeader({ data, onBack, onOpenCall }) {
           </nav>
           <PhoneLink
             href={data.phoneHref}
+            phone={data.phones}
+            hours={data.hours}
             city={data.city}
             project={data.name}
             ctaLocation="Мобильное меню страницы ЖК"
             className="easton-header__drawer-phone"
             onClick={closeMobile}
-          >
-            {data.phone}
-          </PhoneLink>
+          />
           <button
             type="button"
             className="easton-btn easton-btn--light"

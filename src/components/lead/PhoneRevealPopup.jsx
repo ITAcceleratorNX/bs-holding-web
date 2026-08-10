@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import LeadHoneypot from './LeadHoneypot';
 import { CONSENT_POLICY, getLeadPreset } from '../../data/leadForms';
-import { phoneForHref } from '../../data/phones';
+import { phoneForHref, phoneNumbers } from '../../data/phones';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
 import { useLeadForm } from '../../lead/useLeadForm';
 
@@ -18,7 +18,7 @@ const FORM_CODE = 'sales_phone_reveal';
  *
  * @param {Object} props
  * @param {boolean} props.open
- * @param {{ phoneHref: string, city?: string, project?: string, ctaLocation?: string }|null} props.request
+ * @param {{ phoneHref: string, phone?: Object, city?: string, project?: string, ctaLocation?: string, hours?: string }|null} props.request
  * @param {() => void} props.onClose
  * @param {(phoneHref: string) => void} props.onRevealed
  */
@@ -75,7 +75,10 @@ export default function PhoneRevealPopup({ open, request, onClose, onRevealed })
   if (!open) return null;
 
   const preset = getLeadPreset(FORM_CODE);
-  const phone = phoneForHref(phoneHref);
+  // Набор линий приходит с точки показа: по одной ссылке колл-центр ЖК не
+  // восстановить, у города и у проекта номера могут не совпадать.
+  const numbers = phoneNumbers(request?.phone ?? phoneForHref(phoneHref));
+  const hours = request?.hours || preset.successHours;
 
   return (
     <div
@@ -91,21 +94,29 @@ export default function PhoneRevealPopup({ open, request, onClose, onRevealed })
         </button>
         {form.isSuccess ? (
           <div className="call-popup__success">
-            <div className="call-popup__title">{preset.successTitle}</div>
-            {/* Номер открыт: дальше это обычный звонок, и он уходит в аналитику (ТЗ 10). */}
-            <a
-              className="phone-reveal__number"
-              href={phone?.href ?? phoneHref}
-              onClick={() =>
-                trackEvent(LEAD_EVENTS.PHONE_CLICK, {
-                  city,
-                  cta_location: ctaLocation,
-                  page: window.location.href,
-                })
-              }
-            >
-              {phone?.full ?? ''}
-            </a>
+            <div className="call-popup__title">
+              {numbers.length > 1 ? 'Номера отдела продаж' : preset.successTitle}
+            </div>
+            {/* Номера открыты: дальше это обычный звонок, и он уходит в аналитику (ТЗ 10). */}
+            <div className="phone-reveal__numbers">
+              {numbers.map((n) => (
+                <a
+                  key={n.href}
+                  className="phone-reveal__number"
+                  href={n.href}
+                  onClick={() =>
+                    trackEvent(LEAD_EVENTS.PHONE_CLICK, {
+                      city,
+                      cta_location: ctaLocation,
+                      page: window.location.href,
+                    })
+                  }
+                >
+                  {n.full}
+                </a>
+              ))}
+            </div>
+            {hours && <div className="phone-reveal__hours">{hours}</div>}
             <div className="call-popup__sub">{preset.successText}</div>
             <button type="button" className="btn-primary" onClick={onClose}>
               Закрыть
