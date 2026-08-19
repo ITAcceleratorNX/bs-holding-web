@@ -5,4 +5,7 @@ import { leadApiPlugin } from './server/vite-plugin.js'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), leadApiPlugin()],
+  server: {
+    port: 5173,
+  },
 })

@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import InstallmentCalculator from './InstallmentCalculator';
 import LeadHoneypot from './lead/LeadHoneypot';
+import LeadConsent from './lead/LeadConsent';
+import { useI18n } from '../i18n/I18nContext';
 import {
   DEFAULT_INSTALLMENT_CITY,
   INSTALLMENT_CITY_OPTIONS,
   getCityCalculator,
   getInstallmentConfig,
 } from '../data/calculator';
-import { CONSENT_POLICY } from '../data/leadForms';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../lead/analytics';
 import { buildDetails } from '../lead/details';
 import { useLeadForm } from '../lead/useLeadForm';
@@ -69,7 +70,9 @@ export default function Calculator({
   setTermY,
   rate,
   setRate,
+  onReset,
 }) {
+  const { t } = useI18n();
   /**
    * Город рассрочки выбирается внутри калькулятора. Город из шапки задаёт
    * начальное значение и обновляет его при смене (ТЗ 2), но обратной связи нет:
@@ -102,6 +105,7 @@ export default function Calculator({
     formCode: 'calculator_mortgage',
     city,
     ctaLocation: 'Главная — ипотечный калькулятор',
+    consentMode: 'explicit',
     details: () =>
       buildDetails('calculator', [
         ['calc_mode', 'Режим расчёта', 'Ипотека'],
@@ -148,7 +152,7 @@ export default function Calculator({
   return (
     <section className="section calculator">
       <h2 className="section-title">
-        {isInstallment ? `${installmentConfig.title} · ${installmentConfig.city}` : 'Ипотечный калькулятор'}
+        {isInstallment ? `${installmentConfig.title} · ${installmentConfig.city}` : t('calc.title.mortgage')}
       </h2>
 
       {showMortgage && (
@@ -158,15 +162,20 @@ export default function Calculator({
             onClick={() => setCalcMode('Ипотека')}
             className={`calc-mode${mode === 'Ипотека' ? ' is-active' : ''}`}
           >
-            Ипотека
+            {t('calc.mortgage')}
           </button>
           <button
             type="button"
             onClick={() => setCalcMode('Рассрочка')}
             className={`calc-mode${mode === 'Рассрочка' ? ' is-active' : ''}`}
           >
-            Рассрочка
+            {t('calc.installment')}
           </button>
+          {onReset && (
+            <button type="button" className="calc-reset" onClick={onReset}>
+              {t('calc.reset')}
+            </button>
+          )}
         </div>
       )}
 
@@ -185,7 +194,7 @@ export default function Calculator({
         <div className="calc-panel">
           <div className="calc-panel__form">
             <CalcField
-              label="Стоимость недвижимости"
+              label={t('calc.field.price')}
               value={fmt(price)}
               onInput={(raw) => applyPrice(onlyDigits(raw), false)}
               onCommit={() => applyPrice(price, true)}
@@ -197,7 +206,7 @@ export default function Calculator({
               boundsText={[`${fmt(MORTGAGE_LIMITS.price.min)} ₸`, `${fmt(MORTGAGE_LIMITS.price.max)} ₸`]}
             />
             <CalcField
-              label="Первоначальный взнос"
+              label={t('calc.field.down')}
               value={fmt(down)}
               onInput={(raw) => applyDown(onlyDigits(raw))}
               onCommit={() => applyDown(down)}
@@ -209,19 +218,19 @@ export default function Calculator({
               boundsText={['0 ₸', `${fmt(price)} ₸`]}
             />
             <CalcField
-              label="Срок займа"
+              label={t('calc.field.term')}
               value={termY}
               onInput={(raw) => applyTermY(onlyDigits(raw), false)}
               onCommit={() => applyTermY(termY, true)}
-              suffix="лет"
+              suffix={t('calc.field.term.years')}
               min={MORTGAGE_LIMITS.termY.min}
               max={MORTGAGE_LIMITS.termY.max}
               step={MORTGAGE_LIMITS.termY.step}
               onRangeChange={(v) => applyTermY(v, true)}
-              boundsText={[`${MORTGAGE_LIMITS.termY.min} год`, `${MORTGAGE_LIMITS.termY.max} лет`]}
+              boundsText={[`${MORTGAGE_LIMITS.termY.min} ${t('calc.field.term.year')}`, `${MORTGAGE_LIMITS.termY.max} ${t('calc.field.term.years')}`]}
             />
             <CalcField
-              label="Процентная ставка"
+              label={t('calc.field.rate')}
               value={rate}
               onInput={(raw) => applyRate(parseRate(raw), false)}
               onCommit={() => applyRate(rate, true)}
@@ -232,9 +241,7 @@ export default function Calculator({
               onRangeChange={(v) => applyRate(v, true)}
               boundsText={[`${MORTGAGE_LIMITS.rate.min}%`, `${MORTGAGE_LIMITS.rate.max}%`]}
             />
-            <p className="calc-panel__note">
-              Результат ипотечного калькулятора не является публичной офертой. Для более точного расчёта оставьте заявку.
-            </p>
+            <p className="calc-panel__note">{t('calc.note')}</p>
           </div>
           <div className="calc-panel__result">
             <div className="calc-result-block">
@@ -248,19 +255,19 @@ export default function Calculator({
             </div>
             {form.isSuccess ? (
               <div className="calc-lead calc-lead--success">
-                <div className="calc-lead__title">Заявка отправлена!</div>
-                <div className="calc-lead__sub">Мы свяжемся с вами в течение 10 минут и рассчитаем ваши условия.</div>
+                <div className="calc-lead__title">{t('calc.success.title')}</div>
+                <div className="calc-lead__sub">{t('calc.success.sub')}</div>
               </div>
             ) : (
               <div className="calc-lead">
                 <div className="calc-lead__fields">
                   <input
                     className="input-dark"
-                    placeholder="Ваше имя"
-                    aria-label="Ваше имя"
+                    placeholder={t('form.name.placeholder')}
+                    aria-label={t('form.name.label')}
                     {...form.fields.name}
                   />
-                  <input className="input-dark" aria-label="Номер телефона" {...form.fields.phone} />
+                  <input className="input-dark" aria-label={t('form.phone.label')} {...form.fields.phone} />
                 </div>
 
                 <LeadHoneypot {...form.honeypotProps} />
@@ -268,10 +275,10 @@ export default function Calculator({
                 {(form.errors.name || form.errors.phone || form.message) && (
                   <div className="form-error">{form.errors.name || form.errors.phone || form.message}</div>
                 )}
+                <LeadConsent form={form} />
                 <button type="button" className="btn-white" onClick={submitMortgage} disabled={form.isLoading}>
-                  {form.isLoading ? 'Отправка…' : 'Получить расчёт'}
+                  {form.isLoading ? t('form.sending') : t('calc.submit')}
                 </button>
-                <div className="lead-policy">{CONSENT_POLICY}</div>
               </div>
             )}
           </div>

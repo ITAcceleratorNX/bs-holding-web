@@ -1,8 +1,7 @@
-export default function Logo({ fill = 'black', width = 51, height = 48 }) {
+export default function Logo({ fill = 'black', className = '' }) {
   return (
     <svg
-      width={width}
-      height={height}
+      className={`site-logo${className ? ` ${className}` : ''}`}
       viewBox="0 0 51 48"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

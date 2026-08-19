@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import SectionLabel from './SectionLabel';
 import LeadHoneypot from '../lead/LeadHoneypot';
-import { CONSENT_POLICY } from '../../data/leadForms';
+import { useI18n } from '../../i18n/I18nContext';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
 import { buildDetails } from '../../lead/details';
 import { useLeadForm } from '../../lead/useLeadForm';
@@ -41,6 +41,7 @@ function useIsMobile() {
 }
 
 export default function ProjectFloorPlans({ data, onScrollToConsult }) {
+  const { t } = useI18n();
   const { floorPlans } = data;
   const [active, setActive] = useState(null);
   const [block, setBlock] = useState('all');
@@ -72,10 +73,18 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
     if (!active) return undefined;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setActive(null);
+        form.reset();
+      }
+    };
+    document.addEventListener('keydown', onKey);
     return () => {
       document.body.style.overflow = prev;
+      document.removeEventListener('keydown', onKey);
     };
-  }, [active]);
+  }, [active, form]);
 
   const items = floorPlans?.items ?? [];
   const enableFilters = Boolean(floorPlans?.enableFilters);
@@ -382,7 +391,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                     <button type="button" className="easton-btn easton-btn--ghost" onClick={() => { close(); onScrollToConsult?.(); }}>
                       Консультация по объекту
                     </button>
-                    <div className="lead-policy">{CONSENT_POLICY}</div>
+                    <div className="lead-policy">{t('lead.consent')}</div>
                   </div>
                 )}
               </div>

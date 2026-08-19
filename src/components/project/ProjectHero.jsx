@@ -5,7 +5,10 @@
  * (`zhk_hero_application`), «Скачать презентацию» — форму презентации
  * (`presentation_download`), после которой открывается WhatsApp (ТЗ 3, 7).
  */
+import { useI18n } from '../../i18n/I18nContext';
+
 export default function ProjectHero({ data, onRequestApplication, onRequestPresentation }) {
+  const { t } = useI18n();
   const mobile = data.hero.imageMobile;
   return (
     <section className="easton-hero">
@@ -27,10 +30,10 @@ export default function ProjectHero({ data, onRequestApplication, onRequestPrese
         {data.hero.tagline && <p className="easton-hero__tagline">{data.hero.tagline}</p>}
         <div className="easton-hero__cta">
           <button type="button" className="easton-btn easton-btn--solid" onClick={onRequestApplication}>
-            Оставить заявку
+            {t('project.hero.apply')}
           </button>
           <button type="button" className="easton-btn easton-btn--light" onClick={onRequestPresentation}>
-            Скачать презентацию
+            {t('project.hero.presentation')}
           </button>
         </div>
       </div>

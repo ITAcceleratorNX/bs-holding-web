@@ -1,17 +1,27 @@
 import SectionLabel from './SectionLabel';
 import MediaCard from './MediaCard';
+import { useImageLightbox } from '../../hooks/useImageLightbox';
+import { useI18n } from '../../i18n/I18nContext';
 
 export default function ProjectKids({ data }) {
+  const { t } = useI18n();
   const { kids } = data;
   const accentDark = data.theme?.accentDark ?? '#1F6059';
-  /** Отдельный блок Kids Room выводится только если для него есть контент. */
+  const { open, lightbox } = useImageLightbox(data.name);
   const hasRoom = Boolean(kids.roomTitle || kids.roomText);
+
   return (
     <section className="easton-section easton-section--cream">
-      <SectionLabel color={accentDark}>{kids.label}</SectionLabel>
+      <SectionLabel color={accentDark}>{kids.labelKey ? t(kids.labelKey) : t('project.label.kids')}</SectionLabel>
       <div className={`easton-kids__grid easton-kids__grid--${kids.gallery.length}`}>
         {kids.gallery.map((g, i) => (
-          <MediaCard key={i} image={g.image} imagePosition={g.imagePosition} title={g.title} />
+          <MediaCard
+            key={i}
+            image={g.image}
+            imagePosition={g.imagePosition}
+            title={g.title}
+            onImageClick={g.image ? open : undefined}
+          />
         ))}
       </div>
       {hasRoom && (
@@ -25,9 +35,15 @@ export default function ProjectKids({ data }) {
       )}
       {kids.roomImage && (
         <div className="easton-kids__room-image">
-          <img src={kids.roomImage} alt={kids.roomImageAlt ?? ''} />
+          <img
+            src={kids.roomImage}
+            alt={kids.roomImageAlt ?? ''}
+            className="is-clickable"
+            onClick={() => open(kids.roomImage, kids.roomImageAlt)}
+          />
         </div>
       )}
+      {lightbox}
     </section>
   );
 }

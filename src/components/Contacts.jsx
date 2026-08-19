@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { CITY_PHONES } from '../data/phones';
+import { OFFICES } from '../data/offices';
+import { useI18n } from '../i18n/I18nContext';
 import PhoneLink from './lead/PhoneLink';
 
 const PHONE_ICON = (
@@ -32,45 +35,36 @@ const MAIL_ICON = (
   </svg>
 );
 
-const CONTACT_ITEMS = [
-  {
-    title: CITY_PHONES['Актау'].full,
-    sub: 'Актау — принимаем звонки ежедневно с 09:00 до 18:00',
-    href: CITY_PHONES['Актау'].href,
-    city: 'Актау',
-    icon: PHONE_ICON,
-  },
-  {
-    title: CITY_PHONES['Актобе'].full,
-    sub: 'Актобе — принимаем звонки ежедневно с 09:00 до 18:00',
-    href: CITY_PHONES['Актобе'].href,
-    city: 'Актобе',
-    icon: PHONE_ICON,
-  },
-  {
-    title: CITY_PHONES['Усть-Каменогорск'].full,
-    sub: 'Усть-Каменогорск — принимаем звонки ежедневно с 09:00 до 18:00',
-    href: CITY_PHONES['Усть-Каменогорск'].href,
-    city: 'Усть-Каменогорск',
-    icon: PHONE_ICON,
-  },
-  {
-    title: 'bsholding@gmail.com',
-    sub: 'Для потенциальных инвесторов, вопросов и деловых предложений',
-    href: 'mailto:bsholding@gmail.com',
-    icon: MAIL_ICON,
-  },
-];
+const CITIES = ['Актау', 'Актобе', 'Усть-Каменогорск'];
 
-export default function Contacts() {
+export default function Contacts({ headerCity = 'Актау' }) {
+  const { t } = useI18n();
+  const [mapCity, setMapCity] = useState(CITIES.includes(headerCity) ? headerCity : 'Актау');
+  const office = OFFICES.find((o) => o.city === mapCity) ?? OFFICES[0];
+
+  const contactItems = [
+    ...CITIES.map((city) => ({
+      title: CITY_PHONES[city].full,
+      sub: `${city} — ${t('contacts.hours')}`,
+      href: CITY_PHONES[city].href,
+      city,
+      icon: PHONE_ICON,
+    })),
+    {
+      title: 'bsholding@gmail.com',
+      sub: t('contacts.emailSub'),
+      href: 'mailto:bsholding@gmail.com',
+      icon: MAIL_ICON,
+    },
+  ];
+
   return (
-    <section className="section contacts">
-      <h2 className="section-title">Поддержка</h2>
+    <section id="contacts" className="section contacts">
+      <h2 className="section-title">{t('contacts.title')}</h2>
       <div className="contacts-grid">
-        {CONTACT_ITEMS.map((c) => (
+        {contactItems.map((c) => (
           <div key={c.title} className="contacts-item">
             {c.icon}
-            {/* Клик по номеру фиксируется в аналитике, но лид не создаёт (ТЗ 7). */}
             {c.city ? (
               <PhoneLink href={c.href} city={c.city} ctaLocation="Блок «Поддержка»" className="contacts-item__title">
                 {c.title}
@@ -83,6 +77,41 @@ export default function Contacts() {
             <div className="contacts-item__sub">{c.sub}</div>
           </div>
         ))}
+      </div>
+
+      <div className="contacts-map">
+        <h3 className="contacts-map__title">{t('contacts.mapTitle')}</h3>
+        <p className="contacts-map__hint">{t('contacts.mapHint')}</p>
+        <div className="contacts-map__tabs">
+          {CITIES.map((city) => (
+            <button
+              key={city}
+              type="button"
+              className={`contacts-map__tab${mapCity === city ? ' is-active' : ''}`}
+              onClick={() => setMapCity(city)}
+            >
+              {city}
+            </button>
+          ))}
+        </div>
+        <p className="contacts-map__address">{office.address}</p>
+        <div className="contacts-map__frame">
+          <iframe
+            title={`Карта — ${office.city}`}
+            src={office.mapEmbed}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+        </div>
+        <a
+          className="contacts-map__route"
+          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.mapQuery)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t('contacts.route')}
+        </a>
       </div>
     </section>
   );

@@ -1,11 +1,13 @@
 import SectionLabel from './SectionLabel';
+import { useI18n } from '../../i18n/I18nContext';
 
 export default function ProjectAbout({ data }) {
+  const { t } = useI18n();
   const { about } = data;
   const hasTitle = Boolean(about.title);
   return (
     <section id={about.id ?? `${data.slug}-about`} className="easton-section easton-section--dark easton-about">
-      <SectionLabel>{about.label}</SectionLabel>
+      <SectionLabel>{t('project.label.about')}</SectionLabel>
       {hasTitle ? (
         <>
           <h2 className="easton-h2 easton-about__heading">{about.title}</h2>

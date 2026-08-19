@@ -31,3 +31,7 @@ dist-ssr
 .design-audit
 .design-audit2
 
+# QA-отчёты и временные материалы
+docs/
+tmp-figma/
+

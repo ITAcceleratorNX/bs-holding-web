@@ -1,15 +1,15 @@
 import { useEffect, useRef } from 'react';
-import { PROMOTIONS_PAGE } from '../../data/promotions';
 import PromotionLeadForm from './PromotionLeadForm';
+import { useI18n } from '../../i18n/I18nContext';
 
-function PromoMedia({ offer, stubOnly = false }) {
-  const showImage = !stubOnly && Boolean(offer.image);
+function PromoMedia({ offer }) {
+  const showImage = Boolean(offer.image);
   const showTag = !showImage || !offer.tagInImage;
   return (
     <div className={`promo-media${showImage ? '' : ' promo-media--stub'}`}>
       {showImage ? <img src={offer.image} alt="" className="promo-media__img" /> : null}
       {showTag ? <span className="promo-media__tag">{offer.tag}</span> : null}
-      <span className="promo-media__stub">{offer.stub}</span>
+      {!showImage && offer.stub ? <span className="promo-media__stub">{offer.stub}</span> : null}
     </div>
   );
 }
@@ -17,7 +17,7 @@ function PromoMedia({ offer, stubOnly = false }) {
 function PromoDetailBody({ offer, city, onClose }) {
   return (
     <>
-      <PromoMedia offer={offer} stubOnly />
+      <PromoMedia offer={offer} />
       {offer.applies ? <p className="promo-detail__applies">{offer.applies}</p> : null}
       <h2 className="promo-detail__title">{offer.title}</h2>
       {offer.description ? <p className="promo-detail__desc">{offer.description}</p> : null}
@@ -47,6 +47,7 @@ function PromoDetailBody({ offer, city, onClose }) {
  * Режим задаётся снаружи через `mode` ('popup' | 'sheet').
  */
 function PromotionDetail({ offer, open, onClose, city, mode }) {
+  const { t } = useI18n();
   const panelRef = useRef(null);
 
   useEffect(() => {
@@ -90,7 +91,7 @@ function PromotionDetail({ offer, open, onClose, city, mode }) {
         onClick={(e) => e.stopPropagation()}
       >
         {isSheet ? <div className="promo-detail__handle" aria-hidden="true" /> : null}
-        <button type="button" className="promo-detail__close" onClick={onClose} aria-label="Закрыть">
+        <button type="button" className="promo-detail__close" onClick={onClose} aria-label={t('form.close')}>
           ×
         </button>
         <PromoDetailBody offer={offer} city={city} onClose={onClose} />
@@ -100,12 +101,13 @@ function PromotionDetail({ offer, open, onClose, city, mode }) {
 }
 
 export function PromotionCard({ offer, onOpen }) {
+  const { t } = useI18n();
   return (
     <article className="promo-card">
       <PromoMedia offer={offer} />
       <h3 className="promo-card__title">{offer.title}</h3>
       <button type="button" className="promo-card__cta" onClick={() => onOpen(offer)}>
-        {PROMOTIONS_PAGE.cta}
+        {t('promos.detail')}
       </button>
     </article>
   );

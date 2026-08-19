@@ -1,6 +1,7 @@
 import LeadHoneypot from '../lead/LeadHoneypot';
 import PhoneLink from '../lead/PhoneLink';
 import { useLeadForm } from '../../lead/useLeadForm';
+import { useI18n } from '../../i18n/I18nContext';
 
 /**
  * Нижняя форма консультации страницы ЖК (код формы `zhk_final_consultation`).
@@ -10,6 +11,7 @@ import { useLeadForm } from '../../lead/useLeadForm';
  * колл-центром (`data.phones`) — все линии сразу и ссылкой на звонок (ТЗ 7).
  */
 export default function ProjectConsultForm({ data }) {
+  const { t } = useI18n();
   const { consult } = data;
   const project = consult.projectName || data.name || '';
   const city = consult.city || data.city || '';
@@ -43,21 +45,21 @@ export default function ProjectConsultForm({ data }) {
       <div className="easton-consult__form">
         {form.isSuccess ? (
           <div>
-            <div className="easton-consult__success-title">Спасибо! Заявка принята.</div>
-            <div className="easton-consult__success-sub">Мы свяжемся с вами в течение дня.</div>
+            <div className="easton-consult__success-title">{t('project.consult.success.title')}</div>
+            <div className="easton-consult__success-sub">{t('project.consult.success.sub')}</div>
           </div>
         ) : (
           <>
-            <label htmlFor={`${data.slug}-consult-name`}>Ваше Ф.И.О.</label>
+            <label htmlFor={`${data.slug}-consult-name`}>{t('project.consult.name.label')}</label>
             <input
               id={`${data.slug}-consult-name`}
               className="input-dark"
-              placeholder="Ваше имя"
+              placeholder={t('project.consult.name.placeholder')}
               {...form.fields.name}
             />
             {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
 
-            <label htmlFor={`${data.slug}-consult-phone`}>Ваш номер телефона</label>
+            <label htmlFor={`${data.slug}-consult-phone`}>{t('project.consult.phone.label')}</label>
             <input id={`${data.slug}-consult-phone`} className="input-dark" {...form.fields.phone} />
             {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
 
@@ -71,7 +73,7 @@ export default function ProjectConsultForm({ data }) {
               onClick={form.submit}
               disabled={form.isLoading}
             >
-              {form.isLoading ? 'Отправка…' : 'Получить консультацию'}
+              {form.isLoading ? t('form.sending') : t('project.consult.submit')}
             </button>
             <div className="easton-consult__policy">{consult.policy}</div>
           </>

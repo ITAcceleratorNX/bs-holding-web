@@ -1,15 +1,17 @@
 import SectionLabel from './SectionLabel';
 import MediaCard from './MediaCard';
+import { useI18n } from '../../i18n/I18nContext';
 
 export default function ProjectHall({ data }) {
+  const { t } = useI18n();
   const { hall } = data;
   const accentDark = data.theme?.accentDark ?? '#1F6059';
 
   return (
-    <section className="easton-section easton-section--cream">
+    <section id={hall.id} className="easton-section easton-section--cream">
       <div className="easton-hall">
         <div className="easton-hall__text">
-          <SectionLabel color={accentDark}>{hall.label}</SectionLabel>
+          <SectionLabel color={accentDark}>{hall.labelKey ? t(hall.labelKey) : t('project.label.hall')}</SectionLabel>
           <h2 className="easton-h2 easton-h2--dark">{hall.title}</h2>
           <p className="easton-body easton-body--dark">{hall.text1}</p>
           {hall.text2 ? <p className="easton-body easton-body--dark">{hall.text2}</p> : null}

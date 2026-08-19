@@ -1,5 +1,5 @@
 import Dropdown from './Dropdown';
-import { FILTER_SPEC } from '../data/projects';
+import { useI18n } from '../i18n/I18nContext';
 import { fmt } from '../utils/format';
 
 function ProjectCard({ p, onOpen }) {
@@ -30,27 +30,30 @@ function ProjectCard({ p, onOpen }) {
           ))}
         </div>
       </div>
-      {p.price != null && <div className="project-card__price">от {fmt(p.price)} ₸</div>}
+      {p.price != null && <div className="project-card__price">{p.priceFrom} {fmt(p.price)} ₸</div>}
     </Wrapper>
   );
 }
 
 export default function Catalog({
   filter,
+  filterSpec,
   setFilter,
   openMenu,
   toggleMenu,
+  closeMenu,
   applyFilter,
   resetFilter,
   filtered,
   onOpenProject,
 }) {
+  const { t } = useI18n();
   return (
     <>
       <section id="catalog" className="section catalog-head">
-        <h2 className="section-title">Все проекты BS Holding</h2>
+        <h2 className="section-title">{t('catalog.title')}</h2>
         <div className="catalog-filters">
-          {FILTER_SPEC.map(([key, opts]) => (
+          {filterSpec.map(([key, opts]) => (
             <Dropdown
               key={key}
               current={filter[key]}
@@ -58,14 +61,15 @@ export default function Catalog({
               onToggle={() => toggleMenu(`f_${key}`)}
               options={opts}
               onSelect={(o) => setFilter(key, o)}
+              onClose={closeMenu}
               active={filter[key] !== opts[0]}
             />
           ))}
           <button type="button" className="btn-primary catalog-filters__find" onClick={applyFilter}>
-            Найти квартиру
+            {t('catalog.find')}
           </button>
           <button type="button" className="catalog-filters__reset" onClick={resetFilter}>
-            Сбросить фильтр
+            {t('catalog.reset')}
           </button>
         </div>
       </section>
@@ -79,12 +83,10 @@ export default function Catalog({
           </div>
         ) : (
           <div className="catalog-empty">
-            <div className="catalog-empty__title">По вашему запросу ничего не найдено</div>
-            <div className="catalog-empty__sub">
-              Попробуйте изменить параметры фильтра или сбросьте их.
-            </div>
+            <div className="catalog-empty__title">{t('catalog.empty.title')}</div>
+            <div className="catalog-empty__sub">{t('catalog.empty.sub')}</div>
             <button type="button" className="btn-primary" onClick={resetFilter}>
-              Сбросить фильтр
+              {t('catalog.reset')}
             </button>
           </div>
         )}

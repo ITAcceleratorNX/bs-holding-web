@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react';
 import LeadHoneypot from './LeadHoneypot';
-import { CONSENT_POLICY, getLeadPreset } from '../../data/leadForms';
+import LeadConsent from './LeadConsent';
+import { getLeadPreset } from '../../data/leadForms';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
 import { useLeadForm } from '../../lead/useLeadForm';
+import { useI18n } from '../../i18n/I18nContext';
 
 /**
  * Всплывающая форма заявки для страниц ЖК.
@@ -32,8 +34,9 @@ export default function LeadPopup({
   /** Модификатор панели: нужен, когда дополнительное поле — выпадающий список. */
   panelClassName = '',
 }) {
-  const preset = getLeadPreset(formCode);
-  const form = useLeadForm({ formCode, city, project, ctaLocation, details, validate });
+  const { t } = useI18n();
+  const preset = getLeadPreset(formCode, t);
+  const form = useLeadForm({ formCode, city, project, ctaLocation, details, validate, consentMode: 'explicit' });
   const panelRef = useRef(null);
   const { reset } = form;
 
@@ -74,7 +77,7 @@ export default function LeadPopup({
 
   if (!open) return null;
 
-  const heading = title ?? preset?.title ?? 'Оставить заявку';
+  const heading = title ?? preset?.title ?? t('lead.hero.title');
   const lead = subtitle ?? preset?.subtitle?.(project) ?? '';
 
   return (
@@ -84,15 +87,15 @@ export default function LeadPopup({
         ref={panelRef}
         onClick={(e) => e.stopPropagation()}
       >
-        <button type="button" className="project-lead-popup__close" onClick={onClose} aria-label="Закрыть">
+        <button type="button" className="project-lead-popup__close" onClick={onClose} aria-label={t('form.close')}>
           ×
         </button>
 
         {form.isSuccess ? (
           <div className="project-lead-popup__success">
-            <div className="project-lead-popup__title">{preset?.successTitle ?? 'Спасибо! Заявка принята.'}</div>
+            <div className="project-lead-popup__title">{preset?.successTitle ?? t('lead.success.title')}</div>
             <div className="project-lead-popup__sub">
-              {preset?.successText ?? 'Менеджер свяжется с вами в ближайшее время.'}
+              {preset?.successText ?? t('lead.success.sub')}
             </div>
             {/* Вкладку WhatsApp заблокировал браузер — даём перейти вручную (ТЗ 7). */}
             {form.whatsappUrl && (
@@ -102,11 +105,11 @@ export default function LeadPopup({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Открыть WhatsApp
+                {t('form.whatsapp')}
               </a>
             )}
             <button type="button" className="easton-btn easton-btn--solid" onClick={onClose}>
-              Закрыть
+              {t('form.close')}
             </button>
           </div>
         ) : (
@@ -117,18 +120,18 @@ export default function LeadPopup({
             </div>
 
             <label className="project-lead-popup__label" htmlFor={`${formCode}-name`}>
-              Имя
+              {t('form.name.label')}
             </label>
             <input
               id={`${formCode}-name`}
               className="project-lead-popup__input"
-              placeholder="Ваше имя"
+              placeholder={t('form.name.placeholder')}
               {...form.fields.name}
             />
             {form.errors.name && <div className="project-lead-popup__error">{form.errors.name}</div>}
 
             <label className="project-lead-popup__label" htmlFor={`${formCode}-phone`}>
-              Номер телефона
+              {t('form.phone.label')}
             </label>
             <input id={`${formCode}-phone`} className="project-lead-popup__input" {...form.fields.phone} />
             {form.errors.phone && <div className="project-lead-popup__error">{form.errors.phone}</div>}
@@ -139,16 +142,16 @@ export default function LeadPopup({
 
             {form.message && <div className="project-lead-popup__error">{form.message}</div>}
 
+            <LeadConsent form={form} errorClassName="project-lead-popup__error" />
+
             <button
               type="button"
               className="easton-btn easton-btn--solid"
               onClick={form.submit}
               disabled={form.isLoading}
             >
-              {form.isLoading ? 'Отправка…' : (submitLabel ?? preset?.submitLabel ?? 'Отправить')}
+              {form.isLoading ? t('form.sending') : (submitLabel ?? preset?.submitLabel ?? t('lead.hero.submit'))}
             </button>
-
-            <div className="lead-policy">{CONSENT_POLICY}</div>
           </>
         )}
       </div>

@@ -228,7 +228,7 @@ export const ORTA = {
     cols: [
       {
         title: 'Проекты',
-        items: ['Central Park', 'Avenue Park', 'Adal Town', 'Easton', 'White Hill', 'ORTA', 'BS Towers'],
+        items: ['Central Park', 'Avenue Park', 'MURA', 'Easton', 'White Hill', 'ORTA', 'BS Towers'],
       },
       { title: 'Компания', items: ['О Компании', 'Инвесторам', 'Карьера', 'Коммерческие помещения', 'BS Пайда'] },
       { title: 'Поддержка', items: ['Контакты'] },

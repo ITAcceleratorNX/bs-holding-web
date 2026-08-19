@@ -4,12 +4,13 @@ import Logo from './Logo';
 import { phoneForCity } from '../data/phones';
 import { CITIES } from '../data/projects';
 import PhoneLink from './lead/PhoneLink';
+import { useI18n } from '../i18n/I18nContext';
 
-export const MAIN_NAV_ITEMS = [
-  { label: 'Главная', href: '#/', key: 'home' },
-  { label: 'Жилые комплексы', href: '#catalog', key: 'catalog' },
-  { label: 'О компании', href: '#/about', key: 'about' },
-  { label: 'Акции и предложения', href: '#/akcii', key: 'akcii' },
+const NAV_ITEMS = [
+  { labelKey: 'nav.home', href: '#/', key: 'home' },
+  { labelKey: 'nav.catalog', href: '#catalog', key: 'catalog' },
+  { labelKey: 'nav.about', href: '#/about', key: 'about' },
+  { labelKey: 'nav.promotions', href: '#/akcii', key: 'akcii' },
 ];
 
 const LANGS = ['RU', 'KZ', 'EN'];
@@ -17,7 +18,7 @@ const LANGS = ['RU', 'KZ', 'EN'];
 function navKeyFromHash() {
   const path = (window.location.hash || '').replace(/^#\/?/, '').split(/[/?#]/)[0]?.toLowerCase() || '';
   if (path === 'about' || path === 'o-kompanii') return 'about';
-  if (path === 'akcii' || path === 'promotions' || path === 'paida') return 'akcii';
+  if (path === 'akcii' || path === 'promotions') return 'akcii';
   if (path === 'catalog') return 'catalog';
   if (path && path !== 'top') return 'catalog';
   return 'home';
@@ -28,9 +29,9 @@ function isHomeSurface() {
   return !path || path === 'top' || path === 'catalog';
 }
 
-function navKeyFromProp(activeNav) {
+function navKeyFromProp(activeNav, t) {
   if (!activeNav) return null;
-  const match = MAIN_NAV_ITEMS.find((item) => item.label === activeNav || item.key === activeNav);
+  const match = NAV_ITEMS.find((item) => t(item.labelKey) === activeNav || item.key === activeNav);
   return match?.key ?? null;
 }
 
@@ -44,19 +45,21 @@ export default function Header({
   setLangCur,
   openMenu,
   toggleMenu,
+  closeMenu = () => {},
   onOpenCall,
   onLogoClick,
 }) {
+  const { t } = useI18n();
   const headerRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
   const [spacerH, setSpacerH] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeKey, setActiveKey] = useState(() => navKeyFromProp(activeNav) || navKeyFromHash());
+  const [activeKey, setActiveKey] = useState(() => navKeyFromProp(activeNav, t) || navKeyFromHash());
 
   useEffect(() => {
     const syncFromLocation = () => {
       if (!isHomeSurface()) {
-        const fromProp = navKeyFromProp(activeNav);
+        const fromProp = navKeyFromProp(activeNav, t);
         setActiveKey(fromProp || navKeyFromHash());
         return;
       }
@@ -64,10 +67,7 @@ export default function Header({
       const headerH = headerRef.current?.offsetHeight ?? 100;
       const line = window.scrollY + headerH + 48;
       let next = 'home';
-      for (const section of [
-        { id: 'catalog', key: 'catalog' },
-        { id: 'paida', key: 'akcii' },
-      ]) {
+      for (const section of [{ id: 'catalog', key: 'catalog' }]) {
         const el = document.getElementById(section.id);
         if (el && el.offsetTop <= line) next = section.key;
       }
@@ -81,7 +81,7 @@ export default function Header({
       window.removeEventListener('hashchange', syncFromLocation);
       window.removeEventListener('scroll', syncFromLocation);
     };
-  }, [activeNav]);
+  }, [activeNav, t]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -126,11 +126,12 @@ export default function Header({
 
   const closeMobile = () => setMobileOpen(false);
   const cityPhone = phoneForCity(headerCity);
-  const logoFill = overlay && !scrolled && !mobileOpen ? '#fff' : 'black';
+  const logoFill = overlay && !mobileOpen ? '#fff' : 'black';
   const isOverlayIdle = overlay && !scrolled && !mobileOpen;
 
-  const navItems = MAIN_NAV_ITEMS.map((item) => ({
+  const navItems = NAV_ITEMS.map((item) => ({
     ...item,
+    label: t(item.labelKey),
     active: item.key === activeKey,
   }));
 
@@ -158,11 +159,9 @@ export default function Header({
       >
         {showTopBar && (
           <div className="site-header__promo">
-            <span className="site-header__promo-text">
-              Рассрочка на жилой комплекс White Hill начинается с 23 января
-            </span>
+            <span className="site-header__promo-text">{t('promo.text')}</span>
             <a href="#/white-hill" className="site-header__promo-link" onClick={closeMobile}>
-              Подробнее →
+              {t('promo.link')}
             </a>
           </div>
         )}
@@ -170,10 +169,10 @@ export default function Header({
           <a href="#/" aria-label="BS Holding" className="site-header__logo" onClick={handleLogoClick}>
             <Logo fill={logoFill} />
           </a>
-          <nav className="site-header__nav" aria-label="Основная навигация">
+          <nav className="site-header__nav" aria-label={t('nav.home')}>
             {navItems.map((item) => (
               <a
-                key={item.label}
+                key={item.key}
                 href={item.href}
                 className={`site-header__nav-link${item.active ? ' is-active' : ''}`}
                 onClick={closeMobile}
@@ -190,6 +189,7 @@ export default function Header({
               onToggle={() => toggleMenu('hcity')}
               options={CITIES}
               onSelect={(o) => { setHeaderCity(o); toggleMenu(null); }}
+              onClose={closeMenu}
             />
             <Dropdown
               current={langCur}
@@ -197,15 +197,16 @@ export default function Header({
               onToggle={() => toggleMenu('lang')}
               options={LANGS}
               onSelect={(o) => { setLangCur(o); toggleMenu(null); }}
+              onClose={closeMenu}
             />
             <button type="button" className="btn-outline site-header__call" onClick={onOpenCall}>
-              Заказать звонок
+              {t('nav.call')}
             </button>
           </div>
           <button
             type="button"
             className={`site-header__burger${mobileOpen ? ' is-open' : ''}`}
-            aria-label={mobileOpen ? 'Закрыть меню' : 'Открыть меню'}
+            aria-label={mobileOpen ? t('nav.closeMenu') : t('nav.openMenu')}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
           >
@@ -219,7 +220,7 @@ export default function Header({
           <nav className="site-header__drawer-nav" aria-label="Мобильная навигация">
             {navItems.map((item) => (
               <a
-                key={item.label}
+                key={item.key}
                 href={item.href}
                 className={`site-header__drawer-link${item.active ? ' is-active' : ''}`}
                 onClick={closeMobile}
@@ -242,6 +243,7 @@ export default function Header({
               onToggle={() => toggleMenu('mcity')}
               options={CITIES}
               onSelect={(o) => { setHeaderCity(o); toggleMenu(null); }}
+              onClose={closeMenu}
             />
             <Dropdown
               current={langCur}
@@ -249,6 +251,7 @@ export default function Header({
               onToggle={() => toggleMenu('mlang')}
               options={LANGS}
               onSelect={(o) => { setLangCur(o); toggleMenu(null); }}
+              onClose={closeMenu}
             />
           </div>
           <button
@@ -259,7 +262,7 @@ export default function Header({
               onOpenCall();
             }}
           >
-            Заказать звонок
+            {t('nav.call')}
           </button>
         </div>
       </header>
@@ -267,7 +270,7 @@ export default function Header({
         <button
           type="button"
           className="site-header__backdrop"
-          aria-label="Закрыть меню"
+          aria-label={t('nav.closeMenu')}
           onClick={closeMobile}
         />
       )}
