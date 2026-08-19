@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { ABOUT } from '../data/about';
-import { PROJECTS } from '../data/projects';
+import { CITIES, PROJECTS } from '../data/projects';
 import { fmt } from '../utils/format';
 
-const CITY_FILTERS = ['Все', 'Актау', 'Актобе', 'Усть-Каменогорск'];
+const ALL = 'Все';
+const CITY_FILTERS = [ALL, ...CITIES];
 
 function Lines({ text }) {
   return text.split('\n').map((line) => (
@@ -27,11 +28,20 @@ export default function AboutPage({
   onOpenProject,
   onGoHome,
 }) {
-  const [city, setCity] = useState('Все');
+  const [city, setCity] = useState(ALL);
   const { hero, intro, history, quality, projects, contribution, cta } = ABOUT;
 
+  // Выбор города в шапке переключает и подборку проектов на этой странице.
+  // Синхронизация только на смену города: при первом заходе показываем все ЖК,
+  // а не проекты города по умолчанию.
+  const syncedCity = useRef(headerCity);
+  if (syncedCity.current !== headerCity) {
+    syncedCity.current = headerCity;
+    setCity(headerCity);
+  }
+
   const filtered = useMemo(
-    () => (city === 'Все' ? PROJECTS : PROJECTS.filter((p) => p.city === city)),
+    () => (city === ALL ? PROJECTS : PROJECTS.filter((p) => p.city === city)),
     [city],
   );
 

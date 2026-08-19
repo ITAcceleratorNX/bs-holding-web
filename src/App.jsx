@@ -15,7 +15,7 @@ import ProjectPage from './pages/ProjectPage';
 import AboutPage from './pages/AboutPage';
 import EastonQuizLandingPage from './pages/EastonQuizLandingPage';
 import PromotionsPage from './pages/PromotionsPage';
-import { DEFAULT_FILTER, PROJECTS } from './data/projects';
+import { ALL_CITIES, DEFAULT_FILTER, PROJECTS } from './data/projects';
 import { getProjectPage, projectHash } from './data/projectPages';
 import { filterProjects } from './utils/format';
 
@@ -40,7 +40,7 @@ function getRoute() {
 export default function App() {
   const [route, setRoute] = useState(getRoute);
   const [openMenu, setOpenMenu] = useState(null);
-  const [headerCity, setHeaderCity] = useState('Актау');
+  const [headerCity, setHeaderCityState] = useState('Актау');
   const [langCur, setLangCur] = useState('RU');
   const [callOpen, setCallOpen] = useState(false);
   const [filter, setFilterState] = useState({ ...DEFAULT_FILTER });
@@ -104,12 +104,26 @@ export default function App() {
     setOpenMenu((prev) => (prev === key ? null : key));
   }, []);
 
+  // Город в шапке — это выбор «мой город»: он задаёт номер телефона, город
+  // заявки и подборку ЖК. Каталог фильтруется тем же городом, иначе выбор в
+  // верхней панели ничего не меняет в списке комплексов.
+  const setHeaderCity = useCallback((city) => {
+    setHeaderCityState(city);
+    setFilterState((prev) => ({ ...prev, city }));
+    setAppliedFilter((prev) => ({ ...prev, city }));
+    setOpenMenu(null);
+  }, []);
+
   const setFilter = useCallback((key, value) => {
     setFilterState((prev) => {
       const next = { ...prev, [key]: value };
       setAppliedFilter(next);
       return next;
     });
+    // Обратная связь: город, выбранный в каталоге, становится городом шапки —
+    // два выпадающих списка не должны показывать разные города. «Все города»
+    // городом не является, поэтому телефон и город заявки остаются прежними.
+    if (key === 'city' && value !== ALL_CITIES) setHeaderCityState(value);
     setOpenMenu(null);
   }, []);
 

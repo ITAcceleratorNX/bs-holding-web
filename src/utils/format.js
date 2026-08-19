@@ -1,3 +1,5 @@
+import { ALL_CITIES } from '../data/projects.js';
+
 export function fmt(n) {
   if (n == null || isNaN(n) || !isFinite(n)) n = 0;
   return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -29,7 +31,7 @@ export { formatKzPhone, kzPhoneE164, kzPhoneOk } from '../lead/phone.js';
 
 export function filterProjects(projects, filter) {
   return projects.filter((p) => {
-    if (filter.city !== 'Все города' && p.city !== filter.city) return false;
+    if (filter.city !== ALL_CITIES && p.city !== filter.city) return false;
     if (filter.klass !== 'Все классы' && p.klass !== filter.klass) return false;
     if (filter.term === 'Сдан' && p.term !== 'Сдан') return false;
     if (filter.term === '2026 год' && !/2026/.test(p.term)) return false;

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Dropdown from './Dropdown';
 import Logo from './Logo';
 import { phoneForCity } from '../data/phones';
+import { CITIES } from '../data/projects';
 import PhoneLink from './lead/PhoneLink';
 
 export const MAIN_NAV_ITEMS = [
@@ -11,7 +12,6 @@ export const MAIN_NAV_ITEMS = [
   { label: 'Акции и предложения', href: '#/akcii', key: 'akcii' },
 ];
 
-const CITIES = ['Актау', 'Актобе', 'Усть-Каменогорск'];
 const LANGS = ['RU', 'KZ', 'EN'];
 
 function navKeyFromHash() {
