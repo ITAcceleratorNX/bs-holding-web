@@ -18,7 +18,7 @@ import ProjectBoxroom from '../components/project/ProjectBoxroom';
 import ProjectExtras from '../components/project/ProjectExtras';
 import ProjectAutonomy from '../components/project/ProjectAutonomy';
 import ProjectConsultForm from '../components/project/ProjectConsultForm';
-import ProjectFooter from '../components/project/ProjectFooter';
+import Footer from '../components/Footer';
 import ProjectCalcPopup from '../components/project/ProjectCalcPopup';
 import LeadPopup from '../components/lead/LeadPopup';
 import { useProjectData } from '../i18n/useProjectData';
@@ -122,7 +122,7 @@ export default function ProjectPage({
         )}
         {d.extras ? <ProjectExtras data={d} /> : d.boxroom ? <ProjectBoxroom data={d} /> : null}
         <ProjectConsultForm data={d} />
-        <ProjectFooter data={d} onBack={onBack} onNavigateProject={onNavigateProject} />
+        <Footer />
 
         {/* Форма «Получить расчет» отличается дополнительным полем квадратуры. */}
         {lead?.formCode === 'zhk_calculation' ? (

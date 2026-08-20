@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import Dropdown from './Dropdown';
 import Logo from './Logo';
+import { cityLabel } from '../data/cities';
 import { phoneForCity } from '../data/phones';
 import { CITIES } from '../data/projects';
 import PhoneLink from './lead/PhoneLink';
 import { useI18n } from '../i18n/I18nContext';
+import { homeSectionHref } from '../utils/navigation';
 
 const NAV_ITEMS = [
   { labelKey: 'nav.home', href: '#/', key: 'home' },
-  { labelKey: 'nav.catalog', href: '#catalog', key: 'catalog' },
+  { labelKey: 'nav.catalog', href: homeSectionHref('catalog'), key: 'catalog' },
   { labelKey: 'nav.about', href: '#/about', key: 'about' },
   { labelKey: 'nav.promotions', href: '#/akcii', key: 'akcii' },
 ];
@@ -187,7 +189,7 @@ export default function Header({
               current={headerCity}
               open={openMenu === 'hcity'}
               onToggle={() => toggleMenu('hcity')}
-              options={CITIES}
+              options={CITIES.map((c) => ({ value: c, label: cityLabel(t, c) }))}
               onSelect={(o) => { setHeaderCity(o); toggleMenu(null); }}
               onClose={closeMenu}
             />
@@ -217,7 +219,7 @@ export default function Header({
         </div>
 
         <div className={`site-header__drawer${mobileOpen ? ' is-open' : ''}`} id="mobile-nav">
-          <nav className="site-header__drawer-nav" aria-label="Мобильная навигация">
+          <nav className="site-header__drawer-nav" aria-label={t('nav.openMenu')}>
             {navItems.map((item) => (
               <a
                 key={item.key}
@@ -241,7 +243,7 @@ export default function Header({
               current={headerCity}
               open={openMenu === 'mcity'}
               onToggle={() => toggleMenu('mcity')}
-              options={CITIES}
+              options={CITIES.map((c) => ({ value: c, label: cityLabel(t, c) }))}
               onSelect={(o) => { setHeaderCity(o); toggleMenu(null); }}
               onClose={closeMenu}
             />

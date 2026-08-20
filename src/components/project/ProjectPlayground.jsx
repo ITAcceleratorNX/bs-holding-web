@@ -13,7 +13,7 @@ export default function ProjectPlayground({ data, onRequestConsult }) {
         </button>
       </div>
       <div className="easton-playground__image">
-        <img src={playground.image} alt="" />
+        {playground.image ? <img src={playground.image} alt="" /> : null}
       </div>
     </section>
   );

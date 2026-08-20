@@ -3,6 +3,7 @@ import Dropdown from './Dropdown';
 import LeadHoneypot from './lead/LeadHoneypot';
 import LeadConsent from './lead/LeadConsent';
 import { CITIES, DEFAULT_CITY } from '../lead/contract';
+import { cityLabel } from '../data/cities';
 import { useLeadForm } from '../lead/useLeadForm';
 import { useI18n } from '../i18n/I18nContext';
 
@@ -53,7 +54,7 @@ export default function Consultation() {
                   current={city}
                   open={cityOpen}
                   onToggle={() => setCityOpen((v) => !v)}
-                  options={CITIES}
+                  options={CITIES.map((c) => ({ value: c, label: cityLabel(t, c) }))}
                   onSelect={(next) => {
                     setCity(next);
                     setCityOpen(false);

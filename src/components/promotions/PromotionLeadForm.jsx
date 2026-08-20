@@ -27,13 +27,11 @@ export default function PromotionLeadForm({ offer, city, ctaLocation, onClose })
         <div className="promo-detail__success-icon" aria-hidden="true">
           ✓
         </div>
-        <div className="promo-detail__success-title">Спасибо!</div>
-        <p className="promo-detail__success-text">
-          Ваша заявка принята. Мы свяжемся с вами в ближайшее время.
-        </p>
+        <div className="promo-detail__success-title">{t('promos.success.title')}</div>
+        <p className="promo-detail__success-text">{t('promos.success.sub')}</p>
         {onClose && (
           <button type="button" className="promo-detail__submit" onClick={onClose}>
-            Закрыть
+            {t('form.close')}
           </button>
         )}
       </div>
@@ -43,18 +41,18 @@ export default function PromotionLeadForm({ offer, city, ctaLocation, onClose })
   return (
     <div className="promo-detail__form">
       <label className="promo-detail__label" htmlFor={`promo-${offer.id}-name`}>
-        Ваше имя
+        {t('form.name.label')}
       </label>
       <input
         id={`promo-${offer.id}-name`}
         className={`promo-detail__input${form.errors.name ? ' is-error' : ''}`}
-        placeholder="Введите ваше имя"
+        placeholder={t('form.name.placeholder')}
         {...form.fields.name}
       />
       {form.errors.name && <div className="promo-detail__error">{form.errors.name}</div>}
 
       <label className="promo-detail__label" htmlFor={`promo-${offer.id}-phone`}>
-        Номер телефона
+        {t('form.phone.label')}
       </label>
       <input
         id={`promo-${offer.id}-phone`}
@@ -83,7 +81,7 @@ export default function PromotionLeadForm({ offer, city, ctaLocation, onClose })
         onClick={form.submit}
         disabled={form.isLoading}
       >
-        {form.isLoading ? 'Отправка…' : 'Получить условия акции'}
+        {form.isLoading ? t('form.sending') : t('promos.submit')}
       </button>
     </div>
   );

@@ -5,7 +5,7 @@ import ProjectAbout from '../components/project/ProjectAbout';
 import ProjectStandards from '../components/project/ProjectStandards';
 import ProjectLocation from '../components/project/ProjectLocation';
 import ProjectApartmentQuiz from '../components/project/ProjectApartmentQuiz';
-import ProjectFooter from '../components/project/ProjectFooter';
+import Footer from '../components/Footer';
 import LeadPopup from '../components/lead/LeadPopup';
 import { EASTON_QUIZ_LANDING } from '../data/eastonQuizLanding';
 
@@ -47,7 +47,7 @@ export default function EastonQuizLandingPage({ onBack, onOpenCall, onNavigatePr
         </div>
         <ProjectLocation data={data} />
         <ProjectApartmentQuiz data={data} />
-        <ProjectFooter data={data} onBack={onBack} onNavigateProject={onNavigateProject} />
+        <Footer />
 
         {lead && (
           <LeadPopup

@@ -17,15 +17,23 @@ import AboutPage from './pages/AboutPage';
 import EastonQuizLandingPage from './pages/EastonQuizLandingPage';
 import PromotionsPage from './pages/PromotionsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import NewsPage from './pages/NewsPage';
 import { I18nProvider, useInitialLang, useI18n } from './i18n/I18nContext';
+import { SHOW_CALCULATORS } from './config/features';
+import { cityLabel } from './data/cities';
 import { ALL_CITIES, CITIES, DEFAULT_FILTER, PROJECTS } from './data/projects';
 import { getProjectPage, projectHash } from './data/projectPages';
 import { filterProjects } from './utils/format';
+import { HOME_SECTIONS } from './utils/navigation';
 
 function getRoute() {
   const hash = window.location.hash.replace(/^#\/?/, '');
   const slug = hash.split(/[/?#]/)[0]?.toLowerCase();
+  if (!slug || slug === 'top') {
+    return { type: 'home', section: slug === 'top' ? 'top' : null };
+  }
+  if (HOME_SECTIONS.has(slug)) {
+    return { type: 'home', section: slug };
+  }
   if (slug === 'about' || slug === 'o-kompanii') {
     return { type: 'about' };
   }
@@ -36,7 +44,7 @@ function getRoute() {
     return { type: 'promotions' };
   }
   if (slug === 'news' || slug === 'novosti') {
-    return { type: 'news' };
+    return { type: 'promotions' };
   }
   if (slug && getProjectPage(slug)) {
     return { type: 'project', slug };
@@ -44,7 +52,7 @@ function getRoute() {
   if (slug) {
     return { type: 'not-found', slug };
   }
-  return { type: 'home' };
+  return { type: 'home', section: null };
 }
 
 export const DEFAULT_CALC = {
@@ -70,6 +78,13 @@ function AppRoutes({ langCur, setLangCur }) {
   const [rate, setRate] = useState(DEFAULT_CALC.rate);
 
   useEffect(() => {
+    const scrollHomeSection = (section) => {
+      if (!section) return;
+      requestAnimationFrame(() => {
+        document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+      });
+    };
+
     const onHash = () => {
       const rawSlug = window.location.hash.replace(/^#\/?/, '').split(/[/?#]/)[0];
       const anchorTarget = rawSlug && document.getElementById(rawSlug);
@@ -81,16 +96,11 @@ function AppRoutes({ langCur, setLangCur }) {
       const next = getRoute();
       setRoute(next);
       window.scrollTo(0, 0);
-      if (next.type === 'home') {
-        const raw = window.location.hash.replace(/^#\/?/, '');
-        const section = raw.split(/[/?#]/)[0];
-        if (section === 'catalog' || section === 'paida' || section === 'top' || section === 'contacts') {
-          requestAnimationFrame(() => {
-            document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
-          });
-        }
+      if (next.type === 'home' && next.section) {
+        scrollHomeSection(next.section);
       }
     };
+    onHash();
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
@@ -167,7 +177,7 @@ function AppRoutes({ langCur, setLangCur }) {
   const filterSpec = useMemo(() => [
     ['city', [
       { value: ALL_CITIES, label: t('filter.allCities') },
-      ...CITIES.map((c) => ({ value: c, label: c })),
+      ...CITIES.map((c) => ({ value: c, label: cityLabel(t, c) })),
     ]],
     ['klass', [
       { value: 'Все классы', label: t('filter.allClasses') },
@@ -175,6 +185,7 @@ function AppRoutes({ langCur, setLangCur }) {
       { value: 'Бизнес', label: t('klass.business') },
       { value: 'Бизнес+', label: t('klass.businessPlus') },
       { value: 'Комфорт', label: t('klass.comfort') },
+      { value: 'Комфорт+', label: t('klass.comfortPlus') },
     ]],
     ['term', [
       { value: 'Любой срок', label: t('filter.anyTerm') },
@@ -277,13 +288,6 @@ function AppRoutes({ langCur, setLangCur }) {
         {callPopup}
       </>
     );
-  } else if (route.type === 'news') {
-    pageContent = (
-      <>
-        <NewsPage {...sharedHeaderProps} />
-        {callPopup}
-      </>
-    );
   } else if (route.type === 'not-found') {
     pageContent = (
       <>
@@ -312,21 +316,23 @@ function AppRoutes({ langCur, setLangCur }) {
           />
           <Featured activeTab={activeTab} setActiveTab={setActiveTab} />
           <Paida onOpenCall={openCall} />
-          <Calculator
-            city={headerCity}
-            lang={langCur}
-            calcMode={calcMode}
-            setCalcMode={setCalcMode}
-            price={price}
-            setPrice={setPrice}
-            down={down}
-            setDown={setDown}
-            termY={termY}
-            setTermY={setTermY}
-            rate={rate}
-            setRate={setRate}
-            onReset={resetCalculator}
-          />
+          {SHOW_CALCULATORS && (
+            <Calculator
+              city={headerCity}
+              lang={langCur}
+              calcMode={calcMode}
+              setCalcMode={setCalcMode}
+              price={price}
+              setPrice={setPrice}
+              down={down}
+              setDown={setDown}
+              termY={termY}
+              setTermY={setTermY}
+              rate={rate}
+              setRate={setRate}
+              onReset={resetCalculator}
+            />
+          )}
           <Banks />
           <Consultation />
           <Commercial />

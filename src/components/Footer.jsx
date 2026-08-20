@@ -1,23 +1,11 @@
-import { SOCIALS, SOCIAL_LINKS } from '../data/projects';
+import { SOCIAL_NETWORKS, SocialIcon } from './SocialIcons';
+import { cityLabel } from '../data/cities';
 import { projectHash, projectSlugFromName } from '../data/projectPages';
 import { useI18n } from '../i18n/I18nContext';
+import { homeSectionHref } from '../utils/navigation';
 import Logo from './Logo';
 
 const PROJECT_NAMES = ['Central Park', 'Avenue Park', 'MURA', 'Easton', 'White Hill', 'ORTA', 'BS Towers'];
-
-const LINK_HREF = {
-  about: '#/about',
-  vacancies: 'mailto:bsholding@gmail.com?subject=Вакансии BS Holding',
-  news: '#/news',
-  contacts: '#contacts',
-  hours: '#contacts',
-  aktau: '#contacts',
-  aktobe: '#contacts',
-  oskemen: '#contacts',
-  installment: '#paida',
-  mortgage: '#catalog',
-  conditions: '#/akcii',
-};
 
 export default function Footer() {
   const { t } = useI18n();
@@ -33,33 +21,28 @@ export default function Footer() {
     {
       titleKey: 'footer.col.company',
       items: [
-        { label: t('footer.link.about'), href: LINK_HREF.about },
-        { label: t('footer.link.vacancies'), href: LINK_HREF.vacancies },
-        { label: t('footer.link.news'), href: LINK_HREF.news },
+        { label: t('footer.link.about'), href: '#/about' },
+        { label: t('footer.link.news'), href: '#/akcii' },
       ],
     },
     {
       titleKey: 'footer.col.support',
       items: [
-        { label: t('footer.link.contacts'), href: LINK_HREF.contacts },
-        { label: t('footer.link.hours'), href: LINK_HREF.hours },
+        { label: t('footer.link.contacts'), href: homeSectionHref('contacts') },
+        { label: t('footer.link.hours'), href: homeSectionHref('contacts') },
       ],
     },
     {
       titleKey: 'footer.col.offices',
       items: [
-        { label: 'Актау', href: LINK_HREF.aktau },
-        { label: 'Актобе', href: LINK_HREF.aktobe },
-        { label: 'Усть-Каменогорск', href: LINK_HREF.oskemen },
+        { label: cityLabel(t, 'Актау'), href: homeSectionHref('contacts') },
+        { label: cityLabel(t, 'Актобе'), href: homeSectionHref('contacts') },
+        { label: cityLabel(t, 'Усть-Каменогорск'), href: homeSectionHref('contacts') },
       ],
     },
     {
       titleKey: 'footer.col.paida',
-      items: [
-        { label: t('footer.link.installment'), href: LINK_HREF.installment },
-        { label: t('footer.link.mortgage'), href: LINK_HREF.mortgage },
-        { label: t('footer.link.conditions'), href: LINK_HREF.conditions },
-      ],
+      items: [{ label: t('footer.link.conditions'), href: '#/akcii' }],
     },
   ];
 
@@ -87,15 +70,17 @@ export default function Footer() {
         <div className="site-footer__meta">
           <span className="site-footer__copy">{t('footer.copy')}</span>
           <div className="site-footer__socials">
-            {SOCIALS.map((s) => (
+            {SOCIAL_NETWORKS.map((s) => (
               <a
-                key={s}
-                href={SOCIAL_LINKS[s] ?? '#'}
+                key={s.id}
+                href={s.href}
                 className="site-footer__social"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={s.label}
+                title={s.label}
               >
-                {s}
+                <SocialIcon id={s.id} />
               </a>
             ))}
           </div>

@@ -1,8 +1,10 @@
 import Dropdown from './Dropdown';
+import { classFullLabel, metaLabel, termBadgeLabel } from '../i18n/catalogText';
 import { useI18n } from '../i18n/I18nContext';
 import { fmt } from '../utils/format';
 
 function ProjectCard({ p, onOpen }) {
+  const { t } = useI18n();
   const clickable = Boolean(p.slug || p.href);
   const Wrapper = clickable ? 'button' : 'div';
   const wrapperProps = clickable
@@ -13,19 +15,23 @@ function ProjectCard({ p, onOpen }) {
       }
     : { className: 'project-card' };
 
+  const metaItems = p.meta
+    ? p.meta.map((m) => metaLabel(t, m))
+    : [metaLabel(t, p.city), classFullLabel(t, p.classFull)];
+
   return (
     <Wrapper {...wrapperProps}>
       <div className="project-card__media">
         <img src={p.image} alt={p.name} />
         <div className="project-card__badges">
-          <span className="badge">{p.classFull}</span>
-          {p.termBadge && <span className="badge">{p.termBadge}</span>}
+          <span className="badge">{classFullLabel(t, p.classFull)}</span>
+          {p.termBadge && <span className="badge">{termBadgeLabel(t, p.termBadge)}</span>}
         </div>
       </div>
       <div className="project-card__info">
         <div className="project-card__name">{p.name}</div>
         <div className="project-card__meta">
-          {(p.meta || [p.city, p.classFull]).map((m, i) => (
+          {metaItems.map((m, i) => (
             <span key={i}>{m}</span>
           ))}
         </div>

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PromotionDetail, { PromotionCard } from '../components/promotions/PromotionDetail';
-import { PROMOTIONS } from '../data/promotions';
+import { usePromotions } from '../i18n/usePromotions';
 import { useI18n } from '../i18n/I18nContext';
 
 const MOBILE_MQ = '(max-width: 768px)';
@@ -35,6 +35,7 @@ export default function PromotionsPage({
   onGoHome,
 }) {
   const { t } = useI18n();
+  const promotions = usePromotions();
   const [activeOffer, setActiveOffer] = useState(null);
   const isMobile = useIsMobile();
 
@@ -61,7 +62,7 @@ export default function PromotionsPage({
         <div className="promotions-page__shell">
           <h1 className="promotions-page__title">{t('promos.title')}</h1>
           <div className="promotions-page__grid">
-            {PROMOTIONS.map((offer) => (
+            {promotions.map((offer) => (
               <PromotionCard key={offer.id} offer={offer} onOpen={openOffer} />
             ))}
           </div>

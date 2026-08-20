@@ -1,20 +1,27 @@
 import { FEATURED_DATA } from '../data/projects';
 import { projectHash, projectSlugFromName } from '../data/projectPages';
+import { classFullLabel, termBadgeLabel } from '../i18n/catalogText';
+import { useFeaturedData } from '../i18n/useFeaturedData';
+import { useI18n } from '../i18n/I18nContext';
 import { fmt } from '../utils/format';
 
 const TAB_NAMES = ['Central Park', 'Avenue Park', 'MURA'];
 
 export default function Featured({ activeTab, setActiveTab }) {
-  const featured = FEATURED_DATA[activeTab];
+  const { t } = useI18n();
+  const featured = useFeaturedData(activeTab);
   const slug = projectSlugFromName(activeTab);
   const detailHref = slug ? projectHash(slug) : '#';
 
+  if (!featured) return null;
+
   return (
     <section className="section featured">
-      <h2 className="section-title">Наши новостройки</h2>
+      <h2 className="section-title">{t('featured.title')}</h2>
       <div className="featured-tabs">
         {TAB_NAMES.map((name) => {
           const active = name === activeTab;
+          const tabPrice = FEATURED_DATA[name]?.price;
           return (
             <button
               key={name}
@@ -23,9 +30,11 @@ export default function Featured({ activeTab, setActiveTab }) {
               className={`featured-tab${active ? ' is-active' : ''}`}
             >
               <span className="featured-tab__name">{name}</span>
-              <span className="featured-tab__price">
-                от {fmt(FEATURED_DATA[name].price)} ₸
-              </span>
+              {tabPrice != null && tabPrice > 0 && (
+                <span className="featured-tab__price">
+                  {t('catalog.price.from')} {fmt(tabPrice)} ₸
+                </span>
+              )}
             </button>
           );
         })}
@@ -33,8 +42,8 @@ export default function Featured({ activeTab, setActiveTab }) {
       <div className="featured-media">
         <img src={featured.image} alt={featured.name} />
         <div className="featured-media__badges">
-          <span className="badge">{featured.klass}</span>
-          <span className="badge">{featured.termBadge}</span>
+          <span className="badge">{classFullLabel(t, featured.klass)}</span>
+          <span className="badge">{termBadgeLabel(t, featured.termBadge)}</span>
         </div>
       </div>
       <div className="featured-info">
@@ -56,7 +65,7 @@ export default function Featured({ activeTab, setActiveTab }) {
             window.location.hash = projectHash(slug);
           }}
         >
-          Подробнее
+          {t('plans.detail')}
         </a>
       </div>
     </section>

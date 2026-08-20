@@ -20,7 +20,7 @@ export default function ProjectYard({ data }) {
       </picture>
       <div className="easton-yard__overlay" />
       <div className="easton-yard__content">
-        <div className="easton-yard__label">{yard.labelKey ? t(yard.labelKey) : t('project.label.yard')}</div>
+        <div className="easton-yard__label">{yard.labelKey ? t(yard.labelKey) : yard.label || t('project.label.yard')}</div>
         <h2>{yard.title}</h2>
         {yard.text && <p className="easton-yard__text">{yard.text}</p>}
         {yard.features && yard.features.length > 0 && (

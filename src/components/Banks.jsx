@@ -1,3 +1,5 @@
+import { useI18n } from '../i18n/I18nContext';
+
 const BANKS = [
   { name: 'FREEDOM BANK', logo: '/images/bank-freedom.webp' },
   { name: 'Altyn Bank', logo: '/images/bank-altyn.webp' },
@@ -6,11 +8,11 @@ const BANKS = [
 ];
 
 export default function Banks() {
+  const { t } = useI18n();
+
   return (
     <section className="section banks">
-      <h2 className="section-title banks__title">
-        Сотрудничаем с доверенными банками
-      </h2>
+      <h2 className="section-title banks__title">{t('banks.title')}</h2>
       <div className="banks-grid">
         {BANKS.map((b) => (
           <div key={b.name} className="banks-item">

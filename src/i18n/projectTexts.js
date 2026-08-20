@@ -434,158 +434,491 @@ export const PROJECT_TEXTS = {
 
   'avenue-park': {
     KZ: {
-      hero: { location: 'Ақтау қ.' },
+      hero: {
+        location: 'Ақтау қ.',
+        tagline: 'Avenue Park, Ақтау — 40-шы микрорайондағы жайлылық пен сенімділіктің жаңа стандарты.',
+      },
       about: {
-        text: 'Avenue Park — Ақтаудағы ең ірі масштабты және инфрақұрылымдық тұрғысынан дамыған жобалардың бірі. Заманауи мегакешен.',
+        title: 'Нақты «үй» сезімі туатын үй',
+        text: 'Avenue Park — қалалық өмірдің ортасындағы тұрғын үй кешені, әр тұрғын тыныштық, табиғилық және заманауи жайлылық алады. Кешен күнделікті өмірді ыңғайлы, қауіпсіз және мәнді ету идеясын біріктіреді.',
+        imageAlt: 'Avenue Park кешенінің жалпы көрінісі',
         stats: [
-          { text: 'Тапсыру мерзімі: 2025-2027 жж.' },
-          { text: 'Бизнес+ класс · алаңдар 41-ден 247 шарш. м-ге дейін' },
+          { text: '360 м³ — су берудің тоқтап қалған жағдайында резервтік су қоры' },
+          { text: '3–3,2 м — пәтерлердегі төбе биіктігі' },
+          { text: '24/7 — бейнебақылау және аумақты қорғау' },
         ],
       },
       standards: {
-        title: 'Avenue Park ыңғайлы өмір үшін маңызды барлығын біріктіреді',
-        text: 'Avenue Park — аудан ауқымында дамыған инфрақұрылымы, жасыл аумақтары мен заманауи сәулетімен ерекшеленетін тұрғын кешен.',
+        title: 'Жобаның басты артықшылықтары',
+        text: 'Avenue Park, Ақтау — 40-шы микрорайондағы жайлылық пен сенімділіктің жаңа стандарты.',
         cards: [
-          { title: 'Заманауи сәулеттік дизайн' },
-          { title: 'Ойластырылған инфрақұрылым' },
-          { title: 'Жоғары сапалы құрылыс' },
+          {
+            title:
+              'Инженерлік автономия — резервтік дизель-генератор және 360 м³ су қоры сыртқы желілердегі ақауларда үздіксіз жайлылықты қамтамасыз етеді',
+          },
+          {
+            title:
+              'Ақылды қауіпсіздік технологиялары — Xiaomi MI Magic Vein электрондық құлып (Face ID, саусақ ізі, карта, пароль) және IP-домофония',
+          },
+          {
+            title:
+              'Премиум инженерлік жүйелер — Xizi Gotz лифтілері, Rehau терезелері, Royal Thermo радиаторлары',
+          },
         ],
       },
       location: {
-        title: 'Ақтаудың 32-ші шағын ауданы —\nқала инфрақұрылымына жақын',
+        title: '40-шы микрорайон — Бірінші Президент паркінің жанында',
+        cards: [
+          { title: 'Бірінші Президент паркі' },
+          { title: 'А. Кекілбаев атындағы мұражай' },
+          { title: 'BS Arena спорт кешені' },
+        ],
         notes: [
-          'Avenue Park қалалық ортаға жақын орналасқан — дүкендер, мектептер мен ойын-сауық орталықтары жаяу қашықтықта.',
-          'Даму орталығы, балабақшалар мен мектептер жобаның аумағында орналасқан немесе жанында.',
+          'Avenue Park Ақтаудың перспективалы 40-шы микрорайонында орналасқан — жаңа идеалар мен жайлы өмір салтының орталығына айналуда.',
+          'Локацияның басты ерекшелігі — Бірінші Президент паркіне жақындығы: таңғы серуендер мен кешкі демалыс күнделікті өмірдің бөлігіне айналады.',
         ],
       },
       architecture: {
-        title: 'Avenue Park сәулеті — заманауи масштаб пен эстетика',
+        title: 'Премиум-класс инженерлік шешімдер',
+        lead: 'Avenue Park лифттерден терезелер мен есіктерге дейін инженерлік жүйелердің сенімділігі мен ұзақ мерзімділігіне назар аударады.',
+        points: [
+          'Xizi Gotz (Қытай) лифтілері блоктар бойынша жүктемені тарату жүйесімен: A және D блоктарында 2 лифт; B, E, V және G блоктарында 1 лифт.',
+          'Rehau (Германия) терезелері: 5 камералық профиль, екі камералы шыны пакет.',
+          'Xiaomi MI Magic Vein электрондық құлыппен ресейлік өндірістегі металл кіреберіс есіктері.',
+        ],
         ctaQuestion: 'Avenue Park материалдарының сапасын жеке бағалағыңыз келе ме?',
+        ctaButton: 'Экскурсияға жазылу',
       },
       yard: {
-        title: 'Аула кеңістігі тыныштық пен ыңғайлылыққа приоритет беріліп жобаланған',
+        label: 'Жобаның ірі артықшылығы',
+        title: 'Ақылды үй есікпен басталады',
+        text:
+          'Avenue Park пәтерлерінде Xiaomi MI Magic Vein электрондық құлып орнатылған: бетті таниды (Face ID), саусақ ізін қабылдайды, карта, пароль немесе қолмен ашылады. Балалары бар отбасылар үшін няня, қонақ немесе туыстың кіру уақыты мен деңгейін толық бақылауға мүмкіндік береді.',
+      },
+      playground: {
+        title: 'Аула — тыныштық, спорт және сау өмір салтының орталығы',
+        text:
+          'Avenue Park көпфункционалды ауласы жасылдануды, балаларға арналған сенсорлық ойын алаңдарын, спорт аймақтарын және бүкіл отбасыға арналған демалыс орындарын біріктіреді.',
+        cta: 'Кеңес алу',
+      },
+      kids: {
+        label: 'Аула және абаттандыру',
+        gallery: [
+          { title: 'Балалардың дамуына арналған сенсорлық ойын алаңдары: горкалар, тепе-теңдік тақталары және тактильді жолдар' },
+          { title: 'Workout аймақтары, баскетбол және футбол алаңдары' },
+          { title: 'Перголалар мен шағын архитектуралық формалармен демалыс аймақтары' },
+        ],
+        roomLabel: 'Kids Room',
+        roomTitle: 'Kids Room — балаға арналған қауіпсіз mini-дүние',
+        roomText:
+          'Avenue Park-та жұмсақ қауіпсіз жабынғымен жабық балалар бөлмесі бар — кез келген ауа райында балалар шығармашылықпен айналып, ойнайды.',
+        roomImageAlt: 'Kids Room интерьері',
+      },
+      hall: {
+        label: 'Қоғамдық кеңістіктер',
+        title: 'Юрта және қазан аймағы — дәстүрлер заманауи форматта',
+        text1: 'Кешен ауласында демалыс пен дәстүрлі іс-шараларға арналған этникалық және отбасылық кеңістіктер қарастырылған.',
+        features: [
+          'Отбасылық жиналыстар мен мерекелерге арналған қазан және барбекю аймағы',
+          'Демалыс пен мерекелерге арналған қазақ юртасының заманауи интерпретациясы',
+          'Бүкіл аумақты тәулік бойы бейнебақылау',
+          'Әр пәтерде IP-домофония',
+        ],
+      },
+      apartments: {
+        title: 'Пәтердің әр деталында жайлылық',
+        text: '3–3,2 м төбе биіктігі, француз панорамалық балкондары және сенімді инженерлік шешімдер кеңістік пен қорғалғандық сезімін туғызады.',
+        cta: 'Кеңес алу',
+        features: [
+          '3–3,2 м төбе биіктігі',
+          'Үш жақтан шынылаумен француз панорамалық балкондар',
+          'Royal Thermo радиаторлары',
+          'Xiaomi MI Magic Vein: Face ID, саусақ ізі, карта және пароль',
+        ],
+      },
+      floorPlans: {
+        title: 'Avenue Park жоспарлары блоктар бойынша',
+        text: 'А және Д блоктардың пәтерлік парақтары. Сүзгісіз — негізгі қабаттар; толық тізімді көру үшін блок немесе қабатты таңдаңыз.',
+      },
+      boxroom: {
+        label: 'Boxroom және бизнес-кеңістіктер',
+        title: 'Boxroom және бизнес-кеңістіктер — Avenue Park қосымша мүмкіндіктері',
+        text:
+          'Жеке Boxroom кладоваялары пәтерді артық заттардан босатады. Коммерциялық қызмет үшін 3,8–5 м төбелі бизнес-кеңістіктер мен жеке инженерлік жүйелер қарастырылған.',
+        gallery: [
+          { alt: 'Boxroom кладовая' },
+          { alt: 'Бизнес-кеңістік' },
+        ],
       },
       consult: {
         title: 'Байланыс деректерін толтырыңыз — м² үшін тиімді бағаны бекітіп береміз',
-        subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жіберіп береді.',
+        subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жібереді.',
+        address: 'Ақтау қ., 40-шы микрорайон',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
+        policy: 'Өтінім қалдыру арқылы сіз жеке деректерді өңдеу саясатымызға келісесіз',
       },
     },
     EN: {
-      hero: { location: 'Aktau city' },
+      hero: {
+        location: 'Aktau',
+        tagline: 'Avenue Park, Aktau — a new standard of comfort and reliability in District 40.',
+      },
       about: {
-        text: 'Avenue Park — one of the largest-scale and most infrastructure-rich projects in Aktau. A modern mega-complex.',
+        title: 'A home where a true sense of home is born',
+        text: 'Avenue Park is a residential complex at the heart of city life, where every resident enjoys calm, natural surroundings and modern comfort. The complex is united by one idea — making everyday life convenient, safe and meaningful.',
+        imageAlt: 'Avenue Park complex overview',
         stats: [
-          { text: 'Completion: 2025–2027' },
-          { text: 'Business+ class · areas from 41 to 247 sq. m' },
+          { text: '360 m³ — backup water reserve in case of water supply interruption' },
+          { text: '3–3.2 m — ceiling height in apartments' },
+          { text: '24/7 — video surveillance and territory security' },
         ],
       },
       standards: {
-        title: 'Avenue Park brings together everything that matters for comfortable living',
-        text: 'Avenue Park is a residential complex distinguished by its district-level infrastructure, green spaces and modern architecture.',
+        title: 'Key project advantages',
+        text: 'Avenue Park, Aktau — a new standard of comfort and reliability in District 40.',
         cards: [
-          { title: 'Modern architectural design' },
-          { title: 'Thoughtful infrastructure' },
-          { title: 'High construction quality' },
+          {
+            title:
+              'Engineering autonomy — backup diesel generator and 360 m³ water reserve ensure uninterrupted comfort during external network failures',
+          },
+          {
+            title:
+              'Smart security — Xiaomi MI Magic Vein electronic lock (Face ID, fingerprint, card, password) and IP intercom in every apartment',
+          },
+          {
+            title: 'Premium engineering systems — Xizi Gotz lifts, Rehau windows, Royal Thermo radiators',
+          },
         ],
       },
       location: {
-        title: 'District 32, Aktau —\nclose to the city\'s infrastructure',
+        title: 'District 40 — next to First President Park',
+        cards: [
+          { title: 'First President Park' },
+          { title: 'A. Kekilbayev Museum' },
+          { title: 'BS Arena sports complex' },
+        ],
         notes: [
-          'Avenue Park is conveniently located near the urban environment — shops, schools and entertainment centres are within walking distance.',
-          'A development centre, kindergartens and schools are located within or adjacent to the complex.',
+          'Avenue Park is located in the promising District 40 of Aktau — becoming a centre of new ideas and a comfortable lifestyle.',
+          'The main location advantage is proximity to First President Park — morning walks and evening relaxation become part of everyday life.',
         ],
       },
       architecture: {
-        title: 'Avenue Park architecture — modern scale and aesthetics',
+        title: 'Premium-class engineering solutions',
+        lead: 'Avenue Park focuses on the reliability and durability of engineering systems — from lifts to windows and doors.',
+        points: [
+          'Xizi Gotz (China) lifts with load distribution across blocks: 2 lifts in blocks A and D; 1 lift in blocks B, E, V and G.',
+          'Rehau (Germany) windows: 5-chamber profile, double-glazed units.',
+          'Russian-made steel entrance doors with Xiaomi MI Magic Vein electronic lock.',
+        ],
         ctaQuestion: 'Would you like to assess the quality of Avenue Park\'s materials in person?',
+        ctaButton: 'Book a tour',
       },
       yard: {
-        title: 'The courtyard space is designed with a priority on peace and comfort',
+        label: 'Major project advantage',
+        title: 'A smart home starts at the door',
+        text:
+          'Avenue Park apartments feature a Xiaomi MI Magic Vein electronic lock: face recognition (Face ID), fingerprint, card, password or manual opening. For families with children, full control over access time and level for a nanny, guest or relative.',
+      },
+      playground: {
+        title: 'Courtyard — centre of calm, sport and healthy living',
+        text:
+          'Avenue Park\'s multifunctional courtyard combines landscaping, sensory playgrounds for children, sports zones and recreation areas for the whole family.',
+        cta: 'Get consultation',
+      },
+      kids: {
+        label: 'Courtyard and landscaping',
+        gallery: [
+          { title: 'Sensory playgrounds for child development: slides, balance boards and tactile paths' },
+          { title: 'Workout zones, basketball and football courts' },
+          { title: 'Recreation areas with pergolas and small architectural forms' },
+        ],
+        roomLabel: 'Kids Room',
+        roomTitle: 'Kids Room — a safe mini-world for your child',
+        roomText:
+          'Avenue Park has a closed children\'s room with soft safe flooring where children create and play in any weather.',
+        roomImageAlt: 'Kids Room interior',
+      },
+      hall: {
+        label: 'Public spaces',
+        title: 'Yurt and qazan zone — traditions in a modern format',
+        text1: 'The complex courtyard includes ethnic and family spaces for recreation and traditional events.',
+        features: [
+          'Qazan and barbecue zone for family gatherings and celebrations',
+          'Modern interpretation of a Kazakh yurt for recreation and celebrations',
+          '24/7 video surveillance across the territory',
+          'IP intercom in every apartment',
+        ],
+      },
+      apartments: {
+        title: 'Comfort in every apartment detail',
+        text: 'Ceiling heights of 3–3.2 m, French panoramic balconies and reliable engineering create a sense of space and security.',
+        cta: 'Get consultation',
+        features: [
+          'Ceiling height 3–3.2 m',
+          'French panoramic balconies with glazing on three sides',
+          'Royal Thermo radiators',
+          'Xiaomi MI Magic Vein: Face ID, fingerprint, card and password',
+        ],
+      },
+      floorPlans: {
+        title: 'Avenue Park floor plans by block',
+        text: 'Apartment sheets for blocks A and D. Without filter — main floors; select a block or floor for the full list.',
+      },
+      boxroom: {
+        label: 'Boxroom and business spaces',
+        title: 'Boxroom and business spaces — additional Avenue Park opportunities',
+        text:
+          'Personal Boxroom storage frees your apartment from clutter. Business spaces with 3.8–5 m ceilings and separate engineering systems for work, services, retail or a studio.',
+        gallery: [
+          { alt: 'Boxroom storage' },
+          { alt: 'Business space' },
+        ],
       },
       consult: {
         title: 'Leave your contacts — we\'ll lock in a great price per m² for you',
-        subtitle: 'A manager will send you the catalogue, current prices and 0% instalment terms.',
+        subtitle: 'A manager will send the catalogue, current prices and 0% instalment terms.',
+        address: 'Aktau, District 40',
         hours: 'Daily 9:00–19:00',
+        policy: 'By submitting a request, you agree to our personal data processing policy',
       },
     },
   },
 
   'bs-towers': {
     KZ: {
-      hero: { location: 'Ақтау қ.' },
+      hero: {
+        location: 'Ақтау қ.',
+        tagline: 'BS Towers — Ақтаудағы премиум-класс тұрғын үй кешені.',
+      },
       about: {
-        text: 'BS Towers — Ақтаудың бірегей биіктік акценті, заманауи бизнес-класс кешені.',
+        title: 'BS Towers — BS Holding-тің жаңа премиум-класс жобасы',
+        text:
+          'Жоба қаланың заманауи сәулеттік доминантасы ретінде жасалған. 12, 16 және 18 қабатты үш мұнара панорамалық шынылауды, функционалды жоспарларды, жоғары деңгейдегі инженерлік шешімдерді және ерекше көріністі біріктіреді.',
+        imageAlt: 'BS Towers үш мұнарасының жалпы көрінісі',
         stats: [
-          { text: 'Тапсыру мерзімі: 2026 жыл' },
-          { text: 'Бизнес-класс · кең алаңдар' },
+          { text: '226 пәтер — кешендің тұрғын фонды' },
+          { text: '12, 16 және 18 қабат — үш мұнара' },
+          {
+            text: '3,2–3,3 м — тұрғын қабаттардағы төбе; 5,8 м — коммерциялық үй-жайлар; 4,1 м — соңғы қабат',
+          },
         ],
       },
       standards: {
-        title: 'BS Towers ыңғайлы өмір үшін маңызды барлығын біріктіреді',
-        text: 'BS Towers — заманауи биіктік архитектурасы мен жоғары сапалы инфрақұрылымы бар кешен.',
+        title: 'Жобаның басты артықшылықтары',
+        text: 'BS Towers — Ақтаудағы премиум-класс тұрғын үй кешені.',
         cards: [
-          { title: 'Заманауи сәулеттік дизайн' },
-          { title: 'Ойластырылған инфрақұрылым' },
-          { title: 'Жоғары сапалы құрылыс' },
+          {
+            title:
+              'Жер асты паркинг — пайдалануға жарамды жасыл төбе және машинасыз аула аймағымен',
+          },
+          { title: 'Резиденттерге арналған жеке Fitness Room' },
+          { title: 'Панорамалық шынылау — қала көрінісін ашады' },
         ],
       },
       location: {
-        title: 'Ақтаудың орталық аймағы',
+        title: 'Ақтаудың престижді 40-шы микрорайоны',
+        cards: [
+          {
+            title:
+              'Dina гипермаркеті — Ақтаудағы заманауи гипермаркет, кең ассортимент және өз кулинариясы',
+          },
+          {
+            title:
+              'Президент паркі — Ақтаудағы ірі парк серуен, демалыс және отбасылық досқой үшін',
+          },
+          {
+            title:
+              'Абиш Кекілбаев атындағы мұражай — қазақстандық жазушы мен мемлекеттік қайраткердің өмірі мен шығармашылығына арналған мәдени орталық',
+          },
+        ],
         notes: [
-          'BS Towers қалалық инфрақұрылымға қолайлы жерде орналасқан.',
-          'Жақын жерде барлық қажетті нысандар бар.',
+          'Кешен қаланың престижді аудандардың бірі — 40-шы микрорайонда орналасқан. Бірінші Президент паркіне жаяу жетуге болады, Каспий жағалауына жол 15 минутқа дейін.',
+          'Жақын жерде Dina гипермаркеті, мектептер, балабақшалар және Абиш Кекілбаев атындағы мұражай бар.',
         ],
       },
       architecture: {
-        title: 'BS Towers сәулеті — заманауи биіктік акценті',
+        title: 'Монолитті қаңқа және заманауи фасад материалдары',
+        lead:
+          'Ғимарат қаңқа схемасы бойынша шешілген: тірек конструкциялар бағаналар, көлденең қабырғалар және тік диафрагмалар жүйесін құрайды; негізі — қаңқалы.',
+        points: [
+          'Сыртқы безендіру: АКП, алюминий, фибробетон, клинкер және гранит.',
+          'Сыртқы қабырғалар — 250 мм газоблок.',
+          'Блоктардың қабаттылығы — 12, 16 және 18 қабат.',
+        ],
         ctaQuestion: 'BS Towers материалдарының сапасын жеке бағалағыңыз келе ме?',
+        ctaButton: 'Экскурсияға жазылу',
       },
       yard: {
-        title: 'Аула кеңістігі тыныштық пен ыңғайлылыққа приоритет беріліп жобаланған',
+        label: 'Жобаның ірі артықшылығы',
+        title: 'Жасыл төбесі бар жер асты паркинг',
+        text:
+          'Кешенде пайдалануға жарамды төбесі бар бір қабатты жер асты паркинг бар. Төбеде жасылдану, балалар және спорт алаңдарымен абаттандырылған аулалар — бүкіл аула машиналардан таза.',
+      },
+      kids: {
+        label: 'Аула және абаттандыру',
+        gallery: [
+          { title: 'Балалар алаңдары' },
+          { title: 'Спорт алаңдары' },
+          { title: 'Тұрғындарға арналған демалыс аймақтары' },
+        ],
+        roomImageAlt: 'Kids Room BS Towers',
+      },
+      hall: {
+        title: 'BS Towers ортақ пайдалану кеңістіктері',
+        text1:
+          'Кешеннің холлдары мен кіреберіс топтары заманауи премиум стильде безендірілген — мәнерлі материалдар, акценттік жарықтандыру және ойластырылған навигация.',
+        gallery: [
+          { title: 'Кіреберіс тобы' },
+          { title: 'Лифт холлы' },
+          { title: 'Тұрғындарға арналған кеңістік' },
+        ],
+        features: [
+          'Холлдардың премиум безендірілуі',
+          'Заманауи навигациялы лифт холдары',
+          'Кіреберіс топтарының акценттік жарықтандыруы',
+          'Тұрғындар мен қонақтарға арналған аймақтар',
+        ],
+      },
+      apartments: {
+        title: 'Жайлы биіктік және форматтардың әртүрлілігі',
+        text: 'Тұрғын қабаттардағы төбе биіктігі 3,2–3,3 м. Үйде 1-ден 4 бөлмеге дейін пәтерлер ұсынылған.',
+        cta: 'Кеңес алу',
+        features: [
+          'Тұрғын қабаттардағы төбе биіктігі — 3,2–3,3 м',
+          'Пәтерлердің жалпы ауданы — 21 231,4 м²; тұрғын ауданы — 10 911 м²',
+          'Үйдегі кладоваялар — жалпы ауданы 422,26 м²',
+          'Кешенде 226 пәтер',
+        ],
+      },
+      floorPlans: {
+        title: 'BS Towers квартирография',
+        text:
+          'Кешенде төрт формат ұсынылған: 1 бөлмелі — 54 пәтер (23,9%), 2 бөлмелі — 65 (28,8%), 3 бөлмелі — 64 (28,3%), 4 бөлмелі — 43 (19,0%). Барлығы 226 пәтер.',
       },
       consult: {
         title: 'Байланыс деректерін толтырыңыз — м² үшін тиімді бағаны бекітіп береміз',
-        subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жіберіп береді.',
+        subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жібереді.',
+        address: 'Ақтау қ., 40-шы микрорайон',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
+        policy: 'Өтінім қалдыру арқылы сіз жеке деректерді өңдеу саясатымызға келісесіз',
       },
     },
     EN: {
-      hero: { location: 'Aktau city' },
+      hero: {
+        location: 'Aktau',
+        tagline: 'BS Towers — a premium-class residential complex in Aktau.',
+      },
       about: {
-        text: 'BS Towers — a unique high-rise accent of Aktau, a modern business-class complex.',
+        title: 'BS Towers — a new premium-class project from BS Holding',
+        text:
+          'The project is designed as a modern architectural landmark of the city. Three towers of 12, 16 and 18 floors combine panoramic glazing, functional layouts, high-level engineering solutions and exceptional views.',
+        imageAlt: 'Overview of the three BS Towers buildings',
         stats: [
-          { text: 'Completion: 2026' },
-          { text: 'Business class · spacious areas' },
+          { text: '226 apartments — the residential stock of the complex' },
+          { text: '12, 16 and 18 floors — three towers' },
+          {
+            text: '3.2–3.3 m — residential floor ceiling height; 5.8 m — commercial units; 4.1 m — top floor',
+          },
         ],
       },
       standards: {
-        title: 'BS Towers brings together everything that matters for comfortable living',
-        text: 'BS Towers is a complex with modern high-rise architecture and high-quality infrastructure.',
+        title: 'Key project advantages',
+        text: 'BS Towers — a premium-class residential complex in Aktau.',
         cards: [
-          { title: 'Modern architectural design' },
-          { title: 'Thoughtful infrastructure' },
-          { title: 'High construction quality' },
+          {
+            title:
+              'Underground parking — with a usable green roof and a car-free courtyard area',
+          },
+          { title: 'Private Fitness Room for residents' },
+          { title: 'Panoramic glazing — opens views of the city' },
         ],
       },
       location: {
-        title: 'Central area of Aktau',
+        title: 'Prestigious District 40, Aktau',
+        cards: [
+          {
+            title:
+              'Dina hypermarket — a modern Aktau hypermarket with a wide range of products, homeware and own culinary line',
+          },
+          {
+            title:
+              'Presidential Park — one of Aktau\'s largest parks for walks, outdoor recreation and family leisure',
+          },
+          {
+            title:
+              'Abish Kekilbayev Museum — a modern cultural centre dedicated to the life and work of the Kazakh writer and statesman',
+          },
+        ],
         notes: [
-          'BS Towers is conveniently located near the city\'s infrastructure.',
-          'All necessary amenities are nearby.',
+          'The complex is in District 40 — one of the city\'s prestigious areas. First President Park is within walking distance; the Caspian coast is about 15 minutes away.',
+          'Nearby: Dina hypermarket, schools, kindergartens and the Abish Kekilbayev Museum.',
         ],
       },
       architecture: {
-        title: 'BS Towers architecture — a modern high-rise accent',
+        title: 'Monolithic frame and modern façade materials',
+        lead:
+          'The building uses a frame scheme: load-bearing structures form a system of columns, horizontal slabs and vertical stiffening diaphragms; pile foundation.',
+        points: [
+          'Exterior finish: ACM, aluminium, fibre concrete, clinker and granite.',
+          'External walls — 250 mm aerated concrete blocks.',
+          'Block heights — 12, 16 and 18 floors.',
+        ],
         ctaQuestion: 'Would you like to assess the quality of BS Towers\' materials in person?',
+        ctaButton: 'Book a tour',
       },
       yard: {
-        title: 'The courtyard space is designed with a priority on peace and comfort',
+        label: 'Major project advantage',
+        title: 'Underground parking with a green roof',
+        text:
+          'The complex has a single-level underground parking with a usable roof. Landscaped courtyards with greenery, children\'s and sports playgrounds are on the roof — the entire courtyard is car-free.',
+      },
+      kids: {
+        label: 'Courtyard and landscaping',
+        gallery: [
+          { title: 'Children\'s playgrounds' },
+          { title: 'Sports courts' },
+          { title: 'Recreation areas for residents' },
+        ],
+        roomImageAlt: 'Kids Room BS Towers',
+      },
+      hall: {
+        title: 'BS Towers common areas',
+        text1:
+          'The lobbies and entrance groups of the complex are finished in a modern premium style — with expressive materials, accent lighting and thoughtful wayfinding.',
+        gallery: [
+          { title: 'Entrance group' },
+          { title: 'Lift lobby' },
+          { title: 'Residents\' space' },
+        ],
+        features: [
+          'Premium lobby finishes',
+          'Lift lobbies with modern wayfinding',
+          'Accent lighting in entrance groups',
+          'Areas for residents and guests',
+        ],
+      },
+      apartments: {
+        title: 'Comfortable ceiling height and variety of formats',
+        text: 'Residential floor ceiling height is 3.2–3.3 m. The building offers apartments from 1 to 4 rooms.',
+        cta: 'Get consultation',
+        features: [
+          'Residential floor ceiling height — 3.2–3.3 m',
+          'Total apartment area — 21,231.4 m²; living area — 10,911 m²',
+          'Storage rooms in the building — total area 422.26 m²',
+          '226 apartments in the complex',
+        ],
+      },
+      floorPlans: {
+        title: 'BS Towers apartment layouts',
+        text:
+          'The complex offers four formats: 1-bedroom — 54 apartments (23.9%), 2-bedroom — 65 (28.8%), 3-bedroom — 64 (28.3%), 4-bedroom — 43 (19.0%). Total 226 apartments.',
       },
       consult: {
         title: 'Leave your contacts — we\'ll lock in a great price per m² for you',
-        subtitle: 'A manager will send you the catalogue, current prices and 0% instalment terms.',
+        subtitle: 'A manager will send the catalogue, current prices and 0% instalment terms.',
+        address: 'Aktau, District 40',
         hours: 'Daily 9:00–19:00',
+        policy: 'By submitting a request, you agree to our personal data processing policy',
       },
     },
   },
@@ -630,6 +963,20 @@ export const PROJECT_TEXTS = {
       playground: {
         title: 'Экологиялық таза материалдардан жасалған заманауи ойын алаңы',
         text: 'Балаларға экологиялық таза материалдардан жасалған заманауи ойын алаңы орнатылған — маусымға қарамастан ойын қауіпсіз.',
+      },
+      kids: {
+        gallery: [
+          { title: 'Қауіпсіз\nматериалдар' },
+          { title: 'Белсенді\nойын аймағы' },
+          { title: 'Шығармашылық\nжәне демалыс орны' },
+        ],
+      },
+      location: {
+        cards: [
+          { title: 'Президент паркі' },
+          { title: 'Ақтаудың 40-шы микрорайоны' },
+          { title: 'Ауданның дамыған инфрақұрылымы' },
+        ],
       },
       hall: {
         title: 'Кешеннің кіреберіс топтары авторлық дизайнмен безендірілген',
@@ -710,6 +1057,20 @@ export const PROJECT_TEXTS = {
       playground: {
         title: 'Modern playground made from eco-friendly materials',
         text: 'A modern playground made from eco-friendly materials has been installed for children — a safe and cosy place for play, regardless of the season.',
+      },
+      kids: {
+        gallery: [
+          { title: 'Safe\nmaterials' },
+          { title: 'Active play\narea' },
+          { title: 'Creative\nand rest space' },
+        ],
+      },
+      location: {
+        cards: [
+          { title: 'Presidential Park' },
+          { title: 'District 40, Aktau' },
+          { title: 'Well-developed neighbourhood infrastructure' },
+        ],
       },
       hall: {
         title: 'The entrance groups of the complex are finished with original design',
@@ -1008,6 +1369,18 @@ export function applyProjectTexts(base, overrides) {
             if (!ov) return orig;
             return typeof ov === 'object' ? { ...orig, ...ov } : ov;
           });
+        }
+      }
+      if (val.quiz && base[key].quiz) {
+        merged.quiz = { ...base[key].quiz };
+        for (const quizKey of ['rooms', 'floors', 'layouts', 'payments']) {
+          if (val.quiz[quizKey] && base[key].quiz[quizKey]) {
+            merged.quiz[quizKey] = base[key].quiz[quizKey].map((orig, i) => {
+              const ov = val.quiz[quizKey][i];
+              if (!ov) return orig;
+              return typeof ov === 'object' ? { ...orig, ...ov } : ov;
+            });
+          }
         }
       }
       result[key] = merged;

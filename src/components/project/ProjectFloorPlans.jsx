@@ -2,6 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import SectionLabel from './SectionLabel';
 import LeadHoneypot from '../lead/LeadHoneypot';
 import { useI18n } from '../../i18n/I18nContext';
+import {
+  translateAreaPending,
+  translatePlanMeta,
+  translatePlanName,
+  translatePricePending,
+  translateRoomsCount,
+} from '../../i18n/planText';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
 import { buildDetails } from '../../lead/details';
 import { useLeadForm } from '../../lead/useLeadForm';
@@ -166,7 +173,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
   return (
     <section id={floorPlans.id} className="easton-section easton-section--dark">
-      <SectionLabel>{floorPlans.label}</SectionLabel>
+      <SectionLabel>{t('project.label.plans')}</SectionLabel>
       <h2 className="easton-h2">{floorPlans.title}</h2>
       <p className="easton-body" style={{ marginTop: 16, marginBottom: showFilters ? 20 : 32 }}>
         {floorPlans.text}
@@ -176,14 +183,14 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
         <div className="wh-plans-filters">
           {showRoomsFilter && (
             <div className="wh-plans-filters__group">
-              <span className="wh-plans-filters__label">Комнатность</span>
-              <div className="wh-plans-filters__chips" role="group" aria-label="Фильтр по комнатности">
+              <span className="wh-plans-filters__label">{t('plans.filter.rooms')}</span>
+              <div className="wh-plans-filters__chips" role="group" aria-label={t('plans.filter.rooms')}>
                 <button
                   type="button"
                   className={`wh-plans-filter-chip${rooms === 'all' ? ' is-active' : ''}`}
                   onClick={() => setRooms('all')}
                 >
-                  Все
+                  {t('plans.filter.all')}
                 </button>
                 {roomsOptions.map((opt) => (
                   <button
@@ -192,7 +199,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                     className={`wh-plans-filter-chip${rooms === opt ? ' is-active' : ''}`}
                     onClick={() => setRooms(opt)}
                   >
-                    {opt}
+                    {translateRoomsCount(t, opt)}
                   </button>
                 ))}
               </div>
@@ -201,14 +208,14 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
           {blockOptions.length > 1 && (
             <div className="wh-plans-filters__group">
-              <span className="wh-plans-filters__label">Блок</span>
-              <div className="wh-plans-filters__chips" role="group" aria-label="Фильтр по блоку">
+              <span className="wh-plans-filters__label">{t('plans.filter.block')}</span>
+              <div className="wh-plans-filters__chips" role="group" aria-label={t('plans.filter.block')}>
                 <button
                   type="button"
                   className={`wh-plans-filter-chip${block === 'all' ? ' is-active' : ''}`}
                   onClick={() => setBlock('all')}
                 >
-                  Все
+                  {t('plans.filter.all')}
                 </button>
                 {blockOptions.map((opt) => (
                   <button
@@ -226,14 +233,14 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
 
           {floorOptions.length > 1 && (
             <div className="wh-plans-filters__group">
-              <span className="wh-plans-filters__label">Этаж</span>
-              <div className="wh-plans-filters__chips" role="group" aria-label="Фильтр по этажу">
+              <span className="wh-plans-filters__label">{t('plans.filter.floor')}</span>
+              <div className="wh-plans-filters__chips" role="group" aria-label={t('plans.filter.floor')}>
                 <button
                   type="button"
                   className={`wh-plans-filter-chip${floor === 'all' ? ' is-active' : ''}`}
                   onClick={() => setFloor('all')}
                 >
-                  Все
+                  {t('plans.filter.all')}
                 </button>
                 {floorOptions.map((opt) => (
                   <button
@@ -252,12 +259,12 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
           <div className="wh-plans-filters__meta">
             <span>
               {filtersActive
-                ? `Показано ${filtered.length} из ${items.length}`
-                : `Основные планировки · ${filtered.length} из ${items.length}`}
+                ? t('plans.shown').replace('{shown}', String(filtered.length)).replace('{total}', String(items.length))
+                : t('plans.featured').replace('{shown}', String(filtered.length)).replace('{total}', String(items.length))}
             </span>
             {filtersActive && (
               <button type="button" className="wh-plans-filters__reset" onClick={resetFilters}>
-                Сбросить
+                {t('plans.reset')}
               </button>
             )}
           </div>
@@ -285,27 +292,27 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                   className={`wh-plan-card${item.placeholder ? ' wh-plan-card--placeholder' : ''}${item.sheet ? ' wh-plan-card--sheet' : ''}`}
                 >
                   <div className="wh-plan-card__media">
-                    <img src={item.image} alt={item.name} loading="lazy" />
+                    <img src={item.image} alt={translatePlanName(t, item.name)} loading="lazy" />
                   </div>
                   <div className="wh-plan-card__body">
-                    <div className="wh-plan-card__name">{item.name}</div>
+                    <div className="wh-plan-card__name">{translatePlanName(t, item.name)}</div>
                     <div className="wh-plan-card__meta">
                       {item.placeholder ? (
-                        <span>{item.note ?? 'Характеристики уточняются'}</span>
+                        <span>{item.note ?? t('plans.charsPending')}</span>
                       ) : (
                         <>
-                          {item.rooms && <span>{item.rooms}</span>}
-                          {item.area && <span>{item.area}</span>}
+                          {item.rooms && <span>{translateRoomsCount(t, item.rooms)}</span>}
+                          {item.area && <span>{translateAreaPending(t, item.area)}</span>}
                         </>
                       )}
                     </div>
-                    {item.price && <div className="wh-plan-card__price">{item.price}</div>}
+                    {item.price && <div className="wh-plan-card__price">{translatePricePending(t, item.price)}</div>}
                     <button
                       type="button"
                       className="easton-btn easton-btn--light wh-plan-card__cta"
                       onClick={() => openPlan(item)}
                     >
-                      {item.cta ?? 'Подробнее'}
+                      {item.cta ?? t('plans.detail')}
                     </button>
                   </div>
                 </article>
@@ -313,66 +320,66 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
             </div>
             {showMore && (
               <button type="button" className="wh-plans-show-more" onClick={() => setExpanded(true)}>
-                Показать ещё
+                {t('plans.showMore')}
               </button>
             )}
           </>
         ) : (
           <div className="wh-plans-empty">
-            Нет планировок по выбранным фильтрам.
+            {t('plans.empty')}
             <button type="button" className="wh-plans-filters__reset" onClick={resetFilters}>
-              Сбросить фильтр
+              {t('plans.resetFilter')}
             </button>
           </div>
         )
       ) : (
-        <div className="project-plans-placeholder" aria-label={floorPlans.placeholder || `Планировки ${data.name}`}>
+        <div className="project-plans-placeholder" aria-label={floorPlans.placeholder || `${t('project.label.plans')} ${data.name}`}>
           {floorPlans.placeholderImage ? (
-            <img src={floorPlans.placeholderImage} alt={floorPlans.placeholder || `Планировки ${data.name}`} />
+            <img src={floorPlans.placeholderImage} alt={floorPlans.placeholder || `${t('project.label.plans')} ${data.name}`} />
           ) : (
-            <div className="project-plans-placeholder__empty">{floorPlans.placeholder || `Планировки ${data.name}`}</div>
+            <div className="project-plans-placeholder__empty">{floorPlans.placeholder || `${t('project.label.plans')} ${data.name}`}</div>
           )}
         </div>
       )}
 
       {active && (
-        <div className="wh-plan-popup" role="dialog" aria-modal="true" aria-label={active.name}>
-          <button type="button" className="wh-plan-popup__backdrop" aria-label="Закрыть" onClick={close} />
+        <div className="wh-plan-popup" role="dialog" aria-modal="true" aria-label={translatePlanName(t, active.name)}>
+          <button type="button" className="wh-plan-popup__backdrop" aria-label={t('form.close')} onClick={close} />
           <div className={`wh-plan-popup__panel${active.sheet ? ' wh-plan-popup__panel--sheet' : ''}`}>
-            <button type="button" className="wh-plan-popup__close" onClick={close} aria-label="Закрыть">
+            <button type="button" className="wh-plan-popup__close" onClick={close} aria-label={t('form.close')}>
               ×
             </button>
             <div className={`wh-plan-popup__grid${active.sheet ? ' wh-plan-popup__grid--sheet' : ''}`}>
               <div className="wh-plan-popup__media">
-                <img src={active.image} alt={active.name} />
+                <img src={active.image} alt={translatePlanName(t, active.name)} />
               </div>
               <div className="wh-plan-popup__info">
-                <h3>{active.name}</h3>
+                <h3>{translatePlanName(t, active.name)}</h3>
                 <ul>
-                  {active.rooms && <li>{active.rooms}</li>}
-                  {active.area && <li>Общая площадь: {active.area}</li>}
-                  {active.areaLiving && <li>Жилая площадь: {active.areaLiving}</li>}
-                  {active.price && <li>Стоимость: {active.price}</li>}
+                  {active.rooms && <li>{translateRoomsCount(t, active.rooms)}</li>}
+                  {active.area && <li>{t('plans.areaTotal')}: {translateAreaPending(t, active.area)}</li>}
+                  {active.areaLiving && <li>{t('plans.areaLiving')}: {active.areaLiving}</li>}
+                  {active.price && <li>{t('plans.price')}: {translatePricePending(t, active.price)}</li>}
                   {active.meta?.map((m) => (
-                    <li key={m}>{m}</li>
+                    <li key={m}>{translatePlanMeta(t, m)}</li>
                   ))}
                   {active.priceNote && <li>{active.priceNote}</li>}
                   {active.placeholder && (
-                    <li>{active.note ?? 'Характеристики уточняются'} — оставьте заявку, и менеджер пришлёт планировку.</li>
+                    <li>{active.note ?? t('plans.charsPending')} — {t('plans.placeholderNote')}</li>
                   )}
                 </ul>
                 {form.isSuccess ? (
                   <div>
-                    <div className="easton-consult__success-title">Заявка принята</div>
-                    <div className="easton-consult__success-sub">Мы свяжемся с вами в течение дня.</div>
+                    <div className="easton-consult__success-title">{t('project.consult.success.title')}</div>
+                    <div className="easton-consult__success-sub">{t('project.consult.success.sub')}</div>
                   </div>
                 ) : (
                   <div className="wh-plan-popup__form">
-                    <label htmlFor="plan-lead-name">Ваше Ф.И.О.</label>
-                    <input id="plan-lead-name" className="input-dark" placeholder="Ваше имя" {...form.fields.name} />
+                    <label htmlFor="plan-lead-name">{t('project.consult.name.label')}</label>
+                    <input id="plan-lead-name" className="input-dark" placeholder={t('project.consult.name.placeholder')} {...form.fields.name} />
                     {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
 
-                    <label htmlFor="plan-lead-phone">Телефон</label>
+                    <label htmlFor="plan-lead-phone">{t('project.consult.phone.label')}</label>
                     <input id="plan-lead-phone" className="input-dark" {...form.fields.phone} />
                     {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
 
@@ -386,10 +393,10 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                       onClick={form.submit}
                       disabled={form.isLoading}
                     >
-                      {form.isLoading ? 'Отправка…' : 'Оставить заявку'}
+                      {form.isLoading ? t('form.sending') : t('lead.layout.submit')}
                     </button>
                     <button type="button" className="easton-btn easton-btn--ghost" onClick={() => { close(); onScrollToConsult?.(); }}>
-                      Консультация по объекту
+                      {t('plans.consultObject')}
                     </button>
                     <div className="lead-policy">{t('lead.consent')}</div>
                   </div>

@@ -1,4 +1,5 @@
 import { useI18n } from '../i18n/I18nContext';
+import { homeSectionHref } from '../utils/navigation';
 
 export default function Hero() {
   const { t } = useI18n();
@@ -9,12 +10,12 @@ export default function Hero() {
         <img
           className="hero__bg"
           src="/images/hero-building.webp"
-          alt="BS Holding — флагманский жилой комплекс"
+          alt={t('hero.alt')}
         />
         <div className="hero__overlay" />
         <div className="hero__content">
           <h1 className="hero__title">{t('hero.title')}</h1>
-          <a href="#catalog" className="btn-white hero__cta">
+          <a href={homeSectionHref('catalog')} className="btn-white hero__cta">
             {t('hero.cta')}
           </a>
         </div>
@@ -24,9 +25,9 @@ export default function Hero() {
         <img
           className="hero__paida-img"
           src="/images/paida-card-ref.webp"
-          alt="BS Пайда — выгода до 9.5% при покупке в рассрочку. Партнёры: Freedom Bank, Altyn Bank, bcc.kz, Отбасы Банк. Ваша ипотека одобрена!"
+          alt={t('hero.paidaAlt')}
         />
-        <a href="#paida" className="hero__paida-btn" aria-label="Подробнее о BS Пайда" />
+        <a href={homeSectionHref('paida')} className="hero__paida-btn" aria-label={t('hero.paidaMore')} />
       </div>
     </section>
   );

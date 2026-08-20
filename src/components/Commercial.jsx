@@ -1,26 +1,43 @@
-import { COMMERCIAL } from '../data/projects';
+import { useI18n } from '../i18n/I18nContext';
+
+const COMMERCIAL_ITEMS = [
+  {
+    key: 'parking',
+    image: '/images/commercial-parking.webp',
+  },
+  {
+    key: 'storage',
+    image: '/images/commercial-storage.webp',
+  },
+  {
+    key: 'space',
+    image: '/images/commercial-space.webp',
+  },
+];
 
 export default function Commercial() {
+  const { t } = useI18n();
+
   return (
     <section className="section commercial">
-      <h2 className="section-title commercial__title">
-        К квартире так же можно приобрести
-      </h2>
+      <h2 className="section-title commercial__title">{t('commercial.title')}</h2>
       <div className="commercial-grid">
-        {COMMERCIAL.map((c) => (
-          <div key={c.title} className="commercial-item">
-            <div className="commercial-item__title">{c.title}</div>
-            <div className="commercial-item__meta">
-              {c.meta.map((m) => (
-                <span key={m}>{m}</span>
-              ))}
+        {COMMERCIAL_ITEMS.map((c) => {
+          const title = t(`commercial.${c.key}.title`);
+          return (
+            <div key={c.key} className="commercial-item">
+              <div className="commercial-item__title">{title}</div>
+              <div className="commercial-item__meta">
+                <span>{t(`commercial.${c.key}.meta0`)}</span>
+                <span>{t(`commercial.${c.key}.meta1`)}</span>
+              </div>
+              <div className="commercial-item__media">
+                <img src={c.image} alt={title} />
+              </div>
+              <div className="commercial-item__from">{t(`commercial.${c.key}.from`)}</div>
             </div>
-            <div className="commercial-item__media">
-              <img src={c.image} alt={c.title} />
-            </div>
-            <div className="commercial-item__from">{c.from}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

@@ -178,22 +178,22 @@ export const COMMERCIAL = [
 ];
 
 export const FOOTER_COLS = [
-    { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'MURA', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
-  { title: 'Компания', items: ['О нас', 'Вакансии', 'Новости'] },
+  { title: 'Проекты', items: ['Central Park', 'Avenue Park', 'MURA', 'Easton', 'White Hill', 'ORTA', 'BS Towers'] },
+  { title: 'Компания', items: ['О нас', 'Новости'] },
   { title: 'Поддержка', items: ['Контакты', 'График работы'] },
   { title: 'Офисы продаж', items: ['Актау', 'Актобе', 'Усть-Каменогорск'] },
-  { title: 'BS Пайда', items: ['Рассрочка', 'Ипотека', 'Условия'] },
+  { title: 'BS Пайда', items: ['Условия'] },
 ];
 
-export const SOCIALS = ['IG', 'TG', 'FB', 'TT', 'YT'];
+/** @deprecated Используйте SOCIAL_NETWORKS из SocialIcons.jsx */
+export const SOCIALS = ['instagram', 'tiktok', 'youtube', 'telegram'];
 
-/** @type {Record<string, string>} */
+/** @deprecated Используйте SOCIAL_NETWORKS из SocialIcons.jsx */
 export const SOCIAL_LINKS = {
-  IG: 'https://www.instagram.com/bs_holding.aktau/',
-  TG: 'https://t.me/bsholding',
-  FB: 'https://www.facebook.com/bsholding',
-  TT: 'https://www.tiktok.com/@bsholding',
-  YT: 'https://www.youtube.com/@bsholding',
+  instagram: 'https://www.instagram.com/bs_holding?igsh=MXR5aGt1eTNhNDZydQ==',
+  tiktok: 'https://www.tiktok.com/@bs_holding?_r=1&_t=ZS-9927UPbq5Uj',
+  youtube: 'https://youtube.com/@bsholding_kz?si=lMlKCdfeyqNpD_J0',
+  telegram: 'https://t.me/bsholding_news',
 };
 
 /**

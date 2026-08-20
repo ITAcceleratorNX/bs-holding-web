@@ -6,69 +6,105 @@ import { buildDetails } from '../../lead/details';
 import { useLeadForm } from '../../lead/useLeadForm';
 import { useI18n } from '../../i18n/I18nContext';
 
-const DEFAULT_STEPS = [
-  {
-    key: 'rooms',
-    title: 'Комнатность',
-    options: [
-      { value: '1', label: '1 комната' },
-      { value: '2', label: '2 комнаты' },
-      { value: '3', label: '3 комнаты' },
-      { value: '4', label: '4 комнаты' },
-    ],
-  },
-  {
-    key: 'floor',
-    title: 'Этаж',
-    /** Short numeric labels — lay them out in a dense grid instead of 2 wide columns. */
-    compact: true,
-    options: [
-      { value: '1', label: '1' },
-      { value: '2', label: '2' },
-      { value: '3', label: '3' },
-      { value: '4', label: '4' },
-      { value: '5', label: '5' },
-      { value: '6', label: '6' },
-    ],
-  },
-  {
-    key: 'layout',
-    title: 'Планировка',
-    options: [{ value: 'Свободная', label: 'Свободная' }],
-  },
-  {
-    key: 'payment',
-    title: 'Способ оплаты',
-    options: [
-      { value: 'Ипотека', label: 'Ипотека' },
-      { value: 'Рассрочка', label: 'Рассрочка' },
-    ],
-  },
-];
-
-function buildSteps(quiz) {
-  if (!quiz) return DEFAULT_STEPS;
+function buildDefaultSteps(t) {
   return [
-    { key: 'rooms', title: 'Комнатность', options: quiz.rooms || DEFAULT_STEPS[0].options },
-    { key: 'floor', title: 'Этаж', compact: true, options: quiz.floors || DEFAULT_STEPS[1].options },
-    { key: 'layout', title: 'Планировка', options: quiz.layouts || DEFAULT_STEPS[2].options },
-    { key: 'payment', title: 'Способ оплаты', options: quiz.payments || DEFAULT_STEPS[3].options },
+    {
+      key: 'rooms',
+      title: t('quiz.step.rooms'),
+      options: [
+        { value: '1', label: t('rooms.count1') },
+        { value: '2', label: t('rooms.count2') },
+        { value: '3', label: t('rooms.count3') },
+        { value: '4', label: t('rooms.count4') },
+      ],
+    },
+    {
+      key: 'floor',
+      title: t('quiz.step.floor'),
+      compact: true,
+      options: [
+        { value: '1', label: '1' },
+        { value: '2', label: '2' },
+        { value: '3', label: '3' },
+        { value: '4', label: '4' },
+        { value: '5', label: '5' },
+        { value: '6', label: '6' },
+      ],
+    },
+    {
+      key: 'layout',
+      title: t('quiz.step.layout'),
+      options: [{ value: 'Свободная', label: t('quiz.layout.free') }],
+    },
+    {
+      key: 'payment',
+      title: t('quiz.step.payment'),
+      options: [
+        { value: 'Ипотека', label: t('quiz.payment.mortgage') },
+        { value: 'Рассрочка', label: t('quiz.payment.installment') },
+      ],
+    },
+  ];
+}
+
+function localizeQuizOptions(t, key, options) {
+  if (!options) return options;
+  if (key === 'rooms') {
+    const map = { '1': 'rooms.count1', '2': 'rooms.count2', '3': 'rooms.count3', '4': 'rooms.count4' };
+    return options.map((o) => (map[o.value] ? { ...o, label: t(map[o.value]) } : o));
+  }
+  if (key === 'payment') {
+    return options.map((o) => {
+      if (o.value === 'Ипотека') return { ...o, label: t('quiz.payment.mortgage') };
+      if (o.value === 'Рассрочка') return { ...o, label: t('quiz.payment.installment') };
+      return o;
+    });
+  }
+  if (key === 'layout') {
+    return options.map((o) =>
+      o.value === 'Свободная' ? { ...o, label: t('quiz.layout.free') } : o,
+    );
+  }
+  return options;
+}
+
+function buildSteps(quiz, t) {
+  const defaults = buildDefaultSteps(t);
+  if (!quiz) return defaults;
+  return [
+    {
+      key: 'rooms',
+      title: t('quiz.step.rooms'),
+      options: localizeQuizOptions(t, 'rooms', quiz.rooms || defaults[0].options),
+    },
+    {
+      key: 'floor',
+      title: t('quiz.step.floor'),
+      compact: true,
+      options: quiz.floors || defaults[1].options,
+    },
+    {
+      key: 'layout',
+      title: t('quiz.step.layout'),
+      options: localizeQuizOptions(t, 'layout', quiz.layouts || defaults[2].options),
+    },
+    {
+      key: 'payment',
+      title: t('quiz.step.payment'),
+      options: localizeQuizOptions(t, 'payment', quiz.payments || defaults[3].options),
+    },
   ];
 }
 
 /**
  * Квиз подбора квартиры (код формы `apartment_quiz`).
- *
- * В CRM уходят все ответы в понятном виде — подписью варианта, а не его
- * кодом, — плюс ЖК и город страницы (ТЗ 6.1).
  */
 export default function ProjectApartmentQuiz({ data }) {
   const { t } = useI18n();
-  const steps = useMemo(() => buildSteps(data.quiz), [data.quiz]);
+  const steps = useMemo(() => buildSteps(data.quiz, t), [data.quiz, t]);
   const totalSteps = steps.length + 1;
 
   const [step, setStep] = useState(0);
-  /** Ответ хранится вместе с подписью: в карточку лида уходит именно подпись. */
   const [answers, setAnswers] = useState({});
 
   const project = data.consult?.projectName ?? data.name;
@@ -84,15 +120,13 @@ export default function ProjectApartmentQuiz({ data }) {
         'quiz',
         steps.map((s) => [`quiz_${s.key}`, s.title, answers[s.key]?.label]),
       ),
-    // Ответы собраны заранее, но пользователь мог вернуться назад и не выбрать заново.
     validate: () =>
-      steps.every((s) => answers[s.key]) ? {} : { quiz: 'Ответьте на все вопросы квиза' },
+      steps.every((s) => answers[s.key]) ? {} : { quiz: t('quiz.error.incomplete') },
   });
 
   const isContact = step >= steps.length;
   const progress = ((step + 1) / totalSteps) * 100;
 
-  // Квиз пройден — фиксируем событие до отправки контактов (ТЗ 10).
   useEffect(() => {
     if (isContact) {
       trackEvent(
@@ -111,17 +145,15 @@ export default function ProjectApartmentQuiz({ data }) {
 
   return (
     <section id={`${data.slug}-quiz`} className="easton-section easton-section--cream project-quiz">
-      <SectionLabel color={data.theme?.accentDark ?? '#1F6059'}>Подбор квартиры</SectionLabel>
-      <h2 className="easton-h2 easton-h2--dark">Подберите свою квартиру в {data.name} за 1 минуту</h2>
-      <p className="easton-body easton-body--dark project-quiz__lead">
-        Ответьте на 4 вопроса — покажем подходящие планировки, актуальные цены и условия покупки.
-      </p>
+      <SectionLabel color={data.theme?.accentDark ?? '#1F6059'}>{t('quiz.label')}</SectionLabel>
+      <h2 className="easton-h2 easton-h2--dark">{t('quiz.title', { name: data.name })}</h2>
+      <p className="easton-body easton-body--dark project-quiz__lead">{t('quiz.lead')}</p>
 
       <div className="project-quiz__card">
         {form.isSuccess ? (
           <div className="project-quiz__success">
-            <div className="project-quiz__success-title">Спасибо! Заявка принята.</div>
-            <div className="project-quiz__success-sub">Мы свяжемся с вами и подберём варианты по вашим ответам.</div>
+            <div className="project-quiz__success-title">{t('quiz.success.title')}</div>
+            <div className="project-quiz__success-sub">{t('quiz.success.sub')}</div>
           </div>
         ) : (
           <>
@@ -129,12 +161,10 @@ export default function ProjectApartmentQuiz({ data }) {
               <div className="project-quiz__progress-bar" style={{ width: `${progress}%` }} />
             </div>
             <div className="project-quiz__meta">
-              <span>
-                Шаг {step + 1} из {totalSteps}
-              </span>
+              <span>{t('quiz.stepProgress', { current: step + 1, total: totalSteps })}</span>
               {step > 0 && (
                 <button type="button" className="project-quiz__back" onClick={goBack}>
-                  Назад
+                  {t('quiz.back')}
                 </button>
               )}
             </div>
@@ -157,18 +187,18 @@ export default function ProjectApartmentQuiz({ data }) {
               </>
             ) : (
               <>
-                <h3 className="project-quiz__step-title">Контакты</h3>
+                <h3 className="project-quiz__step-title">{t('quiz.contacts')}</h3>
                 <div className="project-quiz__form">
-                  <label htmlFor={`${data.slug}-quiz-name`}>Имя</label>
+                  <label htmlFor={`${data.slug}-quiz-name`}>{t('form.name.label')}</label>
                   <input
                     id={`${data.slug}-quiz-name`}
                     className="input-dark"
-                    placeholder="Ваше имя"
+                    placeholder={t('form.name.placeholder')}
                     {...form.fields.name}
                   />
                   {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
 
-                  <label htmlFor={`${data.slug}-quiz-phone`}>Телефон</label>
+                  <label htmlFor={`${data.slug}-quiz-phone`}>{t('form.phone.label')}</label>
                   <input id={`${data.slug}-quiz-phone`} className="input-dark" {...form.fields.phone} />
                   {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
 
@@ -183,7 +213,7 @@ export default function ProjectApartmentQuiz({ data }) {
                     onClick={form.submit}
                     disabled={form.isLoading}
                   >
-                    {form.isLoading ? 'Отправка…' : 'Получить подбор'}
+                    {form.isLoading ? t('form.sending') : t('quiz.submit')}
                   </button>
                   <div className="lead-policy">{t('lead.consent')}</div>
                 </div>

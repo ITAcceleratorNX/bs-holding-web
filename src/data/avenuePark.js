@@ -54,9 +54,9 @@ export const AVENUE_PARK = {
     ],
   },
   nav: [
-    { label: 'Расположение', href: '#avenue-park-location' },
-    { label: 'Архитектура', href: '#avenue-park-architecture' },
-    { label: 'Планировки', href: '#avenue-park-plans' },
+    { labelKey: 'project.nav.location', label: 'Расположение', href: '#avenue-park-location' },
+    { labelKey: 'project.nav.architecture', label: 'Архитектура', href: '#avenue-park-architecture' },
+    { labelKey: 'project.nav.plans', label: 'Планировки', href: '#avenue-park-plans' },
   ],
   hero: {
     image: `${IMG}/hero.webp`,

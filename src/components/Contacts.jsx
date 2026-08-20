@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { CITY_PHONES } from '../data/phones';
+import { CITY_LIST, cityLabel } from '../data/cities';
 import { OFFICES } from '../data/offices';
+import { CITY_PHONES } from '../data/phones';
 import { useI18n } from '../i18n/I18nContext';
 import PhoneLink from './lead/PhoneLink';
 
@@ -35,17 +36,15 @@ const MAIL_ICON = (
   </svg>
 );
 
-const CITIES = ['Актау', 'Актобе', 'Усть-Каменогорск'];
-
 export default function Contacts({ headerCity = 'Актау' }) {
   const { t } = useI18n();
-  const [mapCity, setMapCity] = useState(CITIES.includes(headerCity) ? headerCity : 'Актау');
+  const [mapCity, setMapCity] = useState(CITY_LIST.includes(headerCity) ? headerCity : 'Актау');
   const office = OFFICES.find((o) => o.city === mapCity) ?? OFFICES[0];
 
   const contactItems = [
-    ...CITIES.map((city) => ({
+    ...CITY_LIST.map((city) => ({
       title: CITY_PHONES[city].full,
-      sub: `${city} — ${t('contacts.hours')}`,
+      sub: `${cityLabel(t, city)} — ${t('contacts.hours')}`,
       href: CITY_PHONES[city].href,
       city,
       icon: PHONE_ICON,
@@ -83,21 +82,21 @@ export default function Contacts({ headerCity = 'Актау' }) {
         <h3 className="contacts-map__title">{t('contacts.mapTitle')}</h3>
         <p className="contacts-map__hint">{t('contacts.mapHint')}</p>
         <div className="contacts-map__tabs">
-          {CITIES.map((city) => (
+          {CITY_LIST.map((city) => (
             <button
               key={city}
               type="button"
               className={`contacts-map__tab${mapCity === city ? ' is-active' : ''}`}
               onClick={() => setMapCity(city)}
             >
-              {city}
+              {cityLabel(t, city)}
             </button>
           ))}
         </div>
         <p className="contacts-map__address">{office.address}</p>
         <div className="contacts-map__frame">
           <iframe
-            title={`Карта — ${office.city}`}
+            title={`${t('contacts.mapTitle')} — ${cityLabel(t, office.city)}`}
             src={office.mapEmbed}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

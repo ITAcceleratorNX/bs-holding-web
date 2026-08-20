@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import PromotionLeadForm from './PromotionLeadForm';
 import { useI18n } from '../../i18n/I18nContext';
+import { usePromotion } from '../../i18n/usePromotions';
 
 function PromoMedia({ offer }) {
   const showImage = Boolean(offer.image);
@@ -48,6 +49,7 @@ function PromoDetailBody({ offer, city, onClose }) {
  */
 function PromotionDetail({ offer, open, onClose, city, mode }) {
   const { t } = useI18n();
+  const localizedOffer = usePromotion(offer);
   const panelRef = useRef(null);
 
   useEffect(() => {
@@ -73,7 +75,7 @@ function PromotionDetail({ offer, open, onClose, city, mode }) {
     if (open) panelRef.current?.querySelector('input:not([tabindex="-1"])')?.focus();
   }, [open, offer?.id]);
 
-  if (!open || !offer) return null;
+  if (!open || !localizedOffer) return null;
 
   const isSheet = mode === 'sheet';
 
@@ -82,7 +84,7 @@ function PromotionDetail({ offer, open, onClose, city, mode }) {
       className={`promo-detail${isSheet ? ' promo-detail--sheet' : ' promo-detail--popup'}`}
       role="dialog"
       aria-modal="true"
-      aria-label={offer.title}
+      aria-label={localizedOffer.title}
       onClick={onClose}
     >
       <div
@@ -94,7 +96,7 @@ function PromotionDetail({ offer, open, onClose, city, mode }) {
         <button type="button" className="promo-detail__close" onClick={onClose} aria-label={t('form.close')}>
           ×
         </button>
-        <PromoDetailBody offer={offer} city={city} onClose={onClose} />
+        <PromoDetailBody offer={localizedOffer} city={city} onClose={onClose} />
       </div>
     </div>
   );

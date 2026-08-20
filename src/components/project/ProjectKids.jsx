@@ -12,7 +12,7 @@ export default function ProjectKids({ data }) {
 
   return (
     <section className="easton-section easton-section--cream">
-      <SectionLabel color={accentDark}>{kids.labelKey ? t(kids.labelKey) : t('project.label.kids')}</SectionLabel>
+      <SectionLabel color={accentDark}>{kids.labelKey ? t(kids.labelKey) : kids.label || t('project.label.kids')}</SectionLabel>
       <div className={`easton-kids__grid easton-kids__grid--${kids.gallery.length}`}>
         {kids.gallery.map((g, i) => (
           <MediaCard
