@@ -7,9 +7,11 @@ export default function ProjectHall({ data }) {
   const { hall } = data;
   const accentDark = data.theme?.accentDark ?? '#1F6059';
 
+  const gallery = hall.gallery?.filter(Boolean) ?? [];
+
   return (
     <section id={hall.id} className="easton-section easton-section--cream">
-      <div className="easton-hall">
+      <div className={`easton-hall${hall.compact ? ' easton-hall--compact' : ''}`}>
         <div className="easton-hall__text">
           <SectionLabel color={accentDark}>{hall.labelKey ? t(hall.labelKey) : t('project.label.hall')}</SectionLabel>
           <h2 className="easton-h2 easton-h2--dark">{hall.title}</h2>
@@ -20,10 +22,17 @@ export default function ProjectHall({ data }) {
           <img src={hall.image} alt="" />
         </div>
       </div>
-      {hall.gallery?.length > 0 && (
-        <div className="easton-kids__grid" style={{ marginTop: 32 }}>
-          {hall.gallery.map((g, i) => (
-            <MediaCard key={i} image={g.image} title={g.title} />
+      {gallery.length > 0 && (
+        <div
+          className={
+            hall.compact
+              ? `easton-kids__grid easton-hall__gallery${gallery.length === 3 ? ' easton-kids__grid--3' : ''}${gallery.length === 1 ? ' easton-hall__gallery--single' : ''}`
+              : 'easton-kids__grid'
+          }
+          style={hall.compact ? undefined : { marginTop: 32 }}
+        >
+          {gallery.map((g) => (
+            <MediaCard key={g.image} image={g.image} title={g.title} />
           ))}
         </div>
       )}

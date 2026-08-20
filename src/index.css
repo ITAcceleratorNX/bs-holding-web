@@ -1286,6 +1286,36 @@ input:focus {
   display: block;
 }
 
+/* ORTA: компактная сборка входных групп. Портретный рендер MOP при height:auto
+   вырастал почти на 600px, колонка текста рядом оставалась пустой, а галерея из
+   одного рендера занимала один столбец из четырёх — блок разваливался. */
+.easton-hall--compact {
+  align-items: stretch;
+}
+
+.easton-hall--compact .easton-hall__image {
+  flex: 1 1 0;
+  height: 420px;
+}
+
+.easton-hall--compact .easton-hall__image img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.easton-hall__gallery {
+  margin-top: 32px;
+}
+
+.easton-hall__gallery .easton-media-card {
+  min-height: 380px;
+  height: 380px;
+}
+
+.easton-hall__gallery--single {
+  grid-template-columns: 1fr;
+}
+
 .easton-hall__features {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1316,6 +1346,19 @@ input:focus {
   object-fit: cover;
   object-position: center top;
   display: block;
+}
+
+/* ORTA: рендер вертикальный (1076x1462) — при height:700px и cover от него
+   оставалась узкая полоса. Показываем кадр целиком в колонке по центру. */
+.easton-apartments__image--portrait {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.easton-apartments__image--portrait img {
+  height: auto;
+  object-fit: contain;
 }
 
 .easton-apartments__image .easton-btn {
@@ -3574,6 +3617,26 @@ input:focus {
     height: auto;
     border-radius: 12px;
     margin-top: 20px;
+  }
+
+  .easton-hall--compact .easton-hall__image {
+    flex: none;
+    height: 260px;
+  }
+
+  .easton-hall__gallery {
+    margin-top: 20px;
+  }
+
+  .easton-hall__gallery .easton-media-card {
+    min-height: 180px;
+    height: 180px;
+  }
+
+  /* Сетка на мобильном двухколоночная: третий рендер занимает всю ширину,
+     иначе рядом с ним остаётся пустая ячейка. */
+  .easton-hall__gallery .easton-media-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 
   .easton-hall__features,

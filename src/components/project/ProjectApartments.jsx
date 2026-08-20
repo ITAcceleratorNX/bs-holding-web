@@ -13,7 +13,9 @@ export default function ProjectApartments({ data, onRequestConsult }) {
         </div>
         <p className="easton-body">{apartments.text}</p>
       </div>
-      <div className="easton-apartments__image">
+      <div
+        className={`easton-apartments__image${apartments.imageFit === 'portrait' ? ' easton-apartments__image--portrait' : ''}`}
+      >
         <img
           src={apartments.image}
           alt=""
