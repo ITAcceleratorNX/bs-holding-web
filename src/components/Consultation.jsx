@@ -4,11 +4,13 @@ import LeadHoneypot from './lead/LeadHoneypot';
 import LeadConsent from './lead/LeadConsent';
 import { CITIES, DEFAULT_CITY } from '../lead/contract';
 import { useLeadForm } from '../lead/useLeadForm';
+import { useI18n } from '../i18n/I18nContext';
 
 /**
  * Общая форма консультации на главной (код формы `main_consultation`).
  */
 export default function Consultation() {
+  const { t } = useI18n();
   const [cityOpen, setCityOpen] = useState(false);
   const [city, setCity] = useState(DEFAULT_CITY);
 
@@ -23,30 +25,26 @@ export default function Consultation() {
     <section className="section consultation">
       <div className="consult-card">
         <div className="consult-card__intro">
-          <h2 className="consult-card__title">
-            Чтобы получить индивидуальную консультацию, оставьте заявку
-          </h2>
-          <p className="consult-card__sub">
-            Мы наберём вас в течение 10 минут после заявки и проконсультируем по объектам, способам оплаты и ипотеке.
-          </p>
+          <h2 className="consult-card__title">{t('consult.title')}</h2>
+          <p className="consult-card__sub">{t('consult.sub')}</p>
         </div>
         {form.isSuccess ? (
           <div className="consult-card__success">
-            <div className="consult-card__success-title">Спасибо! Заявка принята.</div>
-            <div className="consult-card__success-sub">Наш менеджер перезвонит вам в течение 10 минут.</div>
+            <div className="consult-card__success-title">{t('consult.success.title')}</div>
+            <div className="consult-card__success-sub">{t('consult.success.sub')}</div>
           </div>
         ) : (
           <div className="consult-card__form">
             <div className="consult-card__row">
               <input
                 className="input-dark consult-card__input"
-                placeholder="Ваше имя"
-                aria-label="Ваше имя"
+                placeholder={t('form.name.placeholder')}
+                aria-label={t('form.name.label')}
                 {...form.fields.name}
               />
               <input
                 className="input-dark consult-card__input"
-                aria-label="Номер телефона"
+                aria-label={t('form.phone.label')}
                 {...form.fields.phone}
               />
               <div className="consult-card__city">
@@ -69,7 +67,7 @@ export default function Consultation() {
                 onClick={form.submit}
                 disabled={form.isLoading}
               >
-                {form.isLoading ? 'Отправка…' : 'Оставить заявку'}
+                {form.isLoading ? t('form.sending') : t('consult.submit')}
               </button>
             </div>
 

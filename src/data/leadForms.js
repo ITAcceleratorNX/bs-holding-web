@@ -1,13 +1,7 @@
 /**
  * Тексты всплывающих форм страниц ЖК.
- *
- * Вынесены из компонентов, чтобы формулировки правились без захода в разметку,
- * а новая форма добавлялась одной записью. Ключ — код формы из `FORM_CODES`.
+ * Все строки берутся через t() для поддержки мультиязычности.
  */
-
-/** Согласие фиксируется по факту отправки — текст обязателен рядом с кнопкой (ТЗ 4). */
-export const CONSENT_POLICY =
-  'Оставляя заявку, вы соглашаетесь с политикой обработки персональных данных.';
 
 /**
  * @typedef {Object} LeadFormPreset
@@ -18,70 +12,78 @@ export const CONSENT_POLICY =
  * @property {string} successText
  */
 
-/** @type {Record<string, LeadFormPreset>} */
-export const LEAD_FORM_PRESETS = {
+const PRESET_KEYS = {
   zhk_hero_application: {
-    title: 'Оставить заявку',
-    subtitle: (project) => `Оставьте контакты — менеджер расскажет об актуальных квартирах и ценах ${project}.`,
-    submitLabel: 'Оставить заявку',
-    successTitle: 'Спасибо! Заявка принята.',
-    successText: 'Менеджер свяжется с вами в течение 10 минут.',
+    titleKey: 'lead.hero.title',
+    subtitleKey: 'lead.hero.subtitle',
+    submitKey: 'lead.hero.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub',
   },
   zhk_calculation: {
-    title: 'Получить расчет',
-    subtitle: (project) => `Оставьте контакты и выберите квадратуру — подготовим расчёт по ${project}.`,
-    submitLabel: 'Получить расчет',
-    successTitle: 'Спасибо! Заявка принята.',
-    successText: 'Мы рассчитаем стоимость и свяжемся с вами в ближайшее время.',
+    titleKey: 'lead.calc.title',
+    subtitleKey: 'lead.calc.subtitle',
+    submitKey: 'lead.calc.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub.calc',
   },
   tour_booking: {
-    title: 'Записаться на экскурсию',
-    subtitle: (project) => `Покажем ${project} вживую: материалы, отделку и ход строительства.`,
-    submitLabel: 'Записаться на экскурсию',
-    successTitle: 'Спасибо! Заявка принята.',
-    successText: 'Менеджер свяжется с вами и согласует удобное время визита.',
+    titleKey: 'lead.tour.title',
+    subtitleKey: 'lead.tour.subtitle',
+    submitKey: 'lead.tour.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub.tour',
   },
   zhk_consultation: {
-    title: 'Получить консультацию',
-    subtitle: (project) => `Ответим на вопросы по ${project}: планировки, цены и способы оплаты.`,
-    submitLabel: 'Получить консультацию',
-    successTitle: 'Спасибо! Заявка принята.',
-    successText: 'Менеджер свяжется с вами в течение 10 минут.',
+    titleKey: 'lead.consult.title',
+    subtitleKey: 'lead.consult.subtitle',
+    submitKey: 'lead.consult.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub',
   },
   layout_application: {
-    title: 'Оставить заявку',
-    subtitle: () => 'Оставьте контакты — менеджер пришлёт подробности по выбранной планировке.',
-    submitLabel: 'Оставить заявку',
-    successTitle: 'Заявка принята',
-    successText: 'Мы свяжемся с вами в течение дня.',
+    titleKey: 'lead.layout.title',
+    subtitleKey: 'lead.layout.subtitle',
+    submitKey: 'lead.layout.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub.layout',
   },
   catalog_download: {
-    title: 'Получить каталог',
-    subtitle: (project) => `Отправим каталог ${project} с планировками и ценами в WhatsApp.`,
-    submitLabel: 'Получить каталог',
-    successTitle: 'Спасибо! Заявка принята.',
-    successText: 'Открываем WhatsApp — менеджер отправит каталог в переписке.',
+    titleKey: 'lead.catalog.title',
+    subtitleKey: 'lead.catalog.subtitle',
+    submitKey: 'lead.catalog.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub.whatsapp',
   },
   presentation_download: {
-    title: 'Получить презентацию',
-    subtitle: (project) => `Отправим презентацию ${project} с архитектурой и инфраструктурой в WhatsApp.`,
-    submitLabel: 'Получить презентацию',
-    successTitle: 'Спасибо! Заявка принята.',
-    successText: 'Открываем WhatsApp — менеджер отправит презентацию в переписке.',
+    titleKey: 'lead.presentation.title',
+    subtitleKey: 'lead.presentation.subtitle',
+    submitKey: 'lead.presentation.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub.whatsapp.pres',
   },
   easton_quiz_landing_presentation: {
-    title: 'Скачать презентацию',
-    subtitle: () => 'Оставьте контакты — откроется WhatsApp, менеджер отправит презентацию Easton.',
-    submitLabel: 'Скачать презентацию',
-    successTitle: 'Спасибо! Заявка принята.',
-    successText: 'Открываем WhatsApp — менеджер отправит презентацию в переписке.',
+    titleKey: 'lead.presentation.title',
+    subtitleKey: 'lead.layout.subtitle',
+    submitKey: 'lead.presentation.submit',
+    successTitleKey: 'lead.success.title',
+    successTextKey: 'lead.success.sub.whatsapp.pres',
   },
 };
 
 /**
  * @param {string} formCode
+ * @param {(key: string, vars?: Record<string, string>) => string} t
  * @returns {LeadFormPreset|null}
  */
-export function getLeadPreset(formCode) {
-  return LEAD_FORM_PRESETS[formCode] ?? null;
+export function getLeadPreset(formCode, t) {
+  const keys = PRESET_KEYS[formCode];
+  if (!keys || !t) return null;
+  return {
+    title: t(keys.titleKey),
+    subtitle: (project) => t(keys.subtitleKey, { project }),
+    submitLabel: t(keys.submitKey),
+    successTitle: t(keys.successTitleKey),
+    successText: t(keys.successTextKey),
+  };
 }

@@ -110,7 +110,7 @@ export default function Contacts({ headerCity = 'Актау' }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Построить маршрут →
+          {t('contacts.route')}
         </a>
       </div>
     </section>

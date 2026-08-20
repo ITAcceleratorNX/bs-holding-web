@@ -1,12 +1,13 @@
 import LeadHoneypot from '../lead/LeadHoneypot';
-import { CONSENT_POLICY } from '../../data/leadForms';
 import { useLeadForm } from '../../lead/useLeadForm';
+import { useI18n } from '../../i18n/I18nContext';
 
 /**
  * Форма заявки по акции: имя, телефон, согласие.
  * В CRM уходят акция, город, страница и UTM через useLeadForm.
  */
 export default function PromotionLeadForm({ offer, city, ctaLocation, onClose }) {
+  const { t } = useI18n();
   const form = useLeadForm({
     formCode: 'promotion_offer',
     city,
@@ -68,7 +69,7 @@ export default function PromotionLeadForm({ offer, city, ctaLocation, onClose })
           checked={form.consent}
           onChange={(e) => form.setConsent(e.target.checked)}
         />
-        <span>{CONSENT_POLICY}</span>
+        <span>{t('lead.consent')}</span>
       </label>
       {form.errors.consent && <div className="promo-detail__error">{form.errors.consent}</div>}
 

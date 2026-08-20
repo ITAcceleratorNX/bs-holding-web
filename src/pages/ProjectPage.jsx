@@ -16,10 +16,12 @@ import ProjectApartmentQuiz from '../components/project/ProjectApartmentQuiz';
 import ProjectParking from '../components/project/ProjectParking';
 import ProjectBoxroom from '../components/project/ProjectBoxroom';
 import ProjectExtras from '../components/project/ProjectExtras';
+import ProjectAutonomy from '../components/project/ProjectAutonomy';
 import ProjectConsultForm from '../components/project/ProjectConsultForm';
 import ProjectFooter from '../components/project/ProjectFooter';
 import ProjectCalcPopup from '../components/project/ProjectCalcPopup';
 import LeadPopup from '../components/lead/LeadPopup';
+import { useProjectData } from '../i18n/useProjectData';
 
 export default function ProjectPage({
   data,
@@ -32,8 +34,9 @@ export default function ProjectPage({
   toggleMenu,
   closeMenu,
 }) {
-  const accent = data.theme?.accent ?? '#61D0C5';
-  const accentDark = data.theme?.accentDark ?? '#1F6059';
+  const d = useProjectData(data);
+  const accent = d.theme?.accent ?? '#61D0C5';
+  const accentDark = d.theme?.accentDark ?? '#1F6059';
 
   /**
    * Открытая форма: код формы и расположение кнопки, которая её вызвала (ТЗ 3, 4).
@@ -46,8 +49,8 @@ export default function ProjectPage({
   const openLead = useCallback((formCode, ctaLocation) => setLead({ formCode, ctaLocation }), []);
   const closeLead = useCallback(() => setLead(null), []);
 
-  const projectName = data.consult?.projectName ?? data.name;
-  const city = data.consult?.city ?? data.city;
+  const projectName = d.consult?.projectName ?? d.name;
+  const city = d.consult?.city ?? d.city;
 
   const scrollToConsult = useCallback(() => {
     document.getElementById(`${data.slug}-consult`)?.scrollIntoView({ behavior: 'smooth' });
@@ -59,16 +62,16 @@ export default function ProjectPage({
    */
   const plansBlock = (
     <>
-      {data.floorPlans && <ProjectFloorPlans data={data} onScrollToConsult={scrollToConsult} />}
-      <ProjectApartmentQuiz data={data} />
+      {d.floorPlans && <ProjectFloorPlans data={d} onScrollToConsult={scrollToConsult} />}
+      {d.showQuiz !== false && <ProjectApartmentQuiz data={d} />}
     </>
   );
-  const plansAfterApartments = data.plansPlacement === 'after-apartments';
+  const plansAfterApartments = d.plansPlacement === 'after-apartments';
 
   return (
     <>
       <ProjectHeader
-        data={data}
+        data={d}
         onBack={onBack}
         onOpenCall={onOpenCall}
         langCur={langCur}
@@ -85,38 +88,39 @@ export default function ProjectPage({
         }}
       >
         <ProjectHero
-          data={data}
+          data={d}
           onRequestApplication={() => openLead('zhk_hero_application', 'Первый экран')}
           onRequestPresentation={() => openLead('presentation_download', 'Первый экран')}
         />
-        <ProjectAbout data={data} />
-        <ProjectStandards data={data} />
-        <ProjectLocation data={data} onOpenCalc={() => openLead('zhk_calculation', 'Блок «Локация»')} />
-        <ProjectArchitecture data={data} onRequestTour={() => openLead('tour_booking', 'Блок «Архитектура»')} />
+        <ProjectAbout data={d} />
+        <ProjectStandards data={d} />
+        <ProjectLocation data={d} onOpenCalc={() => openLead('zhk_calculation', 'Блок «Локация»')} />
+        <ProjectArchitecture data={d} onRequestTour={() => openLead('tour_booking', 'Блок «Архитектура»')} />
+        <ProjectAutonomy data={d} />
         {!plansAfterApartments && plansBlock}
-        {data.yard && <ProjectYard data={data} />}
-        {data.playground && (
+        {d.yard && <ProjectYard data={d} />}
+        {d.playground && (
           <ProjectPlayground
-            data={data}
+            data={d}
             onRequestConsult={() => openLead('zhk_consultation', 'Блок «Игровая площадка»')}
           />
         )}
-        {data.kids && <ProjectKids data={data} />}
-        {data.gym && <ProjectGym data={data} />}
-        {data.hall && <ProjectHall data={data} />}
-        {data.apartments && (
+        {d.kids && <ProjectKids data={d} />}
+        {d.gym && <ProjectGym data={d} />}
+        {d.hall && <ProjectHall data={d} />}
+        {d.apartments && (
           <ProjectApartments
-            data={data}
+            data={d}
             onRequestConsult={() => openLead('zhk_consultation', 'Блок «Квартиры»')}
           />
         )}
         {plansAfterApartments && plansBlock}
-        {data.parking && (
-          <ProjectParking data={data} onOpenCatalog={() => openLead('catalog_download', 'Блок «Паркинг»')} />
+        {d.parking && (
+          <ProjectParking data={d} onOpenCatalog={() => openLead('catalog_download', 'Блок «Паркинг»')} />
         )}
-        {data.extras ? <ProjectExtras data={data} /> : data.boxroom ? <ProjectBoxroom data={data} /> : null}
-        <ProjectConsultForm data={data} />
-        <ProjectFooter data={data} onBack={onBack} onNavigateProject={onNavigateProject} />
+        {d.extras ? <ProjectExtras data={d} /> : d.boxroom ? <ProjectBoxroom data={d} /> : null}
+        <ProjectConsultForm data={d} />
+        <ProjectFooter data={d} onBack={onBack} onNavigateProject={onNavigateProject} />
 
         {/* Форма «Получить расчет» отличается дополнительным полем квадратуры. */}
         {lead?.formCode === 'zhk_calculation' ? (
@@ -125,7 +129,7 @@ export default function ProjectPage({
             onClose={closeLead}
             projectName={projectName}
             city={city}
-            areaRanges={data.calcAreas}
+            areaRanges={d.calcAreas}
             ctaLocation={lead.ctaLocation}
           />
         ) : lead ? (

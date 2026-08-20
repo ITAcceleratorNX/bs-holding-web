@@ -6241,3 +6241,58 @@ input:focus {
 .hero__paida-btn {
   display: block;
 }
+
+/* Central Park – yard features list */
+.easton-yard__features {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.easton-yard__features li {
+  padding-left: 20px;
+  position: relative;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.easton-yard__features li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--project-accent, #61D0C5);
+}
+
+/* Central Park – autonomy block */
+.cp-autonomy__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.cp-autonomy__item {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 28px 24px;
+}
+
+.cp-autonomy__item p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .cp-autonomy__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+}

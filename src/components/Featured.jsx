@@ -2,7 +2,7 @@ import { FEATURED_DATA } from '../data/projects';
 import { projectHash, projectSlugFromName } from '../data/projectPages';
 import { fmt } from '../utils/format';
 
-const TAB_NAMES = ['Central Park', 'Avenue Park', 'Adal Town'];
+const TAB_NAMES = ['Central Park', 'Avenue Park', 'MURA'];
 
 export default function Featured({ activeTab, setActiveTab }) {
   const featured = FEATURED_DATA[activeTab];

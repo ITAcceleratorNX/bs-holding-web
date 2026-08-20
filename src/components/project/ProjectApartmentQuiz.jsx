@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import SectionLabel from './SectionLabel';
 import LeadHoneypot from '../lead/LeadHoneypot';
-import { CONSENT_POLICY } from '../../data/leadForms';
 import { LEAD_EVENTS, formEventParams, trackEvent } from '../../lead/analytics';
 import { buildDetails } from '../../lead/details';
 import { useLeadForm } from '../../lead/useLeadForm';
+import { useI18n } from '../../i18n/I18nContext';
 
 const DEFAULT_STEPS = [
   {
@@ -63,6 +63,7 @@ function buildSteps(quiz) {
  * кодом, — плюс ЖК и город страницы (ТЗ 6.1).
  */
 export default function ProjectApartmentQuiz({ data }) {
+  const { t } = useI18n();
   const steps = useMemo(() => buildSteps(data.quiz), [data.quiz]);
   const totalSteps = steps.length + 1;
 
@@ -184,7 +185,7 @@ export default function ProjectApartmentQuiz({ data }) {
                   >
                     {form.isLoading ? 'Отправка…' : 'Получить подбор'}
                   </button>
-                  <div className="lead-policy">{CONSENT_POLICY}</div>
+                  <div className="lead-policy">{t('lead.consent')}</div>
                 </div>
               </>
             )}

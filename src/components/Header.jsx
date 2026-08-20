@@ -169,7 +169,7 @@ export default function Header({
           <a href="#/" aria-label="BS Holding" className="site-header__logo" onClick={handleLogoClick}>
             <Logo fill={logoFill} />
           </a>
-          <nav className="site-header__nav" aria-label="Основная навигация">
+          <nav className="site-header__nav" aria-label={t('nav.home')}>
             {navItems.map((item) => (
               <a
                 key={item.key}
@@ -206,7 +206,7 @@ export default function Header({
           <button
             type="button"
             className={`site-header__burger${mobileOpen ? ' is-open' : ''}`}
-            aria-label={mobileOpen ? 'Закрыть меню' : 'Открыть меню'}
+            aria-label={mobileOpen ? t('nav.closeMenu') : t('nav.openMenu')}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
           >
@@ -270,7 +270,7 @@ export default function Header({
         <button
           type="button"
           className="site-header__backdrop"
-          aria-label="Закрыть меню"
+          aria-label={t('nav.closeMenu')}
           onClick={closeMobile}
         />
       )}

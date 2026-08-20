@@ -1,10 +1,12 @@
 import SectionLabel from './SectionLabel';
+import { useI18n } from '../../i18n/I18nContext';
 
 export default function ProjectParking({ data, onOpenCatalog }) {
+  const { t } = useI18n();
   const { parking } = data;
   return (
     <section className="easton-section easton-section--dark">
-      <SectionLabel>{parking.label}</SectionLabel>
+      <SectionLabel>{t('project.label.parking')}</SectionLabel>
       <h2 className="easton-h2">{parking.title}</h2>
       <div className="easton-parking">
         <div className="easton-parking__image">
@@ -19,7 +21,7 @@ export default function ProjectParking({ data, onOpenCatalog }) {
           <p className="easton-body">{parking.note}</p>
           {onOpenCatalog && (
             <button type="button" className="easton-btn easton-btn--light easton-parking__catalog" onClick={onOpenCatalog}>
-              Скачать каталог
+              {t('project.parking.catalog')}
             </button>
           )}
         </div>

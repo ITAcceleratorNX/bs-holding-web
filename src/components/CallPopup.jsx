@@ -51,27 +51,27 @@ export default function CallPopup({ open, onClose, city }) {
   return (
     <div className="call-popup" role="dialog" aria-modal="true" aria-label={t('nav.call')} onClick={onClose}>
       <div className="call-popup__panel" ref={panelRef} onClick={(e) => e.stopPropagation()}>
-        <button type="button" className="call-popup__close" onClick={onClose} aria-label="Закрыть">
+        <button type="button" className="call-popup__close" onClick={onClose} aria-label={t('form.close')}>
           ×
         </button>
         {form.isSuccess ? (
           <div className="call-popup__success">
-            <div className="call-popup__title">Спасибо за заявку!</div>
-            <div className="call-popup__sub">Мы перезвоним вам в течение 10 минут.</div>
+            <div className="call-popup__title">{t('call.success.title')}</div>
+            <div className="call-popup__sub">{t('call.success.sub')}</div>
             <button type="button" className="btn-primary" onClick={onClose}>
-              Закрыть
+              {t('form.close')}
             </button>
           </div>
         ) : (
           <>
             <div className="call-popup__intro">
               <div className="call-popup__title">{t('nav.call')}</div>
-              <div className="call-popup__sub">Оставьте контакты — перезвоним в течение 10 минут.</div>
+              <div className="call-popup__sub">{t('call.sub')}</div>
             </div>
-            <input className="call-popup__input" placeholder="Ваше имя" aria-label="Ваше имя" {...form.fields.name} />
+            <input className="call-popup__input" placeholder={t('form.name.placeholder')} aria-label={t('form.name.label')} {...form.fields.name} />
             {form.errors.name && <div className="form-error form-error--light">{form.errors.name}</div>}
 
-            <input className="call-popup__input" aria-label="Номер телефона" {...form.fields.phone} />
+            <input className="call-popup__input" aria-label={t('form.phone.label')} {...form.fields.phone} />
             {form.errors.phone && <div className="form-error form-error--light">{form.errors.phone}</div>}
 
             <LeadConsent form={form} errorClassName="form-error form-error--light" />
@@ -81,7 +81,7 @@ export default function CallPopup({ open, onClose, city }) {
             {form.message && <div className="form-error form-error--light">{form.message}</div>}
 
             <button type="button" className="btn-primary" onClick={form.submit} disabled={form.isLoading}>
-              {form.isLoading ? 'Отправка…' : t('nav.call')}
+              {form.isLoading ? t('form.sending') : t('nav.call')}
             </button>
           </>
         )}

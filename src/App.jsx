@@ -18,8 +18,8 @@ import EastonQuizLandingPage from './pages/EastonQuizLandingPage';
 import PromotionsPage from './pages/PromotionsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import NewsPage from './pages/NewsPage';
-import { I18nProvider, useInitialLang } from './i18n/I18nContext';
-import { ALL_CITIES, DEFAULT_FILTER, PROJECTS } from './data/projects';
+import { I18nProvider, useInitialLang, useI18n } from './i18n/I18nContext';
+import { ALL_CITIES, CITIES, DEFAULT_FILTER, PROJECTS } from './data/projects';
 import { getProjectPage, projectHash } from './data/projectPages';
 import { filterProjects } from './utils/format';
 
@@ -162,9 +162,48 @@ function AppRoutes({ langCur, setLangCur }) {
     setRate(DEFAULT_CALC.rate);
   }, []);
 
+  const { t } = useI18n();
+
+  const filterSpec = useMemo(() => [
+    ['city', [
+      { value: ALL_CITIES, label: t('filter.allCities') },
+      ...CITIES.map((c) => ({ value: c, label: c })),
+    ]],
+    ['klass', [
+      { value: 'Все классы', label: t('filter.allClasses') },
+      { value: 'Премиум', label: t('klass.premium') },
+      { value: 'Бизнес', label: t('klass.business') },
+      { value: 'Бизнес+', label: t('klass.businessPlus') },
+      { value: 'Комфорт', label: t('klass.comfort') },
+    ]],
+    ['term', [
+      { value: 'Любой срок', label: t('filter.anyTerm') },
+      { value: 'Сдан', label: t('filter.delivered') },
+      { value: '2026 год', label: t('filter.year2026') },
+    ]],
+    ['floor', [
+      { value: 'Любой этаж', label: t('filter.anyFloor') },
+      { value: 'до 5 этажей', label: t('filter.floor5') },
+      { value: '5–10 этажей', label: t('filter.floor5to10') },
+      { value: '10 и выше', label: t('filter.floor10plus') },
+    ]],
+    ['rooms', [
+      { value: 'Все комнаты', label: t('filter.allRooms') },
+      { value: '1', label: '1' },
+      { value: '2', label: '2' },
+      { value: '3', label: '3' },
+      { value: '4', label: '4' },
+    ]],
+  ], [t]);
+
+  const projectsWithFrom = useMemo(
+    () => PROJECTS.map((p) => ({ ...p, priceFrom: t('catalog.price.from') })),
+    [t],
+  );
+
   const filtered = useMemo(
-    () => filterProjects(PROJECTS, appliedFilter),
-    [appliedFilter],
+    () => filterProjects(projectsWithFrom, appliedFilter),
+    [projectsWithFrom, appliedFilter],
   );
 
   const openCall = useCallback(() => setCallOpen(true), []);
@@ -261,6 +300,7 @@ function AppRoutes({ langCur, setLangCur }) {
           <Hero />
           <Catalog
             filter={filter}
+            filterSpec={filterSpec}
             setFilter={setFilter}
             openMenu={openMenu}
             toggleMenu={toggleMenu}

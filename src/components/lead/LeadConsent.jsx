@@ -1,5 +1,4 @@
 import { useI18n } from '../../i18n/I18nContext';
-import { CONSENT_POLICY } from '../../data/leadForms';
 
 /**
  * Явная галочка согласия для форм с `consentMode: 'explicit'`.
@@ -15,7 +14,7 @@ export default function LeadConsent({ form, errorClassName = 'form-error' }) {
           checked={form.consent}
           onChange={(e) => form.setConsent(e.target.checked)}
         />
-        <span>{t('consent.label')} — {CONSENT_POLICY}</span>
+        <span>{t('consent.label')} — {t('lead.consent')}</span>
       </label>
       {form.errors.consent && <div className={errorClassName}>{form.errors.consent}</div>}
     </>

@@ -4,7 +4,7 @@ import { projectSlugFromName } from '../../data/projectPages';
 const PROJECT_NAMES = new Set([
   'Central Park',
   'Avenue Park',
-  'Adal Town',
+  'MURA',
   'White Hill',
   'Easton',
   'ORTA',
