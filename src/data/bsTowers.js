@@ -72,10 +72,13 @@ function buildPlan({ priceConfirmed, price, ...plan }) {
  * Блоки, которые ТЗ просит не выводить, просто отсутствуют в данных, поэтому
  * соответствующие секции не рендерятся (ProjectPage):
  *  - `playground` — «Дополнительные преимущества зоны»;
- *  - `kids.room*` — «Дополнительное пространство для жителей / Kids Room»;
- *  - `hall` — «Общественные пространства»;
  *  - `parking` — «Дополнительная инфраструктура» (подземный паркинг раскрыт в `yard`);
  *  - `boxroom` / `extras` — «Дополнительный продукт или сервис».
+ *
+ * Кадры подземного паркинга / Fitness Room / Kids Room — статичные кадры из
+ * официального рекламного ролика (сам ролик на страницу не встраивается).
+ * Холлы / MOP — рендеры из PDF BS Towers MOP. Двор и фасад — из официальных
+ * материалов двора и рендеров фасада; повторяющиеся рендеры убраны.
  *
  * Количество машиномест нигде не указывается — значение не предоставлено (ТЗ 1).
  *
@@ -110,9 +113,9 @@ export const BS_TOWERS = {
     ],
   },
   nav: [
-    { label: 'Расположение', href: '#bs-towers-location' },
-    { label: 'Архитектура', href: '#bs-towers-architecture' },
-    { label: 'Планировки', href: '#bs-towers-plans' },
+    { labelKey: 'project.nav.location', label: 'Расположение', href: '#bs-towers-location' },
+    { labelKey: 'project.nav.architecture', label: 'Архитектура', href: '#bs-towers-architecture' },
+    { labelKey: 'project.nav.plans', label: 'Планировки', href: '#bs-towers-plans' },
   ],
   hero: {
     /** Первый экран: общий рендер комплекса, горизонтальный кадр без надписей. */
@@ -214,8 +217,8 @@ export const BS_TOWERS = {
     image: `${IMG}/parking-roof.webp`,
   },
   /**
-   * Двор и благоустройство (ТЗ 3.9) — только галерея.
-   * Блок Kids Room не выводится: контент не предоставлен, поэтому поля room* отсутствуют.
+   * Двор и благоустройство (ТЗ 3.9) — галерея из официальных материалов двора.
+   * Kids Room: статичный кадр из рекламного ролика (видео на страницу не добавляем).
    */
   kids: {
     label: 'Двор и благоустройство',
@@ -223,6 +226,29 @@ export const BS_TOWERS = {
       { image: `${IMG}/yard-playground.webp`, title: 'Детские площадки' },
       { image: `${IMG}/yard-sport.webp`, title: 'Спортивные площадки' },
       { image: `${IMG}/yard-lounge.webp`, title: 'Зоны отдыха для жителей' },
+    ],
+    roomImage: `${IMG}/kids-room.webp`,
+    roomImageAlt: 'Kids Room BS Towers',
+  },
+  /** Холлы / входные группы / MOP — рендеры из официальных PDF BS Towers MOP. */
+  hall: {
+    id: 'bs-towers-hall',
+    labelKey: 'project.label.hall',
+    label: 'Холлы',
+    title: 'Пространства общего пользования BS Towers',
+    text1:
+      'Холлы и входные группы комплекса оформлены в современном премиальном стиле — с выразительными материалами, акцентным освещением и продуманной навигацией.',
+    image: `${IMG}/hall.webp`,
+    gallery: [
+      { image: `${IMG}/hall-brand.webp`, title: 'Входная группа' },
+      { image: `${IMG}/hall-elevators.webp`, title: 'Лифтовой холл' },
+      { image: `${IMG}/hall-lobby.webp`, title: 'Пространство для жителей' },
+    ],
+    features: [
+      'Премиальная отделка холлов',
+      'Лифтовые холлы с современной навигацией',
+      'Акцентное освещение входных групп',
+      'Зоны для жителей и гостей',
     ],
   },
   apartments: {
