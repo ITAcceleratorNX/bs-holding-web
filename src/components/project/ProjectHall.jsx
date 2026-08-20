@@ -8,7 +8,7 @@ export default function ProjectHall({ data }) {
   const accentDark = data.theme?.accentDark ?? '#1F6059';
 
   return (
-    <section id={hall.id} className="easton-section easton-section--cream">
+    <section id={hall.id} className="easton-section easton-section--cream easton-hall-section">
       <div className="easton-hall">
         <div className="easton-hall__text">
           <SectionLabel color={accentDark}>{hall.labelKey ? t(hall.labelKey) : t('project.label.hall')}</SectionLabel>
@@ -21,7 +21,7 @@ export default function ProjectHall({ data }) {
         </div>
       </div>
       {hall.gallery?.length > 0 && (
-        <div className="easton-kids__grid" style={{ marginTop: 32 }}>
+        <div className={`easton-kids__grid easton-kids__grid--${hall.gallery.length}`} style={{ marginTop: 32 }}>
           {hall.gallery.map((g, i) => (
             <MediaCard key={i} image={g.image} title={g.title} />
           ))}

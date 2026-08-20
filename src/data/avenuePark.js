@@ -1,13 +1,20 @@
 const IMG = '/images/avenue-park';
-import { phoneForCity } from './phones';
+// Расширение обязательно: файл читает и node --test, а он не доразрешает пути.
+import { phoneForCity } from './phones.js';
 
 const PHONE = phoneForCity('Актау');
 
 /**
  * ЖК Avenue Park (Актау) — построен на общем шаблоне страницы ЖК (Easton).
  *
- * Материалы, которых пока нет (ТЗ, раздел 9):
- *  - реальные фото и рендеры → используются подписанные заглушки из `${IMG}`;
+ * Все визуальные слоты страницы ссылаются на `${IMG}/*.webp`. Что положить в
+ * каждый файл, из какой папки материалов и в какой пропорции — таблица в
+ * docs/avenue-park-media.md; раскладывает файлы
+ * `node scripts/prepare-avenue-park-images.mjs <папка с выгрузкой>`.
+ *
+ * Пропорции слотов зафиксированы в CSS (`.project-avenue-park` в index.css),
+ * поэтому материал, выгруженный в пропорции слота, не обрезается ни на одной
+ * ширине экрана. Менять пропорцию слота = менять и CSS, и таблицу в скрипте.
  *
  * Планировки подключены из квартирных листков по блокам А-1…А-3 и Д-1…Д-3.
  *
@@ -52,8 +59,8 @@ export const AVENUE_PARK = {
     { label: 'Планировки', href: '#avenue-park-plans' },
   ],
   hero: {
-    image: `${IMG}/hero.svg`,
-    imageMobile: `${IMG}/hero-mobile.svg`,
+    image: `${IMG}/hero.webp`,
+    imageMobile: `${IMG}/hero-mobile.webp`,
     title: 'AVENUE PARK',
     location: 'г. Актау',
     tagline: 'Avenue Park, Актау — новое дыхание комфорта и надёжности в 40-м микрорайоне.',
@@ -63,7 +70,7 @@ export const AVENUE_PARK = {
     title: 'Дом, где рождается чувство настоящего «дома»',
     text:
       'Avenue Park — жилой комплекс в самом центре городской жизни, где каждый житель получает спокойствие, естественность и современный комфорт. Комплекс объединён единой идеей — сделать повседневную жизнь удобной, безопасной и наполненной смыслом.',
-    image: `${IMG}/about.svg`,
+    image: `${IMG}/about.webp`,
     imageAlt: 'Общий вид комплекса Avenue Park',
     stats: [
       { icon: `${IMG}/icon-water.svg`, text: '360 м³ — резервный запас воды на случай отключения водоснабжения' },
@@ -77,18 +84,18 @@ export const AVENUE_PARK = {
     text: 'Avenue Park, Актау — новое дыхание комфорта и надёжности в 40-м микрорайоне.',
     cards: [
       {
-        image: `${IMG}/feature-autonomy.svg`,
+        image: `${IMG}/feature-autonomy.webp`,
         title:
           'Инженерная автономность — резервный дизель-генератор и водозапас 360 м³ обеспечивают бесперебойный комфорт при любых сбоях внешних сетей',
         tall: true,
       },
       {
-        image: `${IMG}/feature-security.svg`,
+        image: `${IMG}/feature-security.webp`,
         title:
           'Умные технологии безопасности — электронный замок Xiaomi MI Magic Vein (Face ID, отпечаток пальца, карта, пароль) и IP-домофония в каждой квартире',
       },
       {
-        image: `${IMG}/feature-engineering.svg`,
+        image: `${IMG}/feature-engineering.webp`,
         title:
           'Премиальные инженерные системы — лифты Xizi Gotz (Китай), окна Rehau (Германия), радиаторы Royal Thermo',
       },
@@ -98,11 +105,11 @@ export const AVENUE_PARK = {
     id: 'avenue-park-location',
     label: 'Локация',
     title: '40-й микрорайон — рядом с парком Первого Президента',
-    mapImage: `${IMG}/location-map.svg`,
+    mapImage: `${IMG}/location-map.webp`,
     cards: [
-      { image: `${IMG}/place-park.svg`, title: 'Парк Первого Президента' },
-      { image: `${IMG}/place-museum.svg`, title: 'Музей им. А. Кекилбаева' },
-      { image: `${IMG}/place-arena.svg`, title: 'Спортивный комплекс БС Арена' },
+      { image: `${IMG}/place-park.webp`, title: 'Парк Первого Президента' },
+      { image: `${IMG}/place-museum.webp`, title: 'Музей им. А. Кекилбаева' },
+      { image: `${IMG}/place-arena.webp`, title: 'Спортивный комплекс БС Арена' },
     ],
     notes: [
       'Avenue Park расположен в перспективном 40-м микрорайоне, который становится центром новых идей и комфортного образа жизни.',
@@ -115,7 +122,9 @@ export const AVENUE_PARK = {
     title: 'Инженерные решения премиум-класса',
     lead:
       'Avenue Park построен с акцентом на надёжность и долговечность инженерных систем — от лифтов до окон и дверей.',
-    image: `${IMG}/architecture.svg`,
+    image: `${IMG}/architecture.webp`,
+    /** ТЗ: фасады показываем и рендером, и реальными фотографиями объекта. */
+    gallery: [`${IMG}/architecture-2.webp`, `${IMG}/architecture-3.webp`],
     points: [
       'Лифты Xizi Gotz (Китай) с системой распределения нагрузки по блокам: 2 лифта в блоках A и D; 1 лифт в блоках B, E, V и G.',
       'Окна Rehau (Германия): 5-камерный профиль, двухкамерный стеклопакет.',
@@ -130,30 +139,31 @@ export const AVENUE_PARK = {
     title: 'Умный дом начинается с двери',
     text:
       'В квартирах Avenue Park установлен электронный замок Xiaomi MI Magic Vein: он распознаёт лицо (Face ID), принимает отпечаток пальца, открывается картой, паролем или вручную. Для семей с детьми это полный контроль над временем и уровнем доступа для няни, гостя или родственника.',
-    image: `${IMG}/smart-lock.svg`,
+    image: `${IMG}/smart-lock.webp`,
+    imageMobile: `${IMG}/smart-lock-mobile.webp`,
   },
   playground: {
     title: 'Двор — центр спокойствия, спорта и здорового образа жизни',
     text:
       'Многофункциональный двор Avenue Park объединяет озеленение, сенсорные игровые площадки для детей, спортивные зоны и места отдыха для всей семьи.',
-    image: `${IMG}/yard.svg`,
+    image: `${IMG}/yard.webp`,
     cta: 'Получить консультацию',
   },
   kids: {
     label: 'Двор и благоустройство',
     gallery: [
       {
-        image: `${IMG}/yard-playground.svg`,
+        image: `${IMG}/yard-playground.webp`,
         title: 'Сенсорные игровые площадки для развития детей: горки, балансировочные доски и тактильные дорожки',
       },
-      { image: `${IMG}/yard-sport.svg`, title: 'Workout-зоны, баскетбольные и футбольные площадки' },
-      { image: `${IMG}/yard-lounge.svg`, title: 'Зоны отдыха с перголами и малыми архитектурными формами' },
+      { image: `${IMG}/yard-sport.webp`, title: 'Workout-зоны, баскетбольные и футбольные площадки' },
+      { image: `${IMG}/yard-lounge.webp`, title: 'Зоны отдыха с перголами и малыми архитектурными формами' },
     ],
     roomLabel: 'Kids Room',
     roomTitle: 'Kids Room — безопасный мини-мир для ребёнка',
     roomText:
       'В Avenue Park есть закрытая комната для детей с мягким безопасным покрытием, где дети занимаются творчеством и играют в любую погоду, находя новых друзей и развиваясь.',
-    roomImage: `${IMG}/kids-room.svg`,
+    roomImage: `${IMG}/kids-room.webp`,
     roomImageAlt: 'Интерьер детской комнаты Kids Room',
   },
   hall: {
@@ -162,7 +172,17 @@ export const AVENUE_PARK = {
     text1:
       'Во дворе комплекса предусмотрены этнические и семейные пространства для отдыха и традиционных мероприятий.',
     text2: '',
-    image: `${IMG}/yurt.svg`,
+    image: `${IMG}/yurt.webp`,
+    /**
+     * МОП: входные группы и холлы. Отдельного блока под них на странице нет,
+     * а ТЗ просит их показать, поэтому кадры идут галереей под «Общественными
+     * пространствами» — по смыслу это они и есть (места общего пользования).
+     */
+    gallery: [
+      { image: `${IMG}/mop-entrance.webp`, title: 'Входная группа' },
+      { image: `${IMG}/mop-hall.webp`, title: 'Холл' },
+      { image: `${IMG}/mop-lift.webp`, title: 'Лифтовой холл' },
+    ],
     features: [
       'Зона казана и барбекю для семейных встреч и праздников',
       'Современная интерпретация казахской юрты для отдыха и торжеств',
@@ -176,7 +196,7 @@ export const AVENUE_PARK = {
     title: 'Комфорт в каждой детали квартиры',
     text:
       'Высота потолков 3–3,2 м, панорамные французские балконы и надёжные инженерные решения создают ощущение простора и защищённости.',
-    image: `${IMG}/apartments.svg`,
+    image: `${IMG}/apartments.webp`,
     cta: 'Получить консультацию',
     features: [
       'Высота потолков 3–3,2 м',
@@ -654,8 +674,8 @@ export const AVENUE_PARK = {
     label: 'Boxroom и бизнес-пространства',
     title: 'Boxroom и бизнес-пространства — дополнительные возможности от Avenue Park',
     gallery: [
-      { image: `${IMG}/boxroom.svg`, alt: 'Кладовая Boxroom' },
-      { image: `${IMG}/business.svg`, alt: 'Бизнес-пространство' },
+      { image: `${IMG}/boxroom.webp`, alt: 'Кладовая Boxroom' },
+      { image: `${IMG}/business.webp`, alt: 'Бизнес-пространство' },
     ],
     text:
       'Персональные кладовые Boxroom позволяют освободить квартиру от лишних вещей и рационально использовать пространство. Для коммерческой деятельности предусмотрены бизнес-пространства с высотой потолков 3,8–5 м и отдельными инженерными системами — для работы, услуг, магазина или студии.',
