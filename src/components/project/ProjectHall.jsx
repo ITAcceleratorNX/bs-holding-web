@@ -10,7 +10,7 @@ export default function ProjectHall({ data }) {
   const gallery = hall.gallery?.filter(Boolean) ?? [];
 
   return (
-    <section id={hall.id} className="easton-section easton-section--cream">
+    <section id={hall.id} className="easton-section easton-section--cream easton-hall-section">
       <div className={`easton-hall${hall.compact ? ' easton-hall--compact' : ''}`}>
         <div className="easton-hall__text">
           <SectionLabel color={accentDark}>{hall.labelKey ? t(hall.labelKey) : t('project.label.hall')}</SectionLabel>
@@ -24,11 +24,11 @@ export default function ProjectHall({ data }) {
       </div>
       {gallery.length > 0 && (
         <div
-          className={
+          className={`easton-kids__grid easton-kids__grid--${gallery.length}${
             hall.compact
-              ? `easton-kids__grid easton-hall__gallery${gallery.length === 3 ? ' easton-kids__grid--3' : ''}${gallery.length === 1 ? ' easton-hall__gallery--single' : ''}`
-              : 'easton-kids__grid'
-          }
+              ? ` easton-hall__gallery${gallery.length === 1 ? ' easton-hall__gallery--single' : ''}`
+              : ''
+          }`}
           style={hall.compact ? undefined : { marginTop: 32 }}
         >
           {gallery.map((g) => (
