@@ -9,6 +9,7 @@
     "lint": "oxlint",
     "test": "node --test src server",
     "check:bitrix": "node scripts/bitrix-check.mjs",
+    "check:avenue": "node scripts/avenue-park-check.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

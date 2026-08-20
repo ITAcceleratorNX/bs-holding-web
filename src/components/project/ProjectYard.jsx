@@ -5,14 +5,19 @@ export default function ProjectYard({ data }) {
   const { yard } = data;
   return (
     <section className="easton-yard">
-      <img
-        className="easton-yard__bg"
-        src={yard.image}
-        alt=""
-        loading="lazy"
-        decoding="async"
-        style={yard.imagePosition ? { objectPosition: yard.imagePosition } : undefined}
-      />
+      {/* Широкий кадр на узком экране обрезался бы до центральной трети,
+          поэтому для мобильного берём отдельный вертикальный кроп — как в hero. */}
+      <picture>
+        {yard.imageMobile && <source media="(max-width: 900px)" srcSet={yard.imageMobile} />}
+        <img
+          className="easton-yard__bg"
+          src={yard.image}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style={yard.imagePosition ? { objectPosition: yard.imagePosition } : undefined}
+        />
+      </picture>
       <div className="easton-yard__overlay" />
       <div className="easton-yard__content">
         <div className="easton-yard__label">{yard.labelKey ? t(yard.labelKey) : t('project.label.yard')}</div>

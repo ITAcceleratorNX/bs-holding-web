@@ -6359,3 +6359,237 @@ input:focus {
     margin-top: 24px;
   }
 }
+
+/* ===========================================================================
+   Avenue Park — вёрстка без обрезки кадра
+   ---------------------------------------------------------------------------
+   Общий шаблон ЖК задаёт слотам фиксированную высоту в пикселях (hero 800px,
+   плитка 600px, «Архитектура» 557px). Ширина при этом резиновая, поэтому
+   пропорция слота меняется вместе с шириной окна, и `object-fit: cover`
+   срезает кадр по-разному на 1312px, 1472px и на мобильном.
+
+   Здесь высоты заменены на пропорции. Пропорция слота постоянна на любой
+   ширине, поэтому материал, выгруженный в этой же пропорции
+   (`scripts/prepare-avenue-park-images.mjs`), не обрезается вообще.
+
+   Правила намеренно ограничены `.project-avenue-park` — страницы Easton,
+   ORTA, White Hill, BS Towers и Central Park продолжают жить на своих
+   фиксированных высотах, под которые уже выгружены их материалы.
+   Таблица пропорций — docs/avenue-park-media.md.
+   =========================================================================== */
+
+/* Первый экран: 16:9 — родная пропорция выгрузки рендера. */
+.project-avenue-park .easton-hero {
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+/* Одиночные кадры во всю ширину показываем в их собственной пропорции:
+   высота считается от файла, кадрирования нет вообще, какой бы рендер
+   ни положили в слот. */
+.project-avenue-park .easton-about__image,
+.project-avenue-park .easton-arch__image,
+.project-avenue-park .easton-apartments__image,
+.project-avenue-park .easton-kids__room-image {
+  height: auto;
+}
+
+.project-avenue-park .easton-about__image img,
+.project-avenue-park .easton-arch__image img,
+.project-avenue-park .easton-apartments__image img,
+.project-avenue-park .easton-kids__room-image img {
+  height: auto;
+  object-fit: contain;
+}
+
+/* `auto <пропорция>` = взять пропорцию файла, а пока файл не загрузился —
+   держать запасную. Без этого блок с высотой от кадра до загрузки имеет
+   нулевую высоту, и страница подпрыгивает по мере появления картинок. */
+.project-avenue-park .easton-about__image img,
+.project-avenue-park .easton-arch__image img,
+.project-avenue-park .easton-apartments__image img,
+.project-avenue-park .easton-kids__room-image img {
+  aspect-ratio: auto 16 / 9;
+}
+
+.project-avenue-park .easton-location__map img {
+  aspect-ratio: auto 2 / 1;
+}
+
+.project-avenue-park .easton-hall__image img {
+  aspect-ratio: auto 3 / 4;
+}
+
+/* Плитки «Главные преимущества»: три равные вертикальные вместо «одна большая
+   + стопка из двух». Материал под этот блок — вертикальные рендеры 3:4
+   (внешний рендер комплекса и интерьеры МОП); в горизонтальных плитках от них
+   оставалось 42% кадра, и никаким кадрированием это не лечится.
+   `display: contents` распускает обёртку стопки, чтобы обе её плитки встали
+   прямыми ячейками сетки наравне с первой. */
+.project-avenue-park .easton-standards-grid {
+  height: auto;
+  aspect-ratio: auto;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.project-avenue-park .easton-standards-grid__stack {
+  display: contents;
+}
+
+.project-avenue-park .easton-standards-grid .easton-media-card {
+  height: auto;
+  aspect-ratio: 3 / 4;
+}
+
+.project-avenue-park .easton-media-card,
+.project-avenue-park .easton-media-card--tall {
+  min-height: 0;
+}
+
+/* Дворовые кадры — 3:2, ландшафтная пропорция дворовых рендеров. */
+.project-avenue-park .easton-kids__grid .easton-media-card {
+  height: auto;
+  aspect-ratio: 3 / 2;
+}
+
+/* МОП — 3:4: интерьеры холлов и входных групп сняты вертикально, в
+   горизонтальной плитке от них оставалась бы половина высоты. */
+.project-avenue-park .easton-hall-section .easton-kids__grid .easton-media-card {
+  aspect-ratio: 3 / 4;
+}
+
+/* Карточки объектов рядом — вертикальные 7:10, как сами материалы по объектам
+   инфраструктуры. Горизонтальный слот срезал бы у них половину высоты. */
+.project-avenue-park .easton-location__cards .easton-media-card {
+  height: auto;
+  aspect-ratio: 7 / 10;
+}
+
+/* Фасады под основным рендером архитектуры. */
+.project-avenue-park .easton-arch__gallery-item {
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+/* Блок «Умный замок»: фон во всю ширину. Контент центрируем флексом —
+   прежнее `top: 50%` + `translateY(-40%)` рассчитано на высоту 800px и при
+   высоте от пропорции уводило текст за нижний край. */
+.project-avenue-park .easton-yard {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+}
+
+.project-avenue-park .easton-yard__content {
+  top: auto;
+  transform: none;
+  width: 100%;
+}
+
+.project-avenue-park .easton-playground__image {
+  height: auto;
+  aspect-ratio: 4 / 3;
+}
+
+/* Юрта — вертикальный кадр рядом с текстом. Колонка шире стандартных 420px:
+   при 3:4 это 613px по высоте, кадр читается наравне с текстом. */
+.project-avenue-park .easton-hall__image {
+  flex: 0 0 460px;
+}
+
+.project-avenue-park .easton-boxroom__gallery .easton-boxroom__image {
+  height: auto;
+  aspect-ratio: 3 / 2;
+}
+
+@media (max-width: 900px) {
+  /* На мобильном шаблон снова переходит на фиксированные высоты (hero 78vh,
+     плитка 220px, кадры 220px) — и там обрезка сильнее всего, потому что
+     колонка узкая. Поэтому пропорции задаём и здесь. */
+  .project-avenue-park .easton-hero {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 3 / 5;
+  }
+
+  .project-avenue-park .easton-about__image,
+  .project-avenue-park .easton-arch__image,
+  .project-avenue-park .easton-apartments__image,
+  .project-avenue-park .easton-kids__room-image,
+  .project-avenue-park .easton-playground__image,
+  .project-avenue-park .easton-boxroom__image {
+    height: auto;
+  }
+
+  .project-avenue-park .easton-apartments__image img {
+    object-fit: contain;
+  }
+
+  /* Одна колонка, пропорция плиток та же — 3:4. */
+  .project-avenue-park .easton-standards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-avenue-park .easton-standards-grid .easton-media-card {
+    height: auto;
+    aspect-ratio: 3 / 4;
+  }
+
+  .project-avenue-park .easton-kids__grid .easton-media-card {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 3 / 2;
+  }
+
+  .project-avenue-park .easton-hall-section .easton-kids__grid .easton-media-card {
+    aspect-ratio: 3 / 4;
+  }
+
+  .project-avenue-park .easton-location__cards .easton-media-card {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 7 / 10;
+  }
+
+  .project-avenue-park .easton-arch__gallery-item {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .project-avenue-park .easton-playground__image {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .project-avenue-park .easton-boxroom__gallery .easton-boxroom__image {
+    height: auto;
+    aspect-ratio: 3 / 2;
+  }
+
+  /* Вертикальный кроп фона (`smart-lock-mobile.webp`) — 4:5. */
+  .project-avenue-park .easton-yard {
+    height: auto;
+    aspect-ratio: 4 / 5;
+    align-items: flex-end;
+  }
+
+  .project-avenue-park .easton-hall__image {
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  /* На самом узком экране шаблон ставит плитки в одну колонку — пропорции
+     остаются свои, снимаем только фиксированную высоту 200px. */
+  .project-avenue-park .easton-kids__grid .easton-media-card {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 3 / 2;
+  }
+
+  .project-avenue-park .easton-hall-section .easton-kids__grid .easton-media-card {
+    aspect-ratio: 3 / 4;
+  }
+}

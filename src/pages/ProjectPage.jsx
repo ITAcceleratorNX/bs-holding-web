@@ -80,8 +80,10 @@ export default function ProjectPage({
         toggleMenu={toggleMenu}
         closeMenu={closeMenu}
       />
+      {/* Класс по слагу — точка привязки для правок вёрстки одной страницы
+          (`.project-avenue-park` в index.css), чтобы не задевать остальные ЖК. */}
       <div
-        className="page easton-page"
+        className={`page easton-page project-${data.slug}`}
         style={{
           '--project-accent': accent,
           '--project-accent-dark': accentDark,
