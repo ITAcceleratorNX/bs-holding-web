@@ -1682,7 +1682,9 @@ input:focus {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 72% center;
+  /* По вертикали кадр держится выше центра: на широких экранах обрезка идёт
+     снизу (газон), а верхушки башен с вывеской остаются в кадре. */
+  object-position: 72% 30%;
 }
 
 .hero__overlay {
