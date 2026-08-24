@@ -1,11 +1,9 @@
-import { FEATURED_DATA } from '../data/projects';
 import { projectHash, projectSlugFromName } from '../data/projectPages';
 import { classFullLabel, termBadgeLabel } from '../i18n/catalogText';
 import { useFeaturedData } from '../i18n/useFeaturedData';
 import { useI18n } from '../i18n/I18nContext';
-import { fmt } from '../utils/format';
 
-const TAB_NAMES = ['Central Park', 'Avenue Park', 'MURA'];
+const TAB_NAMES = ['Avenue Park', 'BS Towers', 'ORTA', 'MURA'];
 
 export default function Featured({ activeTab, setActiveTab }) {
   const { t } = useI18n();
@@ -21,7 +19,6 @@ export default function Featured({ activeTab, setActiveTab }) {
       <div className="featured-tabs">
         {TAB_NAMES.map((name) => {
           const active = name === activeTab;
-          const tabPrice = FEATURED_DATA[name]?.price;
           return (
             <button
               key={name}
@@ -30,11 +27,6 @@ export default function Featured({ activeTab, setActiveTab }) {
               className={`featured-tab${active ? ' is-active' : ''}`}
             >
               <span className="featured-tab__name">{name}</span>
-              {tabPrice != null && tabPrice > 0 && (
-                <span className="featured-tab__price">
-                  {t('catalog.price.from')} {fmt(tabPrice)} ₸
-                </span>
-              )}
             </button>
           );
         })}
@@ -43,7 +35,7 @@ export default function Featured({ activeTab, setActiveTab }) {
         <img src={featured.image} alt={featured.name} />
         <div className="featured-media__badges">
           <span className="badge">{classFullLabel(t, featured.klass)}</span>
-          <span className="badge">{termBadgeLabel(t, featured.termBadge)}</span>
+          {featured.termBadge && <span className="badge">{termBadgeLabel(t, featured.termBadge)}</span>}
         </div>
       </div>
       <div className="featured-info">

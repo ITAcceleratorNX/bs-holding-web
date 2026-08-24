@@ -70,7 +70,7 @@ function AppRoutes({ langCur, setLangCur }) {
   const [callOpen, setCallOpen] = useState(false);
   const [filter, setFilterState] = useState({ ...DEFAULT_FILTER });
   const [appliedFilter, setAppliedFilter] = useState({ ...DEFAULT_FILTER });
-  const [activeTab, setActiveTab] = useState('Central Park');
+  const [activeTab, setActiveTab] = useState('Avenue Park');
   const [calcMode, setCalcMode] = useState(DEFAULT_CALC.calcMode);
   const [price, setPrice] = useState(DEFAULT_CALC.price);
   const [down, setDown] = useState(DEFAULT_CALC.down);

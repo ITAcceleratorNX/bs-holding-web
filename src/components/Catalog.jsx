@@ -1,7 +1,7 @@
 import Dropdown from './Dropdown';
 import { classFullLabel, metaLabel, termBadgeLabel } from '../i18n/catalogText';
-import { useI18n } from '../i18n/I18nContext';
 import { fmt } from '../utils/format';
+import { useI18n } from '../i18n/I18nContext';
 
 function ProjectCard({ p, onOpen }) {
   const { t } = useI18n();
