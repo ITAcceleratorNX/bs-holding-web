@@ -312,7 +312,7 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                       className="easton-btn easton-btn--light wh-plan-card__cta"
                       onClick={() => openPlan(item)}
                     >
-                      {item.cta ?? t('plans.detail')}
+                      {item.cta ? t('plans.detailLong') : t('plans.detail')}
                     </button>
                   </div>
                 </article>
@@ -358,12 +358,12 @@ export default function ProjectFloorPlans({ data, onScrollToConsult }) {
                 <ul>
                   {active.rooms && <li>{translateRoomsCount(t, active.rooms)}</li>}
                   {active.area && <li>{t('plans.areaTotal')}: {translateAreaPending(t, active.area)}</li>}
-                  {active.areaLiving && <li>{t('plans.areaLiving')}: {active.areaLiving}</li>}
+                  {active.areaLiving && <li>{t('plans.areaLiving')}: {translateAreaPending(t, active.areaLiving)}</li>}
                   {active.price && <li>{t('plans.price')}: {translatePricePending(t, active.price)}</li>}
                   {active.meta?.map((m) => (
                     <li key={m}>{translatePlanMeta(t, m)}</li>
                   ))}
-                  {active.priceNote && <li>{active.priceNote}</li>}
+                  {active.priceNote && <li>{translatePricePending(t, active.priceNote)}</li>}
                   {active.placeholder && (
                     <li>{active.note ?? t('plans.charsPending')} — {t('plans.placeholderNote')}</li>
                   )}

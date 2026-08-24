@@ -281,7 +281,6 @@ export const BS_TOWERS = {
     address: 'г. Актау, 40-й микрорайон',
     instagram: 'bs_holding.aktau',
     hours: 'Ежедневно с 9:00 до 19:00',
-    policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
     projectName: 'BS Towers',
     city: 'Актау',
   },

@@ -3,6 +3,7 @@ import InstallmentCalculator from './InstallmentCalculator';
 import LeadHoneypot from './lead/LeadHoneypot';
 import LeadConsent from './lead/LeadConsent';
 import { useI18n } from '../i18n/I18nContext';
+import { cityLabel } from '../data/cities';
 import {
   DEFAULT_INSTALLMENT_CITY,
   INSTALLMENT_CITY_OPTIONS,
@@ -152,7 +153,9 @@ export default function Calculator({
   return (
     <section className="section calculator">
       <h2 className="section-title">
-        {isInstallment ? `${installmentConfig.title} · ${installmentConfig.city}` : t('calc.title.mortgage')}
+        {isInstallment
+          ? `${t(installmentConfig.titleKey)} · ${cityLabel(t, installmentConfig.city)}`
+          : t('calc.title.mortgage')}
       </h2>
 
       {showMortgage && (
@@ -181,7 +184,7 @@ export default function Calculator({
 
       {isInstallment ? (
         <>
-          <p className="calculator__subtitle">{installmentConfig.subtitle}</p>
+          <p className="calculator__subtitle">{t(installmentConfig.subtitleKey)}</p>
           <InstallmentCalculator
             config={installmentConfig}
             lang={lang}
@@ -245,13 +248,13 @@ export default function Calculator({
           </div>
           <div className="calc-panel__result">
             <div className="calc-result-block">
-              <div className="calc-result-block__label">{calc.mainLabel}</div>
+              <div className="calc-result-block__label">{t(calc.mainLabelKey)}</div>
               <div className="calc-result-block__value calc-result-block__value--lg">{calc.mainValue}</div>
-              <div className="calc-result-block__sub">{calc.mainSub}</div>
+              <div className="calc-result-block__sub">{t(calc.mainSubKey)}</div>
             </div>
             <div className="calc-result-block">
               <div className="calc-result-block__value calc-result-block__value--md">{calc.statValue}</div>
-              <div className="calc-result-block__sub">{calc.statLabel}</div>
+              <div className="calc-result-block__sub">{t(calc.statLabelKey)}</div>
             </div>
             {form.isSuccess ? (
               <div className="calc-lead calc-lead--success">

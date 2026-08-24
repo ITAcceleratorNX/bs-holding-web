@@ -8,6 +8,7 @@ import ProjectApartmentQuiz from '../components/project/ProjectApartmentQuiz';
 import Footer from '../components/Footer';
 import LeadPopup from '../components/lead/LeadPopup';
 import { EASTON_QUIZ_LANDING } from '../data/eastonQuizLanding';
+import { useProjectData } from '../i18n/useProjectData';
 
 /**
  * Короткая посадочная страница «Easton — квиз» для рекламного трафика (ТЗ).
@@ -17,7 +18,7 @@ import { EASTON_QUIZ_LANDING } from '../data/eastonQuizLanding';
  * `#/easton-quiz`, подключённый в `App.jsx`.
  */
 export default function EastonQuizLandingPage({ onBack, onOpenCall, onNavigateProject }) {
-  const data = EASTON_QUIZ_LANDING;
+  const data = useProjectData(EASTON_QUIZ_LANDING);
   const accent = data.theme?.accent ?? '#61D0C5';
   const accentDark = data.theme?.accentDark ?? '#1F6059';
 

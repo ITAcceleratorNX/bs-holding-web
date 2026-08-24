@@ -32,8 +32,10 @@ const ENDPOINT = '/api/lead';
  * @param {Record<string, string>} [fields]
  * @returns {SubmitFailure}
  */
-function failure(error, message, fields = {}) {
-  return { ok: false, error, message, fields };
+function failure(error, message, fields = {}, messageKey = '') {
+  /* `messageKey` — для собственных сообщений клиента: их переводит useLeadForm.
+     Ответ сервера приходит готовой строкой и показывается как есть. */
+  return { ok: false, error, message, fields, messageKey };
 }
 
 /**
@@ -50,7 +52,7 @@ export async function postLead(payload) {
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
   } catch {
-    return failure('network', 'Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.');
+    return failure('network', '', {}, 'lead.error.network');
   }
 
   /** @type {any} */
@@ -68,8 +70,9 @@ export async function postLead(payload) {
   // Успех показываем только при подтверждённом номере лида (ТЗ 8).
   return failure(
     String(body?.error ?? `http_${response.status}`),
-    String(body?.message ?? 'Не удалось отправить заявку. Попробуйте ещё раз.'),
+    body?.message ? String(body.message) : '',
     body?.fields && typeof body.fields === 'object' ? body.fields : {},
+    body?.message ? '' : 'lead.error.generic',
   );
 }
 

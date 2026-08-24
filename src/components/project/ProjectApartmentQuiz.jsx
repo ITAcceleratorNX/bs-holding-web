@@ -57,12 +57,13 @@ function localizeQuizOptions(t, key, options) {
     return options.map((o) => {
       if (o.value === 'Ипотека') return { ...o, label: t('quiz.payment.mortgage') };
       if (o.value === 'Рассрочка') return { ...o, label: t('quiz.payment.installment') };
+      if (o.value.startsWith('Полная оплата')) return { ...o, label: t('quiz.payment.full') };
       return o;
     });
   }
   if (key === 'layout') {
     return options.map((o) =>
-      o.value === 'Свободная' ? { ...o, label: t('quiz.layout.free') } : o,
+      o.value.startsWith('Свободная') ? { ...o, label: t('quiz.layout.free') } : o,
     );
   }
   return options;

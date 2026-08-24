@@ -38,7 +38,7 @@
  * @property {{ id: string, label: string, title: string, text: string, image: string, cta: string, features: string[] }} apartments
  * @property {{ label: string, title: string, image: string, points: string[], note: string }} parking
  * @property {{ label: string, title: string, image: string, text: string }} boxroom
- * @property {{ title: string, subtitle: string, address: string, instagram: string, hours: string, policy: string }} consult
+ * @property {{ title: string, subtitle: string, address: string, instagram: string, hours: string }} consult
  * @property {{ cols: { title: string, items: string[] }[], policy: string, copyright: string }} footer
  */
 
@@ -215,6 +215,7 @@ const CENTRAL_PARK = (() => {
       ],
     },
     yard: {
+      labelKey: 'project.label.yard',
       label: 'Дворовое пространство',
       title: 'Территория Central Park полностью закрыта от посторонних и не имеет доступа для автомобилей',
       text: 'Двор спроектирован как безопасное место для отдыха и общения, свободное от шума и движения машин.',
@@ -256,6 +257,7 @@ const CENTRAL_PARK = (() => {
     },
     hall: {
       id: `${slug}-hall`,
+      labelKey: 'project.label.publicSpaces',
       label: 'Общественные пространства',
       title: 'Каждый подъезд Central Park начинается с просторного дизайнерского холла',
       text1: 'Авторская отделка, продуманное освещение, декоративные элементы и качественная мебель создают особую атмосферу в каждом подъезде.',
@@ -299,7 +301,6 @@ const CENTRAL_PARK = (() => {
       address: 'г. Актау, 40 МКР 2 ДОМ',
       instagram: '@bs_holding.aktau',
       hours: 'Ежедневно с 9:00 до 19:00',
-      policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
     },
     footer: SHARED_FOOTER,
   };
@@ -384,6 +385,7 @@ const MURA = (() => {
     },
     /* Бриф: «Крупное преимущество проекта» — текст не заполнен, блок сохраняем без автономности */
     yard: {
+      labelKey: 'project.label.yard',
       label: 'Дворовое пространство',
       title: 'Двор жилого комплекса «Мұра» спроектирован как открытое и благоустроенное пространство',
       text: 'Двор жилого комплекса «Мұра» спроектирован как открытое и благоустроенное пространство, где предусмотрены различные функциональные зоны для комфортного отдыха жителей и безопасного времяпрепровождения детей. Для детей размещена современная игровая площадка из экологически чистых материалов. Для жителей предусмотрены уютные зоны отдыха и беседки, а также специальная зона қазан-ошақ для проведения семейных встреч, приготовления традиционных блюд и совместного отдыха на свежем воздухе. Территория двора озеленяется и дополняется зелёными насаждениями, газонами и элементами ландшафтного благоустройства.',
@@ -405,6 +407,7 @@ const MURA = (() => {
       ],
     },
     hall: {
+      labelKey: 'project.label.hall',
       label: 'Холлы',
       title: 'Входные группы жилого комплекса оформлены в авторском дизайне',
       text1: 'Входные группы жилого комплекса оформлены в авторском дизайне. Каждый подъезд оснащён современной лифтовой системой, обеспечивающей повседневный комфорт жителей.',
@@ -472,7 +475,6 @@ const MURA = (() => {
       address: 'г. Актау, 40 МКР',
       instagram: '@bs_holding.aktau',
       hours: 'Ежедневно с 9:00 до 19:00',
-      policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
     },
     footer: SHARED_FOOTER,
   };

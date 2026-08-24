@@ -75,7 +75,7 @@ export default function ProjectConsultForm({ data }) {
             >
               {form.isLoading ? t('form.sending') : t('project.consult.submit')}
             </button>
-            <div className="easton-consult__policy">{consult.policy}</div>
+            <div className="easton-consult__policy">{t('project.consult.policy')}</div>
           </>
         )}
       </div>

@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { ABOUT } from '../data/about';
 import { CITIES, PROJECTS } from '../data/projects';
+import { cityLabel } from '../data/cities';
 import { useI18n } from '../i18n/I18nContext';
 import { fmt } from '../utils/format';
 
@@ -112,8 +113,8 @@ export default function AboutPage({
               <div className="about-city-shots">
                 {intro.cities.map((item) => (
                   <article key={item.name} className="about-city-shot">
-                    <img src={item.image} alt={item.name} />
-                    <span>{item.name}</span>
+                    <img src={item.image} alt={cityLabel(t, item.name)} />
+                    <span>{cityLabel(t, item.name)}</span>
                   </article>
                 ))}
               </div>
@@ -180,7 +181,7 @@ export default function AboutPage({
                   className={`about-filters__chip${city === name ? ' is-active' : ''}`}
                   onClick={() => setCity(name)}
                 >
-                  {name === null ? t('about.projects.all') : name}
+                  {name === null ? t('about.projects.all') : cityLabel(t, name)}
                 </button>
               ))}
             </div>
@@ -196,7 +197,9 @@ export default function AboutPage({
                   <div className="about-project-card__body">
                     <div className="about-project-card__city">
                       <span className="about-project-card__pin" aria-hidden="true" />
-                      {t('about.projects.cityPrefix') ? `${t('about.projects.cityPrefix')} ${project.city}` : project.city}
+                      {t('about.projects.cityPrefix')
+                        ? `${t('about.projects.cityPrefix')} ${cityLabel(t, project.city)}`
+                        : cityLabel(t, project.city)}
                     </div>
                     <div className="about-project-card__name">{project.name}</div>
                     {project.price != null && (
@@ -228,7 +231,7 @@ export default function AboutPage({
                     {contribution.items.map((item) => (
                       <div key={item.id} className="about-contrib__row">
                         <img className="about-contrib__thumb" src={item.image} alt="" />
-                        <span className="about-contrib__name">{item.title}</span>
+                        <span className="about-contrib__name">{t(`about.contrib.item.${item.id}`)}</span>
                       </div>
                     ))}
                   </div>

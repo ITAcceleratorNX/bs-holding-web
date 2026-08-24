@@ -43,8 +43,30 @@ export function termBadgeLabel(t, termBadge) {
   return key ? t(key) : termBadge;
 }
 
-/** Переводит элемент meta, если это известный город. */
+/** Ориентиры и характеристики в meta-чипах карточек. */
+const META_KEY = {
+  Море: 'meta.sea',
+  '8 мин': 'meta.8min',
+  '40-й микрорайон': 'meta.district40',
+  '40 МКР': 'meta.district40short',
+  '9 мкр': 'meta.district9',
+  Парк: 'meta.park',
+  'Президентский парк': 'meta.presidentPark',
+  'Парк Первого Президента': 'meta.firstPresidentPark',
+  Центр: 'meta.centre',
+  Есенберлина: 'meta.yesenberlin',
+  'Алтын Орда': 'meta.altynOrda',
+  'Ораза Татеулы': 'meta.orazaTateuly',
+  электрозарядка: 'meta.charging',
+  огнезащита: 'meta.fireproof',
+  'отдельный вход': 'meta.ownEntrance',
+};
+
+/** Переводит элемент meta: город, известный ориентир или площадь «от N кв.м.». */
 export function metaLabel(t, item) {
   if (CITY_I18N_KEY[item]) return cityLabel(t, item);
+  if (META_KEY[item]) return t(META_KEY[item]);
+  const area = item.match(/^от\s+(\d+)\s*кв\.м\.?$/);
+  if (area) return t('meta.areaFrom', { n: area[1] });
   return item;
 }

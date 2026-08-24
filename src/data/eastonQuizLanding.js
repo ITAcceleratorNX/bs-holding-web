@@ -11,10 +11,12 @@ import { EASTON } from './easton';
 export const EASTON_QUIZ_LANDING = {
   ...EASTON,
   slug: 'easton-quiz',
+  /** Тексты у лендинга те же, что у Easton, — переводы берём по его слагу. */
+  textsSlug: 'easton',
   nav: [
-    { label: 'Преимущества', href: '#easton-quiz-advantages' },
-    { label: 'Локация', href: '#easton-quiz-location' },
-    { label: 'Подбор квартиры', href: '#easton-quiz-quiz' },
+    { labelKey: 'project.nav.advantages', label: 'Преимущества', href: '#easton-quiz-advantages' },
+    { labelKey: 'project.nav.location', label: 'Локация', href: '#easton-quiz-location' },
+    { labelKey: 'project.nav.quiz', label: 'Подбор квартиры', href: '#easton-quiz-quiz' },
   ],
   location: {
     ...EASTON.location,

@@ -13,10 +13,10 @@
  * @type {RoomOption[]}
  */
 export const ROOM_OPTIONS = [
-  { id: '1', label: '1-комнатная', areaMin: 40, areaMax: 55 },
-  { id: '2', label: '2-комнатная', areaMin: 60, areaMax: 80 },
-  { id: '3', label: '3-комнатная', areaMin: 90, areaMax: 115 },
-  { id: '4', label: '4-комнатная', areaMin: 120, areaMax: 140 },
+  { id: '1', labelKey: 'rooms.type.1', label: '1-комнатная', areaMin: 40, areaMax: 55 },
+  { id: '2', labelKey: 'rooms.type.2', label: '2-комнатная', areaMin: 60, areaMax: 80 },
+  { id: '3', labelKey: 'rooms.type.3', label: '3-комнатная', areaMin: 90, areaMax: 115 },
+  { id: '4', labelKey: 'rooms.type.4', label: '4-комнатная', areaMin: 120, areaMax: 140 },
 ];
 
 /** @param {string} id @returns {RoomOption|null} */
@@ -40,12 +40,12 @@ export const CITY_CALCULATORS = {
   Актобе: {
     city: 'Актобе',
     kind: 'exact',
-    title: 'Калькулятор рассрочки',
-    subtitle: 'Условия рассрочки для Актобе. Цена за м² определяется блоком и вариантом оплаты.',
+    titleKey: 'calc.title.installment',
+    subtitleKey: 'calc.subtitle.aktobe',
     /** Блоки жилого комплекса — влияют на цену за м². */
     blocks: [
-      { id: 'block-1', label: 'Блок 1' },
-      { id: 'block-2', label: 'Блок 2' },
+      { id: 'block-1', labelKey: 'plans.block', labelSuffix: '1', label: 'Блок 1' },
+      { id: 'block-2', labelKey: 'plans.block', labelSuffix: '2', label: 'Блок 2' },
     ],
     /**
      * Варианты оплаты. `pricePerM2` — цена за 1 м² по блокам (ТЗ 4.2).
@@ -56,6 +56,7 @@ export const CITY_CALCULATORS = {
       {
         id: '30',
         label: '30%',
+        titleKey: 'calc.payment.down',
         title: 'Первоначальный взнос 30%',
         downPercent: 30,
         full: false,
@@ -64,6 +65,7 @@ export const CITY_CALCULATORS = {
       {
         id: '50',
         label: '50%',
+        titleKey: 'calc.payment.down',
         title: 'Первоначальный взнос 50%',
         downPercent: 50,
         full: false,
@@ -72,6 +74,7 @@ export const CITY_CALCULATORS = {
       {
         id: '100',
         label: '100%',
+        titleKey: 'calc.payment.full',
         title: 'Полная оплата',
         downPercent: 100,
         full: true,
@@ -84,9 +87,8 @@ export const CITY_CALCULATORS = {
   'Усть-Каменогорск': {
     city: 'Усть-Каменогорск',
     kind: 'range',
-    title: 'Калькулятор рассрочки',
-    subtitle:
-      'Условия рассрочки для Усть-Каменогорска. Известен диапазон цены за 1 м², поэтому расчёт показывается «от–до».',
+    titleKey: 'calc.title.installment',
+    subtitleKey: 'calc.subtitle.oskemen',
     /** Известный диапазон цены за 1 м² (ТЗ 5). */
     pricePerM2: { min: 485000, max: 570000 },
     /**
@@ -94,9 +96,9 @@ export const CITY_CALCULATORS = {
      * Надбавка применяется один раз к остатку — это не годовая ставка.
      */
     payments: [
-      { id: '30', label: '30%', title: 'Первоначальный взнос 30%', downPercent: 30, surchargePercent: 15, full: false },
-      { id: '50', label: '50%', title: 'Первоначальный взнос 50%', downPercent: 50, surchargePercent: 10, full: false },
-      { id: '70', label: '70%', title: 'Первоначальный взнос 70%', downPercent: 70, surchargePercent: 5, full: false },
+      { id: '30', label: '30%', titleKey: 'calc.payment.down', title: 'Первоначальный взнос 30%', downPercent: 30, surchargePercent: 15, full: false },
+      { id: '50', label: '50%', titleKey: 'calc.payment.down', title: 'Первоначальный взнос 50%', downPercent: 50, surchargePercent: 10, full: false },
+      { id: '70', label: '70%', titleKey: 'calc.payment.down', title: 'Первоначальный взнос 70%', downPercent: 70, surchargePercent: 5, full: false },
     ],
     term: { min: 1, max: 23 },
     /** Правило действует только для Усть-Каменогорска (ТЗ 5.4). */
@@ -111,7 +113,7 @@ export const CITY_CALCULATORS = {
 export const INSTALLMENT_CITIES = Object.values(CITY_CALCULATORS);
 
 /** Опции для переключателя города внутри калькулятора. */
-export const INSTALLMENT_CITY_OPTIONS = INSTALLMENT_CITIES.map((c) => ({ id: c.city, label: c.city }));
+export const INSTALLMENT_CITY_OPTIONS = INSTALLMENT_CITIES.map((c) => ({ id: c.city, cityLabel: c.city, label: c.city }));
 
 /**
  * Город калькулятора по умолчанию — используется, когда в шапке выбран город

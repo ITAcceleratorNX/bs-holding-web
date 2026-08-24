@@ -93,7 +93,7 @@ export default function Contacts({ headerCity = 'Актау' }) {
             </button>
           ))}
         </div>
-        <p className="contacts-map__address">{office.address}</p>
+        <p className="contacts-map__address">{t(office.addressKey)}</p>
         <div className="contacts-map__frame">
           <iframe
             title={`${t('contacts.mapTitle')} — ${cityLabel(t, office.city)}`}

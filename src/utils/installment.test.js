@@ -295,7 +295,8 @@ describe('Усть-Каменогорск — минимальный платё�
     assert.ok(r.monthly.min < 500000);
     assert.equal(r.canSubmit, false);
     assert.equal(r.error.field, 'months');
-    assert.equal(r.error.message, 'Минимальный ежемесячный платеж — 500 000 ₸. Уменьшите срок рассрочки');
+    assert.equal(r.error.messageKey, 'calc.error.term');
+    assert.deepEqual(r.error.messageVars, { min: 500000 });
   });
 
   it('на допустимом сроке ошибки нет и отправка разрешена', () => {

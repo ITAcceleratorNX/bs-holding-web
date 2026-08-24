@@ -42,9 +42,9 @@ export const ORTA = {
     ],
   },
   nav: [
-    { label: 'Расположение', href: '#orta-location' },
-    { label: 'Архитектура', href: '#orta-architecture' },
-    { label: 'Планировки', href: '#orta-plans' },
+    { labelKey: 'project.nav.location', label: 'Расположение', href: '#orta-location' },
+    { labelKey: 'project.nav.architecture', label: 'Архитектура', href: '#orta-architecture' },
+    { labelKey: 'project.nav.plans', label: 'Планировки', href: '#orta-plans' },
   ],
   hero: {
     image: `${IMG}/hero.webp`,
@@ -132,6 +132,7 @@ export const ORTA = {
   },
   // kids / parking / boxroom — не используются на ORTA
   hall: {
+    labelKey: 'project.label.publicSpaces',
     label: 'Общественные пространства',
     title: 'Дизайнерские входные группы',
     text1: 'Дизайнерские холлы ORTA формируют первое впечатление от дома и поддерживают его сдержанный, статусный характер.',
@@ -226,7 +227,6 @@ export const ORTA = {
     address: 'г. Актау, 9 микрорайон',
     instagram: 'bs_holding.aktau',
     hours: 'Ежедневно с 9:00 до 19:00',
-    policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
     projectName: 'ORTA',
     city: 'Актау',
   },

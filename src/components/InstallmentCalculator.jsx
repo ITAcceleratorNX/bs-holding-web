@@ -6,6 +6,8 @@ import { buildDetails } from '../lead/details';
 import { useLeadForm } from '../lead/useLeadForm';
 import { allowedTermRange, computeInstallment } from '../utils/installment';
 import { clampNumber, fmt } from '../utils/format';
+import { useI18n } from '../i18n/I18nContext';
+import { cityLabel } from '../data/cities';
 
 const tenge = (n) => `${fmt(n)} ₸`;
 /** @param {{min: number, max: number}} r */
@@ -13,7 +15,14 @@ const tengeRange = (r) => (r.min === r.max ? tenge(r.min) : `${fmt(r.min)} – $
 /** Значение может быть числом (точный расчёт) или диапазоном (расчёт «от–до»). */
 const value = (v) => (v == null ? '—' : typeof v === 'number' ? tenge(v) : tengeRange(v));
 
-function OptionGroup({ label, options, current, onSelect, name }) {
+/** Подпись опции: ключ перевода, город или готовый текст (проценты, «30%»). */
+function optionLabel(t, opt) {
+  if (opt.cityLabel) return cityLabel(t, opt.cityLabel);
+  if (opt.labelKey) return opt.labelSuffix ? `${t(opt.labelKey)} ${opt.labelSuffix}` : t(opt.labelKey);
+  return opt.label;
+}
+
+function OptionGroup({ label, options, current, onSelect, name, t }) {
   return (
     <div className="calc-field calc-geo__group">
       <label id={`${name}-label`}>{label}</label>
@@ -27,7 +36,7 @@ function OptionGroup({ label, options, current, onSelect, name }) {
             className={`calc-geo__option${current === opt.id ? ' is-active' : ''}`}
             onClick={() => onSelect(opt.id)}
           >
-            {opt.label}
+            {optionLabel(t, opt)}
           </button>
         ))}
       </div>
@@ -63,32 +72,36 @@ function SliderField({ label, valueText, min, max, step = 1, current, onChange, 
   );
 }
 
-function ResultRows({ result }) {
+function ResultRows({ result, t }) {
   const rows = [];
   const room = getRoomOption(result.roomId);
+  const months = t('calc.unit.months');
 
-  if (result.block) rows.push(['Блок', result.block.label]);
-  rows.push(['Комнатность и площадь', `${room?.label ?? '—'} · ${result.area} м²`]);
+  if (result.block) rows.push([t('calc.row.block'), optionLabel(t, result.block)]);
+  rows.push([t('calc.row.roomsArea'), `${room ? t(room.labelKey) : '—'} · ${result.area} ${t('units.m2')}`]);
   rows.push([
-    'Цена за 1 м²',
+    t('calc.row.pricePerM2'),
     typeof result.pricePerM2 === 'number' ? tenge(result.pricePerM2) : tengeRange(result.pricePerM2),
   ]);
   rows.push([
-    typeof result.total === 'number' ? 'Полная стоимость квартиры' : 'Стоимость квартиры',
+    typeof result.total === 'number' ? t('calc.row.totalFull') : t('calc.row.total'),
     value(result.total),
   ]);
 
   if (result.isFullPayment) {
-    rows.push(['Вариант оплаты', 'Полная оплата']);
+    rows.push([t('calc.row.payment'), t('calc.payment.full')]);
   } else {
-    rows.push([`Первоначальный взнос ${result.payment.downPercent}%`, value(result.down)]);
-    rows.push(['Остаток', value(result.remainder)]);
+    rows.push([t('calc.payment.down', { percent: result.payment.downPercent }), value(result.down)]);
+    rows.push([t('calc.row.remainder'), value(result.remainder)]);
     if (result.surcharge != null) {
-      rows.push([`Надбавка на остаток ${result.payment.surchargePercent}%`, value(result.surcharge)]);
-      rows.push(['Сумма рассрочки', value(result.installmentSum)]);
+      rows.push([
+        t('calc.row.surcharge', { percent: result.payment.surchargePercent }),
+        value(result.surcharge),
+      ]);
+      rows.push([t('calc.row.installmentSum'), value(result.installmentSum)]);
     }
-    rows.push(['Срок рассрочки', `${result.months} мес.`]);
-    rows.push(['Ежемесячный платёж', value(result.monthly)]);
+    rows.push([t('calc.row.term'), `${result.months} ${months}`]);
+    rows.push([t('calc.row.monthly'), value(result.monthly)]);
   }
 
   return (
@@ -111,6 +124,7 @@ function ResultRows({ result }) {
  * в шапке сайта при этом не меняется — им управляет родительский компонент.
  */
 export default function InstallmentCalculator({ config, lang, projectName, cityOptions, cityId, onCityChange }) {
+  const { t } = useI18n();
   const [blockId, setBlockId] = useState(() => config.blocks?.[0]?.id ?? null);
   const [roomId, setRoomId] = useState(ROOM_OPTIONS[0].id);
   const [area, setArea] = useState(ROOM_OPTIONS[0].areaMin);
@@ -205,7 +219,7 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
         ['calc_monthly', 'Ежемесячный платёж', payment.full ? null : value(result?.monthly)],
         ['calc_lang', 'Язык интерфейса', lang],
       ]),
-    validate: () => (result?.canSubmit ? {} : { calc: 'Измените параметры расчёта' }),
+    validate: () => (result?.canSubmit ? {} : { calc: t('calc.error.params') }),
     onSuccess: () => {
       // Заявка ушла с параметрами прежнего города — устаревший расчёт не показываем.
       if (configRef.current === submittedFor.current) setSubmittedResult(result);
@@ -235,18 +249,26 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
   if (!result) return null;
 
   const headline = payment.full
-    ? { label: 'Полная стоимость', text: value(result.total), sub: `Полная оплата · ${value(result.pricePerM2)}/м²` }
+    ? {
+        label: t('calc.headline.total'),
+        text: value(result.total),
+        sub: t('calc.headline.totalSub', { price: value(result.pricePerM2) }),
+      }
     : {
-        label: 'Ежемесячный платёж',
+        label: t('calc.headline.monthly'),
         text: value(result.monthly),
-        sub: `${result.months} мес. · первоначальный взнос ${payment.downPercent}%`,
+        sub: t('calc.headline.monthlySub', { months: result.months, percent: payment.downPercent }),
       };
 
   // Верхняя граница ниже городской — из-за минимального платежа. Об этом нужно
   // сказать явно, иначе «недоступный» участок ползунка выглядит ошибкой (ТЗ 7).
   const termHint =
     config.minMonthlyPayment && termRange.max < config.term.max
-      ? `Минимальный ежемесячный платёж — ${tenge(config.minMonthlyPayment)}, поэтому при текущих параметрах доступен срок до ${termRange.max} мес. из ${config.term.max}.`
+      ? t('calc.termHint', {
+          min: tenge(config.minMonthlyPayment),
+          max: termRange.max,
+          total: config.term.max,
+        })
       : null;
 
   return (
@@ -255,7 +277,8 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
         {cityOptions?.length > 1 && (
           <OptionGroup
             name="calc-city"
-            label="Город"
+            t={t}
+            label={t('calc.field.city')}
             options={cityOptions}
             current={cityId}
             onSelect={(id) => {
@@ -268,7 +291,8 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
         {config.blocks && (
           <OptionGroup
             name="calc-block"
-            label="Блок"
+            t={t}
+            label={t('calc.field.block')}
             options={config.blocks}
             current={blockId}
             onSelect={(id) => {
@@ -280,7 +304,8 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
 
         <OptionGroup
           name="calc-rooms"
-          label="Комнатность"
+          t={t}
+          label={t('calc.field.rooms')}
           options={ROOM_OPTIONS}
           current={roomId}
           onSelect={selectRoom}
@@ -288,8 +313,8 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
 
         <SliderField
           id="calc-area"
-          label="Площадь"
-          valueText={`${area} м²`}
+          label={t('calc.field.area')}
+          valueText={`${area} ${t('units.m2')}`}
           min={room.areaMin}
           max={room.areaMax}
           step={AREA_STEP}
@@ -298,12 +323,13 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
             setArea(v);
             resetResult();
           }}
-          boundsText={[`${room.areaMin} м²`, `${room.areaMax} м²`]}
+          boundsText={[`${room.areaMin} ${t('units.m2')}`, `${room.areaMax} ${t('units.m2')}`]}
         />
 
         <OptionGroup
           name="calc-payment"
-          label={config.kind === 'exact' ? 'Вариант оплаты' : 'Первоначальный взнос'}
+          t={t}
+          label={config.kind === 'exact' ? t('calc.field.payment') : t('calc.field.down')}
           options={config.payments}
           current={paymentId}
           onSelect={(id) => {
@@ -316,8 +342,8 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
         {showTerm && (
           <SliderField
             id="calc-term"
-            label="Срок рассрочки"
-            valueText={`${result.months} мес.`}
+            label={t('calc.field.termInstallment')}
+            valueText={`${result.months} ${t('calc.unit.months')}`}
             min={termRange.min}
             max={termRange.max}
             current={result.months}
@@ -325,15 +351,22 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
               setMonths(clampNumber(v, termRange.min, termRange.max));
               resetResult();
             }}
-            boundsText={[`${termRange.min} мес.`, `${termRange.max} мес.`]}
+            boundsText={[
+              `${termRange.min} ${t('calc.unit.months')}`,
+              `${termRange.max} ${t('calc.unit.months')}`,
+            ]}
             hint={termHint}
-            error={result.error?.field === 'months' ? result.error.message : null}
+            error={
+              result.error?.field === 'months'
+                ? t(result.error.messageKey, { min: tenge(result.error.messageVars.min) })
+                : null
+            }
           />
         )}
 
         <p className="calc-panel__note">
-          Расчёт носит предварительный характер и не является публичной офертой.
-          {config.kind === 'range' && ' Точная стоимость зависит от конкретной квартиры и уточняется менеджером.'}
+          {t('calc.note.installment')}
+          {config.kind === 'range' && t('calc.note.range')}
         </p>
       </div>
 
@@ -355,16 +388,19 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
             {value(result.total)}
           </div>
           <div className="calc-result-block__sub">
-            Стоимость квартиры · {room.label} · {result.area} м² ·{' '}
-            {typeof result.pricePerM2 === 'number' ? tenge(result.pricePerM2) : tengeRange(result.pricePerM2)}/м²
+            {t('calc.result.sub', {
+              rooms: t(room.labelKey),
+              area: result.area,
+              price: typeof result.pricePerM2 === 'number' ? tenge(result.pricePerM2) : tengeRange(result.pricePerM2),
+            })}
           </div>
         </div>
 
         {form.isSuccess && submittedResult ? (
           <div className="calc-lead calc-lead--success">
-            <div className="calc-lead__title">Ваш расчёт готов</div>
-            <ResultRows result={submittedResult} />
-            <div className="calc-lead__sub">Заявка принята — менеджер свяжется с вами и подтвердит условия.</div>
+            <div className="calc-lead__title">{t('calc.result.ready')}</div>
+            <ResultRows result={submittedResult} t={t} />
+            <div className="calc-lead__sub">{t('calc.result.accepted')}</div>
           </div>
         ) : (
           <div className="calc-lead">
@@ -372,14 +408,14 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
               <div className="calc-geo__field">
                 <input
                   className="input-dark"
-                  placeholder="Ваше имя"
-                  aria-label="Ваше имя"
+                  placeholder={t('calc.name.placeholder')}
+                  aria-label={t('calc.name.placeholder')}
                   {...form.fields.name}
                 />
                 {form.errors.name && <div className="calc-geo__error">{form.errors.name}</div>}
               </div>
               <div className="calc-geo__field">
-                <input className="input-dark" aria-label="Номер телефона" {...form.fields.phone} />
+                <input className="input-dark" aria-label={t('calc.phone.label')} {...form.fields.phone} />
                 {form.errors.phone && <div className="calc-geo__error">{form.errors.phone}</div>}
               </div>
             </div>
@@ -393,7 +429,7 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
                 onChange={(e) => form.setConsent(e.target.checked)}
               />
               <span className="calc-geo__consent-box" aria-hidden="true" />
-              <span>Согласен на обработку персональных данных</span>
+              <span>{t('calc.consent')}</span>
             </label>
             {form.errors.consent && <div className="calc-geo__error">{form.errors.consent}</div>}
             {form.errors.calc && <div className="calc-geo__error">{form.errors.calc}</div>}
@@ -406,7 +442,7 @@ export default function InstallmentCalculator({ config, lang, projectName, cityO
               onClick={submitInstallment}
               disabled={form.isLoading || !result.canSubmit}
             >
-              {form.isLoading ? 'Отправка…' : 'Получить расчет'}
+              {form.isLoading ? t('form.sending') : t('calc.submit')}
             </button>
           </div>
         )}

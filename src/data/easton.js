@@ -13,9 +13,9 @@ export const EASTON = {
     accentDark: '#1F6059',
   },
   nav: [
-    { label: 'Расположение', href: '#easton-location' },
-    { label: 'Архитектура', href: '#easton-architecture' },
-    { label: 'Планировки', href: '#easton-plans' },
+    { labelKey: 'project.nav.location', label: 'Расположение', href: '#easton-location' },
+    { labelKey: 'project.nav.architecture', label: 'Архитектура', href: '#easton-architecture' },
+    { labelKey: 'project.nav.plans', label: 'Планировки', href: '#easton-plans' },
   ],
   hero: {
     image: '/images/easton/hero-clean.webp',
@@ -69,6 +69,7 @@ export const EASTON = {
     ctaButton: 'Записаться на экскурсию',
   },
   yard: {
+    labelKey: 'project.label.yard',
     label: 'Дворовое пространство',
     title: 'Двор спроектирован на стилобате, полностью исключающем движение автомобилей. Это гарантирует тишину, безопасность и уютную атмосферу',
     image: '/images/easton/yard.webp',
@@ -80,6 +81,7 @@ export const EASTON = {
     cta: 'Получить консультацию',
   },
   kids: {
+    labelKey: 'project.label.kids',
     label: 'Особое внимание - детям',
     gallery: [
       { image: '/images/easton/kids-1.webp', title: 'Безопасные\nматериалы' },
@@ -92,6 +94,7 @@ export const EASTON = {
     roomText: 'Даже в непогоду дети смогут играть, фантазировать и весело проводить время.',
   },
   hall: {
+    labelKey: 'project.label.hall',
     label: 'Холлы',
     title: 'Холлы комплекса - сочетание элегантности и современного стиля',
     text1: 'Оформление выполнено с вниманием к свету и пропорциям, создавая атмосферу уюта и премиального комфорта.',
@@ -251,7 +254,6 @@ export const EASTON = {
     address: 'Оскемен, проспект Ильяса Есенбердина, 38/3',
     instagram: 'bs_holding.oskemen',
     hours: 'Ежедневно с 9:00 до 19:00',
-    policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
   },
   footer: {
     cols: [

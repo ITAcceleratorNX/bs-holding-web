@@ -19,9 +19,9 @@ export const WHITE_HILL = {
     accentDark: '#1F6059',
   },
   nav: [
-    { label: 'Расположение', href: '#white-hill-location' },
-    { label: 'Архитектура', href: '#white-hill-architecture' },
-    { label: 'Планировки', href: '#white-hill-plans' },
+    { labelKey: 'project.nav.location', label: 'Расположение', href: '#white-hill-location' },
+    { labelKey: 'project.nav.architecture', label: 'Архитектура', href: '#white-hill-architecture' },
+    { labelKey: 'project.nav.plans', label: 'Планировки', href: '#white-hill-plans' },
   ],
   hero: {
     image: `${IMG}/hero.webp`,
@@ -93,6 +93,7 @@ export const WHITE_HILL = {
     ctaButton: 'Записаться на экскурсию',
   },
   yard: {
+    labelKey: 'project.label.yard',
     label: 'Дворовое пространство',
     title: 'Двор без машин — закрытый двор с премиальными материалами. Тишина, безопасность и уютная атмосфера для всей семьи',
     image: `${IMG}/yard.webp`,
@@ -104,6 +105,7 @@ export const WHITE_HILL = {
     cta: 'Получить консультацию',
   },
   kids: {
+    labelKey: 'project.label.kids',
     label: 'Особое внимание - детям',
     gallery: [
       { image: `${IMG}/kids-1.webp`, title: 'Kids Room\nдля жителей ЖК' },
@@ -116,6 +118,7 @@ export const WHITE_HILL = {
     roomText: 'Даже в непогоду дети смогут играть, фантазировать и весело проводить время в тёплом и безопасном пространстве.',
   },
   hall: {
+    labelKey: 'project.label.hall',
     label: 'Холлы',
     title: 'Холлы комплекса — сочетание элегантности и современного стиля',
     text1: 'Потолки в лобби и коммерческих помещениях — от 5,1 до 6,5 м. Оформление выполнено с вниманием к свету и пропорциям.',
@@ -204,7 +207,6 @@ export const WHITE_HILL = {
     address: 'Актобе, микрорайон Алтын Орда, улица Ораза Татеулы',
     instagram: 'bs_holding.aktobe',
     hours: HOURS,
-    policy: 'Оставляя заявку, вы соглашаетесь с нашей политикой обработки конфиденциальных данных',
     projectName: 'White Hill',
     city: 'Актобе',
   },

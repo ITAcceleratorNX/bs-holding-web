@@ -97,9 +97,14 @@ export const PROJECT_TEXTS = {
         title: 'Boxroom — сақтауға арналған жеке қойма бөлмелері',
         text: 'Велосипедтерге, коляскаларға, маусымдық заттар мен спорт мүкәммалына арналған ойластырылған шешім.',
       },
+      floorPlans: {
+        title: 'Easton жоспарлары 45-тен 130 м²-ге дейін',
+        text: '1–4 бөлмелі пәтер нұсқалары әртүрлі блоктарда. Жоспарды таңдап, кеңес алуға өтінім қалдырыңыз.',
+      },
       consult: {
         title: 'Байланыс деректерін толтырыңыз — м² үшін тиімді бағаны бекітіп береміз',
         subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жіберіп береді.',
+        address: 'Өскемен қ., Ілияс Есенберлин даңғылы, 38/3',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
       },
     },
@@ -194,9 +199,14 @@ export const PROJECT_TEXTS = {
         title: 'Boxroom — personal storage units',
         text: 'A smart solution for bicycles, prams, seasonal items and sports equipment.',
       },
+      floorPlans: {
+        title: 'Easton floor plans from 45 to 130 m²',
+        text: '1–4 room apartment layouts across different blocks. Pick a layout and request a consultation.',
+      },
       consult: {
         title: 'Leave your contacts — we\'ll lock in a great price per m² for you',
         subtitle: 'A manager will send you the catalogue, current prices and 0% instalment terms.',
+        address: 'Oskemen, Ilyas Yesenberlin Avenue, 38/3',
         hours: 'Daily 9:00–19:00',
       },
     },
@@ -236,10 +246,19 @@ export const PROJECT_TEXTS = {
       },
       architecture: {
         title: 'White Hill сәулеті — ойластырылған тіршілік кеңістігі',
+        points: [
+          'Монолитті қаңқа бүкіл тұрғын ғимараттың беріктігі мен ұзақ мерзімділігін қамтамасыз етеді.',
+          'Минерал мақтамен жылытылған алюминий композиттік панельдерден жасалған фасад жылу және шу оқшаулауын, сондай-ақ жоғары өрт қауіпсіздігін қамтамасыз етеді.',
+          'Rehau бескамералық терезелері мен IP-домофония кешеннің премиум сипатын айқындайды.',
+        ],
         ctaQuestion: 'White Hill материалдарының сапасын жеке бағалағыңыз келе ме?',
       },
       yard: {
         title: 'Ауланың кеңістігі тыныштық пен ыңғайлылыққа приоритет беріліп жобаланған',
+      },
+      playground: {
+        title: 'Заманауи ойын алаңы',
+        text: 'Аула — үйлер арасындағы кеңістік қана емес, бүкіл отбасымен демалуға, қарым-қатынасқа және серуендеуге арналған үйлесімді орта. Мангал аймағы, chill-аймақ және спорт алаңдары қауіпсіздік пен ыңғайлылық ескеріле жасалған.',
       },
       kids: {
         gallery: [
@@ -247,14 +266,47 @@ export const PROJECT_TEXTS = {
           { title: 'Белсенді\nойын аймағы' },
           { title: 'Шығармашылық\nжәне демалыс' },
         ],
+        roomTitle: 'Kids Room — тұрғын үй кешенінің кішкентай тұрғындарына арналған жабық балалар алаңы',
+        roomText: 'Жаман ауа райында да балалар жылы әрі қауіпсіз кеңістікте ойнап, қиялдап, көңілді уақыт өткізе алады.',
       },
       hall: {
         title: 'Холлдар — элегантттылық пен заманауи стильдің үйлесімі',
         text1: 'Безендіру жарық пен пропорцияларға назар аударыла жасалған.',
+        text2: 'Подъездтер мен лифт аймақтарының кеңістігі бірыңғай авторлық стильде орындалып, премиум ыңғайлылық атмосферасын тудырады.',
+        features: [
+          'Авторлық дизайнерлік холлдар',
+          'Лобби төбелері 5,1-ден 6,5 м-ге дейін',
+          'Ойластырылған подъездтер',
+          'Заманауи лифт аймақтары',
+        ],
+      },
+      apartments: {
+        title: 'Әрбір пәтер — ыңғайлылық, функционалдылық және заманауи стиль кеңістігі',
+        text: 'Төбе биіктігі 3,1-ден 3,2 м-ге дейін, IP-домофония және Rehau бескамералық терезелері жеңілдік сезімін тудырып, әр шаршы метрді барынша тиімді пайдалануға мүмкіндік береді.',
+        features: [
+          'Төбе биіктігі 3,1-ден 3,2 м-ге дейін',
+          'IP-домофония',
+          'Rehau бескамералық терезелері',
+          'Пәтерлер екінші қабаттан басталады',
+        ],
+      },
+      parking: {
+        title: 'White Hill паркингі — ыңғайлылық, қауіпсіздік және ойластырылған ұйымның үйлесімі',
+        points: [
+          'Жер үсті жабық паркинг сыртқы әсерлерден қорғалған және жылдың кез келген мезгілінде қолжетімді.',
+          'Кіру қолжетімділікті бақылау жүйесі арқылы жүзеге асырылады — бөгде адамдардың кіруі шеттетілген.',
+          'Паркингтен тұрғын қабаттарға лифтімен тікелей шығу.',
+        ],
+        note: 'Кең орындар, ойластырылған навигация және заманауи жарықтандыру паркингті пайдалануды барынша ыңғайлы етеді.',
+      },
+      floorPlans: {
+        title: 'White Hill жоспарлары 43-тен 181 шарш. м-ге дейін',
+        text: 'Кең ас үй-қонақ бөлмелері, мастер-жатын бөлмелері мен гардеробтары бар пәтер нұсқалары. Жоспарды таңдап, кеңес алуға өтінім қалдырыңыз.',
       },
       consult: {
         title: 'Байланыс деректерін толтырыңыз — м² үшін тиімді бағаны бекітіп береміз',
         subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жіберіп береді.',
+        address: 'Ақтөбе қ., Алтын Орда шағын ауданы, Ораз Татеулы көшесі',
         hours: 'Дс–Жм: 09:00–19:00\nСб–Жс: 10:00–17:00',
       },
     },
@@ -291,10 +343,19 @@ export const PROJECT_TEXTS = {
       },
       architecture: {
         title: 'White Hill architecture — a thoughtful living space',
+        points: [
+          'A monolithic frame provides strength and durability for the entire building.',
+          'A façade of aluminium composite panels with mineral wool insulation delivers thermal and sound insulation as well as enhanced fire safety.',
+          'Five-chamber Rehau windows and IP intercoms underline the premium character of the complex.',
+        ],
         ctaQuestion: 'Would you like to assess the quality of White Hill\'s materials in person?',
       },
       yard: {
         title: 'The courtyard space is designed with a priority on peace and comfort',
+      },
+      playground: {
+        title: 'A modern playground',
+        text: 'The courtyard is more than the space between buildings — it is a harmonious environment for rest, socialising and family walks. The barbecue area, chill-out zone and sports pitches are designed with safety and comfort in mind.',
       },
       kids: {
         gallery: [
@@ -302,14 +363,47 @@ export const PROJECT_TEXTS = {
           { title: 'Active\nplay zone' },
           { title: 'Creative space\n& relaxation' },
         ],
+        roomTitle: 'Kids Room — an indoor playground for the complex\'s youngest residents',
+        roomText: 'Even in bad weather children can play, imagine and have fun in a warm and safe space.',
       },
       hall: {
         title: 'Lobbies — a blend of elegance and modern style',
         text1: 'The design pays close attention to light and proportions.',
+        text2: 'Entrance and lift areas are finished in a single signature style, creating an atmosphere of premium comfort.',
+        features: [
+          'Original designer lobbies',
+          'Lobby ceilings from 5.1 to 6.5 m',
+          'Thoughtfully designed entrances',
+          'Modern lift areas',
+        ],
+      },
+      apartments: {
+        title: 'Every apartment is a space of comfort, functionality and modern style',
+        text: 'Ceiling heights from 3.1 to 3.2 m, IP intercoms and five-chamber Rehau windows create a sense of lightness and make the most of every square metre.',
+        features: [
+          'Ceiling heights from 3.1 to 3.2 m',
+          'IP intercom',
+          'Five-chamber Rehau windows',
+          'Apartments start from the second floor',
+        ],
+      },
+      parking: {
+        title: 'White Hill parking — a combination of convenience, security and thoughtful organisation',
+        points: [
+          'The covered above-ground car park is protected from the elements and accessible year-round.',
+          'Entry is managed by an access control system — outsiders cannot get in.',
+          'Direct lift access from the car park to the residential floors.',
+        ],
+        note: 'Spacious bays, clear wayfinding and modern lighting make using the car park as convenient as possible.',
+      },
+      floorPlans: {
+        title: 'White Hill floor plans from 43 to 181 sq. m',
+        text: 'Apartment layouts with spacious kitchen-living rooms, master bedrooms and walk-in wardrobes. Pick a layout and request a consultation.',
       },
       consult: {
         title: 'Leave your contacts — we\'ll lock in a great price per m² for you',
         subtitle: 'A manager will send you the catalogue, current prices and 0% instalment terms.',
+        address: 'Aktobe, Altyn Orda district, Oraza Tateuuly street',
         hours: 'Mon–Fri: 09:00–19:00\nSat–Sun: 10:00–17:00',
       },
     },
@@ -320,7 +414,7 @@ export const PROJECT_TEXTS = {
       hero: { location: 'Ақтау қ.' },
       about: {
         title: 'Тыныштықты бағалайтындарға арналған үй',
-        text: 'ORTA — екі подъездегі барлығы 69 пәтерден тұратын бизнес-класс тұрғын үй кешені. Жоба сдержанная сәулеттік эстетикаға, жеке өмірге және қалалық контекстке құрметке негізделген.',
+        text: 'ORTA — екі подъездегі барлығы 69 пәтерден тұратын бизнес-класс тұрғын үй кешені. Жоба ұстамды сәулеттік эстетикаға, жеке өмірге және қалалық контекстке құрметке негізделген.',
         stats: [
           { text: '69 пәтер — шағын форматты кешен' },
           { text: '2 подъезд — жабық клубтық масштаб' },
@@ -367,9 +461,34 @@ export const PROJECT_TEXTS = {
         title: 'Үйдің жалғасы ретіндегі аула',
         text: 'Ландшафттық жасыл желек, сәулеттік формалар мен эко-ойын кешендері балалар мен ересектерге ыңғайлы жеке аула ортасын қалыптастырады.',
       },
+      hall: {
+        title: 'Дизайнерлік кіреберіс топтар',
+        text1: 'ORTA-ның дизайнерлік холлдары үй туралы алғашқы әсерді қалыптастырып, оның ұстамды, мәртебелі сипатын нығайтады.',
+        features: [
+          'Транзитсіз жабық аула',
+          'IP-домофония',
+          'Тәулік бойы бейнебақылау',
+          'Кешен күзеті',
+        ],
+      },
+      apartments: {
+        title: 'Ұсақ-түйегіне дейін ойластырылған жайлылық',
+        text: 'ORTA жоспарлау шешімдері функционалдылық пен жеке кеңістікке бағытталған — артық метрлерсіз және кездейсоқ аймақтарсыз.',
+        features: [
+          'Төбе биіктігі — 3,2 метр',
+          'Биіктігі 2,2 метр бескамералық терезелер',
+          'Smart-тұтқалар',
+          'IP-домофония',
+        ],
+      },
+      floorPlans: {
+        title: 'ORTA жоспарлары 43-тен 100 м²-ге дейін',
+        text: 'ORTA-да еркін жоспарлау шешімдері қарастырылған: 1 бөлмелі — 43,39–43,45 м²; 2 бөлмелі — 66,04–89,39 м²; 3 бөлмелі — 90,67–100,45 м². Толығырақ қарау үшін жоспарды ашыңыз.',
+      },
       consult: {
         title: 'Байланыс деректерін толтырыңыз — м² үшін тиімді бағаны бекітіп береміз',
         subtitle: 'Менеджер ORTA туралы ақпарат жіберіп, кеңес береді.',
+        address: 'Ақтау қ., 9 шағын аудан',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
       },
     },
@@ -424,9 +543,34 @@ export const PROJECT_TEXTS = {
         title: 'The courtyard as an extension of home',
         text: 'Landscaped greenery, architectural features and eco play structures form a private courtyard environment comfortable for both children and adults.',
       },
+      hall: {
+        title: 'Designer entrance groups',
+        text1: 'ORTA\'s designer lobbies shape the first impression of the building and reinforce its restrained, high-status character.',
+        features: [
+          'Gated courtyard with no through traffic',
+          'IP intercom',
+          '24/7 video surveillance',
+          'On-site security',
+        ],
+      },
+      apartments: {
+        title: 'Comfort considered down to the details',
+        text: 'ORTA\'s layouts are built around functionality and privacy, with no surplus metres or incidental spaces.',
+        features: [
+          'Ceiling height — 3.2 metres',
+          'Five-chamber windows 2.2 metres tall',
+          'Smart handles',
+          'IP intercom',
+        ],
+      },
+      floorPlans: {
+        title: 'ORTA floor plans from 43 to 100 m²',
+        text: 'ORTA offers open-plan layouts: 1-room — 43.39–43.45 m²; 2-room — 66.04–89.39 m²; 3-room — 90.67–100.45 m². Open a plan to view it in detail.',
+      },
       consult: {
         title: 'Leave your contacts — we\'ll lock in a great price per m² for you',
         subtitle: 'A manager will send you information about ORTA and offer a consultation.',
+        address: 'Aktau, District 9',
         hours: 'Daily 9:00–19:00',
       },
     },
@@ -518,6 +662,11 @@ export const PROJECT_TEXTS = {
         label: 'Қоғамдық кеңістіктер',
         title: 'Юрта және қазан аймағы — дәстүрлер заманауи форматта',
         text1: 'Кешен ауласында демалыс пен дәстүрлі іс-шараларға арналған этникалық және отбасылық кеңістіктер қарастырылған.',
+        gallery: [
+          { title: 'Кіреберіс тобы' },
+          { title: 'Холл' },
+          { title: 'Лифт холлы' },
+        ],
         features: [
           'Отбасылық жиналыстар мен мерекелерге арналған қазан және барбекю аймағы',
           'Демалыс пен мерекелерге арналған қазақ юртасының заманауи интерпретациясы',
@@ -555,7 +704,6 @@ export const PROJECT_TEXTS = {
         subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жібереді.',
         address: 'Ақтау қ., 40-шы микрорайон',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
-        policy: 'Өтінім қалдыру арқылы сіз жеке деректерді өңдеу саясатымызға келісесіз',
       },
     },
     EN: {
@@ -642,6 +790,11 @@ export const PROJECT_TEXTS = {
         label: 'Public spaces',
         title: 'Yurt and qazan zone — traditions in a modern format',
         text1: 'The complex courtyard includes ethnic and family spaces for recreation and traditional events.',
+        gallery: [
+          { title: 'Entrance group' },
+          { title: 'Lobby' },
+          { title: 'Lift lobby' },
+        ],
         features: [
           'Qazan and barbecue zone for family gatherings and celebrations',
           'Modern interpretation of a Kazakh yurt for recreation and celebrations',
@@ -679,7 +832,6 @@ export const PROJECT_TEXTS = {
         subtitle: 'A manager will send the catalogue, current prices and 0% instalment terms.',
         address: 'Aktau, District 40',
         hours: 'Daily 9:00–19:00',
-        policy: 'By submitting a request, you agree to our personal data processing policy',
       },
     },
   },
@@ -800,7 +952,6 @@ export const PROJECT_TEXTS = {
         subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жібереді.',
         address: 'Ақтау қ., 40-шы микрорайон',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
-        policy: 'Өтінім қалдыру арқылы сіз жеке деректерді өңдеу саясатымызға келісесіз',
       },
     },
     EN: {
@@ -918,7 +1069,6 @@ export const PROJECT_TEXTS = {
         subtitle: 'A manager will send the catalogue, current prices and 0% instalment terms.',
         address: 'Aktau, District 40',
         hours: 'Daily 9:00–19:00',
-        policy: 'By submitting a request, you agree to our personal data processing policy',
       },
     },
   },
@@ -926,6 +1076,7 @@ export const PROJECT_TEXTS = {
   mura: {
     KZ: {
       hero: {
+        title: 'МҰРА',
         location: 'Ақтау қ. / 40 МКР',
         tagline: 'МҰРА — Ақтаудың 40 шағын ауданындағы комфорт+ класс тұрғын үй кешені',
       },
@@ -972,6 +1123,7 @@ export const PROJECT_TEXTS = {
         ],
       },
       location: {
+        title: 'Ақтаудың 40-шы шағын ауданы\nПрезидент паркінің жанында',
         cards: [
           { title: 'Президент паркі' },
           { title: 'Ақтаудың 40-шы микрорайоны' },
@@ -1012,14 +1164,20 @@ export const PROJECT_TEXTS = {
         title: 'Сақтауға арналған қойма бөлмелері',
         text: '«Мұра» тұрғын үй кешенінде сақтауға арналған қосымша кеңістіктер қарастырылған: әр подъездде 3,2 м² кладовая, сондай-ақ кешеннің жертөлесінде жеке қойма бөлмелері бар.',
       },
+      floorPlans: {
+        title: 'MURA жоспарлары',
+        text: 'Тұрғын үй кешенінде ыңғайлы әрі кең жоспарланған бір, екі, үш және төрт бөлмелі пәтерлер ұсынылған. Мұндай алуандық жалғыз адамға да, жұпқа да, үлкен отбасына да қолайлы нұсқаны таңдауға мүмкіндік береді.',
+      },
       consult: {
         title: '«МҰРА» ТҚ ТУРАЛЫ ТОЛЫҚ АҚПАРАТ АЛҒЫМ КЕЛЕДІ',
         subtitle: 'Менеджер сізбен байланысып, MURA тұрғын үй кешені туралы барлық сұрақтарыңызға жауап береді.',
+        address: 'Ақтау қ., 40 шағын аудан',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
       },
     },
     EN: {
       hero: {
+        title: 'MURA',
         location: 'Aktau / District 40',
         tagline: 'MURA — a comfort+ class residential complex in District 40, Aktau',
       },
@@ -1066,6 +1224,7 @@ export const PROJECT_TEXTS = {
         ],
       },
       location: {
+        title: 'District 40 of Aktau\nnext to Presidential Park',
         cards: [
           { title: 'Presidential Park' },
           { title: 'District 40, Aktau' },
@@ -1106,9 +1265,14 @@ export const PROJECT_TEXTS = {
         title: 'Storage rooms',
         text: 'MURA offers additional storage spaces: a 3.2 m² storage room in each entrance and individual storage units in the basement. Everything you need to store is near home without cluttering your apartment.',
       },
+      floorPlans: {
+        title: 'MURA floor plans',
+        text: 'The complex offers one-, two-, three- and four-room apartments with convenient and spacious layouts. This variety makes it possible to choose an option that suits a single person or a couple as well as a large family.',
+      },
       consult: {
         title: 'I WANT DETAILED INFORMATION ABOUT MURA RESIDENTIAL COMPLEX',
         subtitle: 'A manager will contact you and answer all your questions about the MURA complex.',
+        address: 'Aktau, District 40',
         hours: 'Daily 9:00–19:00',
       },
     },
@@ -1184,8 +1348,9 @@ export const PROJECT_TEXTS = {
         text: 'Балалар үшін Buglo компаниясының ұзақ мерзімді және қауіпсіз материалдардан жасалған заманауи ойын алаңы орнатылған.',
       },
       kids: {
-        roomTitle: 'Уличные тренировки жабдығы',
-        roomText: 'Buglo компаниясының Workout аймағы — күш, төзімділік пен координацияны дамытуға бағытталған уличные тренировкалар жабдығы.',
+        roomLabel: 'Buglo Workout аймағы',
+        roomTitle: 'Далада жаттығуға арналған жабдық',
+        roomText: 'Buglo компаниясының Workout аймағы — күш, төзімділік пен координацияны дамытуға бағытталған далада жаттығуға арналған жабдық.',
         gallery: [
           { title: 'Workout аймағы' },
           { title: 'Футбол алаңы' },
@@ -1197,13 +1362,18 @@ export const PROJECT_TEXTS = {
         items: [
           { title: 'Қазан-ошақ', text: 'Отта тамақ пісіруге арналған дәстүрлі аймақ' },
           { title: 'Барбекю аймақтар', text: 'Отбасымен немесе көршілермен грильде тамақ пісіруге арналған алаңдар' },
-          { title: '2 киіз үй', text: 'Дәстүр мен мәдениетке деген бережное қатынасты символдайтын демалысқа бейімделген киіз үйлер' },
+          { title: '2 киіз үй', text: 'Дәстүр мен мәдениетке деген ұқыпты қатынасты символдайтын демалысқа бейімделген киіз үйлер' },
         ],
       },
       hall: {
         title: 'Central Park-тың әрбір подъезді кең дизайнерлік холлдан басталады',
         text1: 'Авторлық безендіру, ойластырылған жарықтандыру, сәндік элементтер мен сапалы жиһаз әрбір подъездде ерекше атмосфера тудырады.',
         text2: '"Смарт домофон" жүйесі биометриялық тану мүмкіндігімен ендірілген. Енді кілтсіз подъездті ашуға, телефоннан қоңырауды қабылдауға және қонақтарды қашықтан кіргізуге болады.',
+        gallery: [
+          { title: 'Дизайнерлік холл' },
+          { title: 'Смарт домофон' },
+          { title: 'Күту аймағы' },
+        ],
         features: [
           'Авторлық дизайнерлік безендіру',
           'Ойластырылған жарықтандыру',
@@ -1227,6 +1397,7 @@ export const PROJECT_TEXTS = {
       consult: {
         title: 'CENTRAL PARK-ТАҒЫ КОММЕРЦИЯЛЫҚ ҮЙЛЕР ТУРАЛЫ АҚПАРАТ АЛҒЫМ КЕЛЕДІ',
         subtitle: 'Менеджер сізбен байланысып, өзекті коммерциялық үйлер туралы айтып береді.',
+        address: 'Ақтау қ., 40 шағын аудан, 2-үй',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
       },
     },
@@ -1299,6 +1470,7 @@ export const PROJECT_TEXTS = {
         text: 'A modern Buglo playground made from durable and safe materials has been installed for children. The design features a soft surface making play safe regardless of the season.',
       },
       kids: {
+        roomLabel: 'Buglo Workout Zone',
         roomTitle: 'Outdoor training equipment',
         roomText: 'Buglo Workout Zone — outdoor training equipment focused on developing strength, endurance and coordination. All elements are made from vandal-proof and eco-safe materials.',
         gallery: [
@@ -1319,6 +1491,11 @@ export const PROJECT_TEXTS = {
         title: 'Every entrance of Central Park begins with a spacious designer lobby',
         text1: 'Original finishing, thoughtful lighting, decorative elements and quality furniture create a special atmosphere in every entrance.',
         text2: 'The complex features a "Smart Intercom" system with biometric recognition. You can now open the entrance without keys, answer calls from your phone and let guests in remotely. All visits are recorded; the system operates 24/7.',
+        gallery: [
+          { title: 'Designer lobby' },
+          { title: 'Smart intercom' },
+          { title: 'Waiting area' },
+        ],
         features: [
           'Original designer finishing',
           'Thoughtful lighting',
@@ -1342,6 +1519,7 @@ export const PROJECT_TEXTS = {
       consult: {
         title: 'I WANT INFORMATION ABOUT COMMERCIAL PREMISES IN CENTRAL PARK',
         subtitle: 'A manager will contact you and provide details on available commercial premises.',
+        address: 'Aktau, District 40, Building 2',
         hours: 'Daily 9:00–19:00',
       },
     },

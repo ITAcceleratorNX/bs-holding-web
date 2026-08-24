@@ -168,7 +168,9 @@ function computeRange({ config, roomId, area, paymentId, months }) {
     error: belowMinimum
       ? {
           field: 'months',
-          message: 'Минимальный ежемесячный платеж — 500 000 ₸. Уменьшите срок рассрочки',
+          /* Ключ и подстановка: текст собирает компонент на языке интерфейса. */
+          messageKey: 'calc.error.term',
+          messageVars: { min: minMonthly },
         }
       : null,
     canSubmit: !belowMinimum,

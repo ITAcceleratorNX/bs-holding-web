@@ -14,6 +14,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { LEAD_EVENTS, formEventParams, trackEvent } from './analytics';
 import { getAttribution, getPageContext } from './attribution';
 import { LIMITS, normalizeLead } from './contract';
+import { useI18n } from '../i18n/I18nContext';
 import { getFormMeta } from './formCodes';
 import { formatKzPhone } from './phone';
 import { createSubmissionId, postLead } from './submit';
@@ -34,6 +35,23 @@ import { buildWhatsappUrl, openPendingTab } from './whatsapp';
 /**
  * @param {LeadFormOptions} options
  */
+/**
+ * Ошибки контракта приходят готовым русским текстом — он общий с сервером.
+ * В интерфейсе показываем перевод по имени поля, незнакомые поля оставляем как есть.
+ * @param {Function} t
+ * @param {Record<string, string>} errors
+ */
+function translateContractErrors(t, errors) {
+  /** @type {Record<string, string>} */
+  const out = {};
+  for (const [field, message] of Object.entries(errors)) {
+    const key = `lead.error.${field}`;
+    const translated = t(key);
+    out[field] = translated === key ? message : translated;
+  }
+  return out;
+}
+
 export function useLeadForm({
   formCode,
   city = '',
@@ -44,6 +62,7 @@ export function useLeadForm({
   validate,
   onSuccess,
 }) {
+  const { t } = useI18n();
   const [name, setNameRaw] = useState('');
   const [phone, setPhoneRaw] = useState('');
   // При согласии по факту отправки галочки нет: рядом с кнопкой стоит текст
@@ -65,7 +84,7 @@ export function useLeadForm({
 
   // Свежие значения для `submit`, чтобы не пересоздавать колбэк на каждый ввод.
   const latest = useRef({});
-  latest.current = { name, phone, consent, honeypot, city, project, ctaLocation, details, validate, onSuccess };
+  latest.current = { name, phone, consent, honeypot, city, project, ctaLocation, details, validate, onSuccess, t };
 
   const setName = useCallback((value) => {
     setNameRaw(value.slice(0, LIMITS.name.max));
@@ -128,7 +147,7 @@ export function useLeadForm({
     // Та же проверка, что и на сервере, — без лишнего запроса при пустых полях.
     const { ok, errors: contractErrors } = normalizeLead(payload);
     const extraErrors = current.validate?.() ?? {};
-    const allErrors = { ...contractErrors, ...extraErrors };
+    const allErrors = { ...translateContractErrors(current.t, contractErrors), ...extraErrors };
     // `submissionId` формирует хук, пользователю о нём сообщать нечего.
     delete allErrors.submissionId;
 
@@ -157,7 +176,7 @@ export function useLeadForm({
       if (!response.ok) {
         pendingTab?.cancel();
         setErrors(response.fields ?? {});
-        setMessage(response.message);
+        setMessage(response.messageKey ? current.t(response.messageKey) : response.message);
         setState('error');
         trackEvent(LEAD_EVENTS.FORM_ERROR, { ...eventParams, error_code: response.error });
         return;

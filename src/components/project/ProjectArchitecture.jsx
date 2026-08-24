@@ -35,11 +35,11 @@ export default function ProjectArchitecture({ data, onRequestTour }) {
             <div key={src} className="easton-arch__gallery-item">
               <img
                 src={src}
-                alt={`Фасад ${data.name}`}
+                alt={t('project.arch.facadeAlt', { name: data.name })}
                 loading="lazy"
                 decoding="async"
                 className="is-clickable"
-                onClick={() => open(src, `Фасад ${data.name}`)}
+                onClick={() => open(src, t('project.arch.facadeAlt', { name: data.name }))}
               />
             </div>
           ))}

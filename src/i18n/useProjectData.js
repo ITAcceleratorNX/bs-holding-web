@@ -12,7 +12,7 @@ export function useProjectData(data) {
   const { lang } = useI18n();
   return useMemo(() => {
     if (lang === 'RU') return data;
-    const overrides = PROJECT_TEXTS[data.slug]?.[lang];
+    const overrides = PROJECT_TEXTS[data.textsSlug ?? data.slug]?.[lang];
     return applyProjectTexts(data, overrides);
   }, [data, lang]);
 }

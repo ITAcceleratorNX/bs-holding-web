@@ -59,11 +59,12 @@ export function computeCalc({ price, down, termY, rate }) {
   const n = termY * 12;
   const monthly = r > 0 ? (loan * r) / (1 - Math.pow(1 + r, -n)) : loan / n;
 
+  /* Подписи отдаём ключами: значение форматируем здесь, перевод — в компоненте. */
   return {
-    mainLabel: 'Ежемесячный платёж',
+    mainLabelKey: 'calc.result.mainLabel',
     mainValue: `${fmt(monthly)} ₸`,
-    mainSub: 'На весь срок ипотеки',
+    mainSubKey: 'calc.result.mainSub',
     statValue: `${rate}%`,
-    statLabel: 'Ставка вознаграждения (диапазон 18.5–22.5%)',
+    statLabelKey: 'calc.result.statLabel',
   };
 }
