@@ -9,7 +9,7 @@ export default function Hero() {
       <div className="hero__main">
         <img
           className="hero__bg"
-          src="/images/hero-building.webp"
+          src="/images/hero-bs-towers.webp"
           alt={t('hero.alt')}
         />
         <div className="hero__overlay" />

@@ -36,7 +36,7 @@ function ProjectCard({ p, onOpen }) {
           ))}
         </div>
       </div>
-      {p.price != null && <div className="project-card__price">{p.priceFrom} {fmt(p.price)} ₸</div>}
+      {p.price > 0 && <div className="project-card__price">{p.priceFrom} {fmt(p.price)} ₸</div>}
     </Wrapper>
   );
 }

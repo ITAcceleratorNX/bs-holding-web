@@ -202,7 +202,7 @@ export default function AboutPage({
                         : cityLabel(t, project.city)}
                     </div>
                     <div className="about-project-card__name">{project.name}</div>
-                    {project.price != null && (
+                    {project.price > 0 && (
                       <div className="about-project-card__price">{t('about.projects.priceFrom')} {fmt(project.price)} ₸</div>
                     )}
                   </div>
