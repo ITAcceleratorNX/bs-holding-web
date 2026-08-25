@@ -17,6 +17,13 @@ const NAV_ITEMS = [
 
 const LANGS = ['RU', 'KZ', 'EN'];
 
+/**
+ * Ширина, ниже которой шапка переключается на бургер и выпадающее меню.
+ * Значение продублировано в CSS — @media (max-width: 1200px) в index.css.
+ * Горизонтальной версии шапки нужно ~1250px, поэтому порог выше обычных 900px.
+ */
+const MOBILE_NAV_BREAKPOINT = 1200;
+
 function navKeyFromHash() {
   const path = (window.location.hash || '').replace(/^#\/?/, '').split(/[/?#]/)[0]?.toLowerCase() || '';
   if (path === 'about' || path === 'o-kompanii') return 'about';
@@ -120,7 +127,7 @@ export default function Header({
 
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth > 900) setMobileOpen(false);
+      if (window.innerWidth > MOBILE_NAV_BREAKPOINT) setMobileOpen(false);
     };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
