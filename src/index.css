@@ -51,11 +51,13 @@
      интерлиньяжа. */
   --lh-ui: 1.25;
 
-  /* Насыщенность: четыре ступени на весь сайт. */
+  /* Насыщенность: четыре ступени на весь сайт плюс отдельный display-вес
+     для промо-акцентов (карточка Auto Trade-in и её поп-ап). */
   --fw-body: 400;
   --fw-ui: 500;
   --fw-emphasis: 600;
   --fw-heading: 700;
+  --fw-display: 800;
 
   /* Длина строки для длинных описаний (ориентир ТЗ: 600–750px). */
   --measure: 720px;
@@ -1829,10 +1831,13 @@ input:focus {
   object-position: 72% 30%;
 }
 
+/* Ровная заливка, как в макете, а не градиент слева направо: при 0.92 у левого
+   края левая башня целиком тонула в зелёном и от кадра оставалась примерно
+   треть. Затемнение нужно только для читаемости белого заголовка. */
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(13, 64, 59, 0.92) 0%, rgba(13, 64, 59, 0.35) 45%, rgba(13, 64, 59, 0.15) 100%);
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .hero__content {
@@ -1855,34 +1860,247 @@ input:focus {
   padding: 18px 36px;
 }
 
-.hero__paida {
+/* Auto Trade-in — промо-карточка первого экрана.
+
+   Иллюстрация собрана слоями (здание, машина, стрелки), а не запечена в одну
+   картинку: заголовок и кнопка переводятся на три языка.
+
+   Слои заданы в cqh — процентах от высоты карточки. Так вся композиция
+   масштабируется целиком и не искажается, в какой бы ширине карточка ни
+   оказалась: 400px в колонке справа или во всю ширину под главным баннером.
+   Здание привязано к правому краю, машина — к левому: при растягивании
+   карточки расходится середина, а не края, где стоят объекты.
+   Геометрия снята с макета 400×540; карточка ниже (497px), поэтому слои
+   прижаты к низу — к кнопке, с которой они связаны визуально. */
+.hero__trade {
   position: relative;
+  container-type: size;
   width: 400px;
   max-width: 100%;
   height: 497px;
+  /* 16px, а не 20px из макета: слева стоит .hero__main с таким же радиусом. */
   border-radius: 16px;
   overflow: hidden;
   flex-shrink: 0;
   background: #0D403B;
 }
 
-.hero__paida-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.hero__trade-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 }
 
-.hero__paida-btn {
+.hero__trade-building {
   position: absolute;
-  left: 24px;
-  right: 24px;
-  bottom: 24px;
-  height: 58px;
+  right: -22.26cqh;
+  bottom: 21.01cqh;
+  width: 45.75cqh;
+  height: auto;
+  transform: rotate(-1.14deg);
+}
+
+/* Низ здания и машины растворяется в фоне: обрезанный край не должен
+   упираться в кнопку. */
+.hero__trade-building-fade,
+.hero__trade-car-fade {
+  position: absolute;
+  background: linear-gradient(180deg, rgba(13, 64, 59, 0) 0%, #0D403B 100%);
+}
+
+.hero__trade-building-fade {
+  right: -22.26cqh;
+  bottom: 20.26cqh;
+  width: 62.16cqh;
+  height: 43.03cqh;
+  transform: rotate(-1.14deg);
+}
+
+.hero__trade-car {
+  position: absolute;
+  left: -0.93cqh;
+  bottom: 18.3cqh;
+  width: 46.3cqh;
+  height: auto;
+}
+
+.hero__trade-car-fade {
+  left: 0;
+  bottom: 13.52cqh;
+  width: 37.59cqh;
+  height: 8.15cqh;
+}
+
+/* Значок обмена позиционируется по центру повёрнутой иконки, поэтому
+   left/bottom задают центр, а translate возвращает элемент в эту точку. */
+.hero__trade-refresh {
+  position: absolute;
+  left: 35.19cqh;
+  bottom: 52.37cqh;
+  width: 10.74cqh;
+  height: 10.74cqh;
+  transform: translate(-50%, 50%) rotate(40.52deg);
+}
+
+.hero__trade-text {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #fff;
+}
+
+.hero__trade-title {
+  font-size: 2.8125rem;
+  font-weight: var(--fw-display);
+  line-height: 1.25;
+}
+
+.hero__trade-sub {
+  font-size: 1.125rem;
+  font-weight: var(--fw-ui);
+  line-height: 1.25;
+}
+
+.hero__trade-btn {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 28px;
+  height: 51px;
   border: none;
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 12px;
+  background: #fff;
+  color: #0D403B;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: var(--fw-display);
+  line-height: var(--lh-ui);
   cursor: pointer;
+  filter: drop-shadow(3px -4px 2px rgba(0, 0, 0, 0.25));
+  transition: background 0.2s;
+  /* Длинный тап по кнопке на телефоне не должен выделять её подпись. */
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero__trade-btn:hover {
+  background: #F1F1EE;
+}
+
+.hero__trade-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Планшеты: карточка встаёт во всю ширину под главным баннером и берёт его
+   высоту. Диапазон, а не max-width, — чтобы правило не спорило с мобильным
+   ниже по порядку. */
+@media (min-width: 481px) and (max-width: 1100px) {
+  .hero__trade {
+    height: 440px;
+  }
+
+  /* Во всю ширину карточка становится широкой полосой, и машина, привязанная
+     к левому краю, отрывается от здания. Поэтому здесь вся композиция
+     собирается у правого края: слева остаются заголовок и воздух. */
+  .hero__trade-car {
+    left: auto;
+    right: 28.7cqh;
+  }
+
+  .hero__trade-car-fade {
+    left: auto;
+    right: 36.48cqh;
+  }
+
+  .hero__trade-refresh {
+    left: auto;
+    right: 38.9cqh;
+    transform: translate(50%, 50%) rotate(40.52deg);
+  }
+
+  /* Кнопка во всю ширину полосы превратилась бы в метровую плашку. */
+  .hero__trade-btn {
+    right: auto;
+    width: 344px;
+    max-width: calc(100% - 56px);
+  }
+}
+
+/* Телефоны: у карточки своя раскладка из мобильного макета (343×448) —
+   машина уходит за левый край, здание меньше и сильнее наклонено. Пропорции
+   карточки заданы через aspect-ratio, поэтому слои считаются от её ширины
+   (cqw) и совпадают с макетом один в один. Граница 480px, а не 768px:
+   на планшете карточка во всю ширину получилась бы почти в метр высотой. */
+@media (max-width: 480px) {
+  .hero__trade {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 343 / 448;
+    border-radius: 12px;
+  }
+
+  .hero__trade-building {
+    right: auto;
+    bottom: auto;
+    left: 55.16cqw;
+    top: 5.94cqw;
+    width: 61.15cqw;
+    transform: rotate(-3.02deg);
+  }
+
+  .hero__trade-building-fade {
+    right: auto;
+    bottom: auto;
+    left: 46.76cqw;
+    top: 41.13cqw;
+    width: 83.09cqw;
+    height: 57.51cqw;
+    transform: rotate(-3.02deg);
+  }
+
+  .hero__trade-car {
+    bottom: auto;
+    left: -22.16cqw;
+    top: 57.37cqw;
+    width: 67.35cqw;
+  }
+
+  .hero__trade-car-fade {
+    bottom: auto;
+    left: -8.16cqw;
+    top: 123.32cqw;
+    width: 59.18cqw;
+    height: 12.83cqw;
+  }
+
+  .hero__trade-refresh {
+    bottom: auto;
+    left: 50cqw;
+    top: 69.03cqw;
+    width: 9.3cqw;
+    height: 9.3cqw;
+    transform: translate(-50%, -50%) rotate(40.52deg);
+  }
+
+  /* Заголовок тянется за шириной карточки: на 375px это ровно 35px из
+     макета, на узких экранах он уменьшается вместо переноса «Trade-in». */
+  .hero__trade-title {
+    font-size: min(2.1875rem, 10.2cqw);
+  }
+
+  .hero__trade-sub {
+    font-size: 0.875rem;
+  }
+
+  .hero__trade-btn {
+    height: 41px;
+  }
 }
 
 /* Catalog */
@@ -2697,6 +2915,269 @@ input:focus {
 }
 
 /* Call popup */
+/* Поп-ап выбора ЖК по Auto Trade-in.
+
+   Одна разметка на два вида: на десктопе — окно по центру с тремя плитками
+   в ряд, на телефоне — шторка снизу со списком строк (см. медиазапрос ниже). */
+.trade-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.trade-popup__panel {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  width: 680px;
+  max-width: 100%;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Ручка шторки: на десктопе окно закрывается крестиком. */
+.trade-popup__handle {
+  display: none;
+}
+
+.trade-popup__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.trade-popup__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.trade-popup__title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: var(--fw-display);
+  line-height: 1.2;
+  color: #0D403B;
+}
+
+.trade-popup__sub {
+  margin: 0;
+  font-size: var(--fs-secondary);
+  font-weight: var(--fw-ui);
+  line-height: 1.4;
+  color: #54493C;
+}
+
+.trade-popup__close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 20px;
+  background: #F7F7F5;
+  color: #0D403B;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.trade-popup__close:hover {
+  background: #ECEAE4;
+}
+
+.trade-popup__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.trade-popup__item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+}
+
+.trade-popup__item-img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: filter 0.2s;
+}
+
+.trade-popup__item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.trade-popup__item-name {
+  font-size: 1rem;
+  font-weight: var(--fw-display);
+  line-height: var(--lh-ui);
+  color: #0D403B;
+}
+
+/* Подпись и стрелка есть только в мобильном макете. */
+.trade-popup__item-note,
+.trade-popup__item-chevron {
+  display: none;
+}
+
+.trade-popup__item:hover .trade-popup__item-img {
+  filter: brightness(1.07);
+}
+
+.trade-popup__item:hover .trade-popup__item-name {
+  text-decoration: underline;
+}
+
+.trade-popup__item:focus-visible {
+  outline: 2px solid #0D403B;
+  outline-offset: 3px;
+}
+
+/* Телефоны: шторка снизу, ЖК списком строк. */
+@media (max-width: 768px) {
+  .trade-popup {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .trade-popup__panel {
+    width: 100%;
+    max-width: none;
+    max-height: 88dvh;
+    padding: 0 24px 24px;
+    border-radius: 20px 20px 0 0;
+    gap: 20px;
+  }
+
+  /* Полоска сама по себе всего 4px, поэтому кнопка вокруг неё крупнее:
+     на телефоне это второй способ закрыть шторку после тапа по фону. */
+  .trade-popup__handle {
+    display: block;
+    position: relative;
+    flex-shrink: 0;
+    width: 72px;
+    height: 24px;
+    margin: 0 auto;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .trade-popup__handle::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #D0D0D0;
+  }
+
+  .trade-popup__intro {
+    gap: 20px;
+  }
+
+  .trade-popup__title {
+    font-size: 1.375rem;
+  }
+
+  .trade-popup__sub {
+    font-size: 0.8125rem;
+  }
+
+  .trade-popup__close {
+    display: none;
+  }
+
+  .trade-popup__list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .trade-popup__item {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    border: 1px solid #ECEAE4;
+    border-radius: 12px;
+    background: #fff;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .trade-popup__item-img {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+  }
+
+  .trade-popup__item-body {
+    flex: 1;
+  }
+
+  .trade-popup__item-name {
+    font-size: 0.9375rem;
+    font-weight: var(--fw-heading);
+  }
+
+  .trade-popup__item-note {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: var(--fw-ui);
+    line-height: var(--lh-ui);
+    color: #54493C;
+  }
+
+  .trade-popup__item-chevron {
+    display: block;
+    flex-shrink: 0;
+    color: #0D403B;
+  }
+
+  .trade-popup__item:hover,
+  .trade-popup__item:active {
+    background: rgba(2, 179, 162, 0.15);
+    border-color: #0A332F;
+  }
+
+  .trade-popup__item:hover .trade-popup__item-img {
+    filter: none;
+  }
+
+  .trade-popup__item:hover .trade-popup__item-name {
+    text-decoration: none;
+  }
+}
+
 .call-popup {
   position: fixed;
   inset: 0;
@@ -2776,12 +3257,9 @@ input:focus {
     height: 440px;
   }
 
-  .hero__paida {
+  .hero__trade {
     width: 100%;
     max-width: none;
-    margin-inline: 0;
-    height: auto;
-    aspect-ratio: 400 / 497;
     flex-shrink: 1;
   }
 
@@ -3107,16 +3585,6 @@ input:focus {
     box-sizing: border-box;
   }
 
-  .hero__paida {
-    width: 100%;
-    max-width: none;
-    height: auto;
-    aspect-ratio: 400 / 497;
-    max-height: none;
-    border-radius: 12px;
-    flex-shrink: 1;
-  }
-
   .hero__content {
     padding: 28px 24px;
     max-width: 100%;
@@ -3127,20 +3595,13 @@ input:focus {
     gap: 16px;
   }
 
-  .hero__paida-btn {
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    height: 52px;
-  }
-
   .hero__bg {
     object-fit: cover;
     object-position: 70% center;
   }
 
   .hero__overlay {
-    background: linear-gradient(180deg, rgba(13, 64, 59, 0.15) 0%, rgba(13, 64, 59, 0.55) 45%, rgba(13, 64, 59, 0.92) 100%);
+    background: rgba(0, 0, 0, 0.4);
   }
 
   .catalog-filters {
@@ -6376,10 +6837,6 @@ input:focus {
 
 .easton-header__lang .dropdown__btn {
   min-width: 64px;
-}
-
-.hero__paida-btn {
-  display: block;
 }
 
 /* Central Park – yard features list */

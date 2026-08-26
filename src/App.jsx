@@ -100,9 +100,27 @@ function AppRoutes({ langCur, setLangCur }) {
         scrollHomeSection(next.section);
       }
     };
+    // Браузер не шлёт hashchange, если хэш не изменился. Из-за этого повторный
+    // клик по ссылке на уже открытую секцию («Все проекты BS Holding», когда
+    // адрес уже #/catalog) не делал ровно ничего: разметка ссылок — #/catalog,
+    // а id секции — catalog, поэтому и родной переход по якорю не срабатывает.
+    // Ловим такой клик сами и повторяем обработку вручную.
+    /** @param {MouseEvent} e */
+    const onSameHashClick = (e) => {
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = e.target instanceof Element ? e.target.closest('a[href^="#"]') : null;
+      if (!link) return;
+      if (link.getAttribute('href') === window.location.hash) onHash();
+    };
+
     onHash();
     window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    document.addEventListener('click', onSameHashClick);
+    return () => {
+      window.removeEventListener('hashchange', onHash);
+      document.removeEventListener('click', onSameHashClick);
+    };
   }, []);
 
   const goHome = useCallback(() => {
