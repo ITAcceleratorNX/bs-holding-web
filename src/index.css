@@ -1317,6 +1317,14 @@ input:focus {
   align-items: flex-start;
 }
 
+.easton-kids__room--stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 720px;
+}
+
 .easton-kids__room-label {
   font-size: var(--fs-micro);
   line-height: var(--lh-micro);
@@ -1325,6 +1333,18 @@ input:focus {
   text-transform: uppercase;
   min-width: 120px;
   padding-top: 8px;
+}
+
+.easton-kids__room--stack .easton-kids__room-label {
+  min-width: 0;
+  width: auto;
+  padding-top: 0;
+  margin-bottom: 0;
+  color: var(--project-accent-dark, #1f6059);
+}
+
+.easton-kids__room--stack > div {
+  width: 100%;
 }
 
 .easton-kids__room .easton-h2 {
@@ -4159,9 +4179,14 @@ input:focus {
   }
 
   /* На мобильном текст Kids Room идёт сразу под заголовком блока,
-     а дублирующая мелкая подпись слева не нужна. */
+     а дублирующая мелкая подпись слева не нужна.
+     У stacked-блока (Central Park Buglo) подпись остаётся — она над текстом. */
   .easton-kids__room-label {
     display: none;
+  }
+
+  .easton-kids__room--stack .easton-kids__room-label {
+    display: block;
   }
 
   .easton-hall {

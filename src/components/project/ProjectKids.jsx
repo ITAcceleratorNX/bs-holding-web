@@ -25,8 +25,8 @@ export default function ProjectKids({ data }) {
         ))}
       </div>
       {hasRoom && (
-        <div className="easton-kids__room">
-          <div className="easton-kids__room-label">{kids.roomLabel}</div>
+        <div className={`easton-kids__room${kids.stackRoomLabel ? ' easton-kids__room--stack' : ''}`}>
+          {kids.roomLabel ? <div className="easton-kids__room-label">{kids.roomLabel}</div> : null}
           <div>
             <h3 className="easton-h2 easton-h2--dark">{kids.roomTitle}</h3>
             <p className="easton-body easton-body--dark">{kids.roomText}</p>

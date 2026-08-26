@@ -96,6 +96,7 @@ export default function Contacts({ headerCity = 'Актау' }) {
         <p className="contacts-map__address">{t(office.addressKey)}</p>
         <div className="contacts-map__frame">
           <iframe
+            key={office.city}
             title={`${t('contacts.mapTitle')} — ${cityLabel(t, office.city)}`}
             src={office.mapEmbed}
             loading="lazy"
