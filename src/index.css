@@ -358,7 +358,8 @@ input:focus {
   display: flex;
   align-items: center;
   gap: 32px;
-  padding: 20px var(--page-gutter);
+  /* 27px по вертикали дают высоту 108px — как Header в макете (107.8px). */
+  padding: 27px var(--page-gutter);
   width: 100%;
   margin: 0 auto;
   transition: padding 0.28s ease;
@@ -402,8 +403,8 @@ input:focus {
 }
 
 .site-header--scrolled .site-header__bar {
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 21px;
+  padding-bottom: 21px;
 }
 
 .site-header__logo {
@@ -1915,7 +1916,7 @@ input:focus {
 
 .hero__trade-building {
   position: absolute;
-  right: -22.26cqh;
+  right: -7.54cqh;
   bottom: 21.01cqh;
   width: 45.75cqh;
   height: auto;
