@@ -122,7 +122,7 @@ export default function ProjectPage({
         )}
         {d.extras ? <ProjectExtras data={d} /> : d.boxroom ? <ProjectBoxroom data={d} /> : null}
         <ProjectConsultForm data={d} />
-        <Footer />
+        <Footer logoFill={data.slug === 'avenue-park' ? '#0D403B' : '#fff'} />
 
         {/* Форма «Получить расчет» отличается дополнительным полем квадратуры. */}
         {lead?.formCode === 'zhk_calculation' ? (

@@ -12,7 +12,7 @@ export const PROJECTS = [
     floors: 12,
     price: 22534000,
     image: '/images/project-central-park.webp',
-    meta: ['Актау', 'Море', '8 мин'],
+    meta: ['Актау', '8 мин'],
     href: '#/central-park',
   },
   {
@@ -166,24 +166,21 @@ export const FEATURED_DATA = {
   },
 };
 
-export const BANK_LIST = ['FREEDOM BANK', 'Altyn Bank', 'bcc.kz', 'ОТБАСЫ БАНК'];
+export const BANK_LIST = ['FREEDOM BANK', 'Altyn Bank', 'bcc.kz', 'ОТБАСЫ БАНК', 'Halyk Bank'];
 
 export const COMMERCIAL = [
   {
     title: 'Парковочное место',
-    from: 'от 1 500 000 ₸',
     meta: ['от 10 кв.м.', 'электрозарядка'],
     image: '/images/commercial-parking.webp',
   },
   {
     title: 'Складское помещение',
-    from: 'от 800 000 ₸',
     meta: ['от 20 кв.м.', 'огнезащита'],
     image: '/images/commercial-storage.webp',
   },
   {
     title: 'Коммерческое помещение',
-    from: 'от 25 000 000 ₸',
     meta: ['от 150 кв.м.', 'отдельный вход'],
     image: '/images/commercial-space.webp',
   },

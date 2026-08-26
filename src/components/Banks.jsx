@@ -5,6 +5,7 @@ const BANKS = [
   { name: 'Altyn Bank', logo: '/images/bank-altyn.webp' },
   { name: 'bcc.kz', logo: '/images/bank-bcc.webp' },
   { name: 'ОТБАСЫ БАНК', logo: '/images/bank-otbasy.webp' },
+  { name: 'Halyk Bank', logo: '/images/bank-halyk.svg' },
 ];
 
 export default function Banks() {

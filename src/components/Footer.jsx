@@ -7,7 +7,7 @@ import Logo from './Logo';
 
 const PROJECT_NAMES = ['Central Park', 'Avenue Park', 'MURA', 'Easton', 'White Hill', 'ORTA', 'BS Towers'];
 
-export default function Footer() {
+export default function Footer({ logoFill = '#fff' }) {
   const { t } = useI18n();
 
   const FOOTER_COLS = [
@@ -49,7 +49,7 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="site-footer__top">
-        <Logo fill="#fff" />
+        <Logo fill={logoFill} />
         <div className="site-footer__cols">
           {FOOTER_COLS.map((col) => (
             <div key={col.titleKey} className="site-footer__col">

@@ -17,6 +17,13 @@ export default function ProjectHall({ data }) {
           <h2 className="easton-h2 easton-h2--dark">{hall.title}</h2>
           <p className="easton-body easton-body--dark">{hall.text1}</p>
           {hall.text2 ? <p className="easton-body easton-body--dark">{hall.text2}</p> : null}
+          {hall.features?.length > 0 && (
+            <ul className="easton-feature-list easton-feature-list--dark">
+              {hall.features.map((f) => (
+                <li key={f}>{f}</li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="easton-hall__image">
           <img src={hall.image} alt="" />
@@ -32,13 +39,6 @@ export default function ProjectHall({ data }) {
         >
           {gallery.map((g) => (
             <MediaCard key={g.image} image={g.image} title={g.title} />
-          ))}
-        </div>
-      )}
-      {hall.features?.length > 0 && (
-        <div className="easton-hall__features">
-          {hall.features.map((f) => (
-            <div key={f}>{f}</div>
           ))}
         </div>
       )}

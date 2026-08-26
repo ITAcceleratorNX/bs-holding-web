@@ -34,7 +34,6 @@ export default function Commercial() {
               <div className="commercial-item__media">
                 <img src={c.image} alt={title} />
               </div>
-              <div className="commercial-item__from">{t(`commercial.${c.key}.from`)}</div>
             </div>
           );
         })}
