@@ -43,7 +43,7 @@ export const PROJECTS = [
     rooms: [1, 2, 3, 4],
     floors: 7,
     price: 0,
-    image: '/images/mura/renders/7.webp',
+    image: '/images/mura/renders/cam-1.webp',
     meta: ['Актау', '40 МКР', 'Президентский парк'],
     href: '#/mura',
   },
@@ -156,7 +156,7 @@ export const FEATURED_DATA = {
     termBadge: 'I квартал 2028',
     price: 0,
     location: 'г. Актау · 40 МКР',
-    image: '/images/mura/renders/7.webp',
+    image: '/images/mura/renders/cam-1.webp',
     desc: [
       'MURA — жилой комплекс комфорт+ класса в 40 микрорайоне Актау.',
       'Комплекс из 3 блоков высотой 7 этажей, 262 квартиры.',
