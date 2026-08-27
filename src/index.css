@@ -4734,6 +4734,20 @@ input:focus {
   margin-bottom: 10px;
 }
 
+.wh-extras-card--cream {
+  border-color: rgba(13, 64, 59, 0.12);
+  background: #fff;
+}
+
+.wh-extras-card--cream .wh-extras-card__title {
+  color: #0d403b;
+}
+
+/* Central Park apartments: smart-lock — кроп справа. */
+.project-central-park .easton-apartments__image img {
+  object-position: right center;
+}
+
 @media (max-width: 1100px) {
   .easton-location__cards--four {
     grid-template-columns: repeat(2, 1fr);

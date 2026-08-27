@@ -33,6 +33,8 @@ dist-ssr
 
 # QA-отчёты и временные материалы
 docs/
+tmp/
+tmp-*/
 tmp-figma/
 .tmp-bst-preview/
 

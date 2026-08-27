@@ -579,30 +579,30 @@ export const PROJECT_TEXTS = {
   'avenue-park': {
     KZ: {
       hero: {
-        location: 'Ақтау қ.',
-        tagline: 'Avenue Park, Ақтау — 40-шы микрорайондағы жайлылық пен сенімділіктің жаңа стандарты.',
+        location: '',
+        tagline: 'Avenue Park — 40-шы шағын аудандағы жайлылық пен сенімділіктің жаңа стандарты.',
       },
       about: {
-        title: 'Нақты «үй» сезімі туатын үй',
-        text: 'Avenue Park — қалалық өмірдің ортасындағы тұрғын үй кешені, әр тұрғын тыныштық, табиғилық және заманауи жайлылық алады. Кешен күнделікті өмірді ыңғайлы, қауіпсіз және мәнді ету идеясын біріктіреді.',
+        title: 'Үйдің жылуын сезінетін мекен',
+        text: 'Avenue Park — қаланың қарбаласынан алыс кетпей, жайлылық пен тыныштықты қатар сезінуге мүмкіндік беретін тұрғын үй кешені. Мұнда табиғилық, қауіпсіздік және заманауи жайлылық бір кеңістікте үйлесім табады.',
         imageAlt: 'Avenue Park кешенінің жалпы көрінісі',
         stats: [
-          { text: '360 м³ — су берудің тоқтап қалған жағдайында резервтік су қоры' },
+          { text: '360 м³ — сумен жабдықтау тоқтаған жағдайда пайдаланылатын резервтік су қоры.' },
           { text: '3–3,2 м — пәтерлердегі төбе биіктігі' },
           { text: '24/7 — бейнебақылау және аумақты қорғау' },
         ],
       },
       standards: {
         title: 'Жобаның басты артықшылықтары',
-        text: 'Avenue Park, Ақтау — 40-шы микрорайондағы жайлылық пен сенімділіктің жаңа стандарты.',
+        text: 'Avenue Park — 40-шы шағын аудандағы жайлылық пен сенімділіктің жаңа стандарты.',
         cards: [
           {
             title:
-              'Инженерлік автономия — резервтік дизель-генератор және 360 м³ су қоры сыртқы желілердегі ақауларда үздіксіз жайлылықты қамтамасыз етеді',
+              'Инженерлік автономия — резервтік дизель-генератор мен 360 м³ су қоры сыртқы желілерде ақау болған жағдайда кешеннің үздіксіз жұмысын қамтамасыз етеді.',
           },
           {
             title:
-              'Ақылды қауіпсіздік технологиялары — Xiaomi MI Magic Vein электрондық құлып (Face ID, саусақ ізі, карта, пароль) және IP-домофония',
+              'Ақылды қауіпсіздік технологиялары — Xiaomi MI Magic Vein электрондық құлпы арқылы Face ID, саусақ ізі, карта немесе құпиясөз көмегімен кілтсіз кіру мүмкіндігі және IP-домофония жүйесі.',
           },
           {
             title:
@@ -611,7 +611,7 @@ export const PROJECT_TEXTS = {
         ],
       },
       location: {
-        title: '40-шы микрорайон — Бірінші Президент паркінің жанында',
+        title: '40-шы шағын аудан — Бірінші Президент саябағының жанында',
         cards: [
           { title: 'Бірінші Президент паркі' },
           { title: 'А. Кекілбаев атындағы мұражай' },
@@ -623,12 +623,12 @@ export const PROJECT_TEXTS = {
         ],
       },
       architecture: {
-        title: 'Премиум-класс инженерлік шешімдер',
-        lead: 'Avenue Park лифттерден терезелер мен есіктерге дейін инженерлік жүйелердің сенімділігі мен ұзақ мерзімділігіне назар аударады.',
+        title: 'Премиум-класс деңгейіндегі инженерлік шешімдер',
+        lead: 'Avenue Park тұрғын үй кешенінде лифт жүйесінен бастап терезелер мен есіктерге дейін әрбір инженерлік шешім сенімділікке, қауіпсіздікке және ұзақ мерзімді пайдалануға бағытталған.',
         points: [
-          'Xizi Gotz (Қытай) лифтілері блоктар бойынша жүктемені тарату жүйесімен: A және D блоктарында 2 лифт; B, E, V және G блоктарында 1 лифт.',
-          'Rehau (Германия) терезелері: 5 камералық профиль, екі камералы шыны пакет.',
-          'Xiaomi MI Magic Vein электрондық құлыппен ресейлік өндірістегі металл кіреберіс есіктері.',
+          'Xizi Gotz (Қытай) лифттері — A және D блоктарында 2 лифттен, ал B, E, V және G блоктарында 1 лифттен қарастырылған.',
+          'Rehau (Германия) терезелері — 5 камералы профиль және жылуды жақсы сақтайтын екі камералы шыныпакет.',
+          'Металл кіреберіс есіктері — Ресейде өндірілген, Xiaomi MI Magic Vein электрондық құлпымен жабдықталған.',
         ],
         ctaQuestion: 'Avenue Park материалдарының сапасын жеке бағалағыңыз келе ме?',
         ctaButton: 'Экскурсияға жазылу',
@@ -637,7 +637,7 @@ export const PROJECT_TEXTS = {
         label: 'Жобаның ірі артықшылығы',
         title: 'Ақылды үй есікпен басталады',
         text:
-          'Avenue Park пәтерлерінде Xiaomi MI Magic Vein электрондық құлып орнатылған: бетті таниды (Face ID), саусақ ізін қабылдайды, карта, пароль немесе қолмен ашылады. Балалары бар отбасылар үшін няня, қонақ немесе туыстың кіру уақыты мен деңгейін толық бақылауға мүмкіндік береді.',
+          'Avenue Park пәтерлерінде Xiaomi MI Magic Vein электрондық құлыптары орнатылған. Құлып Face ID арқылы бетті тану, саусақ ізі, карта және құпиясөз арқылы ашылады. Сондай-ақ есікті кілтпен ашу мүмкіндігі бар. Балалы отбасылар үшін бұл — бала күтуші, қонақтар немесе туыстардың кіруін бақылауға және оларға берілетін қолжетімділікті басқаруға мүмкіндік беретін заманауи шешім.',
       },
       playground: {
         title: 'Аула — тыныштық, спорт және сау өмір салтының орталығы',
@@ -653,20 +653,15 @@ export const PROJECT_TEXTS = {
           { title: 'Перголалар мен шағын архитектуралық формалармен демалыс аймақтары' },
         ],
         roomLabel: 'Kids Room',
-        roomTitle: 'Kids Room — балаға арналған қауіпсіз mini-дүние',
+        roomTitle: 'Kids Room — балаға арналған қауіпсіз шағын әлем',
         roomText:
-          'Avenue Park-та жұмсақ қауіпсіз жабынғымен жабық балалар бөлмесі бар — кез келген ауа райында балалар шығармашылықпен айналып, ойнайды.',
+          'Avenue Park кешенінде балаларға арналған жабық бөлме қарастырылған. Мұнда жұмсақ әрі қауіпсіз жабын төселген, балалар кез келген ауа райында шығармашылықпен айналысып, ойнап, жаңа достар тауып, өз қабілеттерін дамыта алады.',
         roomImageAlt: 'Kids Room интерьері',
       },
       hall: {
         label: 'Қоғамдық кеңістіктер',
-        title: 'Юрта және қазан аймағы — дәстүрлер заманауи форматта',
-        text1: 'Кешен ауласында демалыс пен дәстүрлі іс-шараларға арналған этникалық және отбасылық кеңістіктер қарастырылған.',
-        gallery: [
-          { title: 'Кіреберіс тобы' },
-          { title: 'Холл' },
-          { title: 'Лифт холлы' },
-        ],
+        title: 'Киіз үй мен қазан аймағы — дәстүрдің заманауи көрінісі',
+        text1: 'Кешен ауласында отбасылық демалыс пен дәстүрлі іс-шараларды өткізуге арналған ұлттық нақыштағы жайлы кеңістіктер қарастырылған.',
         features: [
           'Отбасылық жиналыстар мен мерекелерге арналған қазан және барбекю аймағы',
           'Демалыс пен мерекелерге арналған қазақ юртасының заманауи интерпретациясы',
@@ -675,25 +670,25 @@ export const PROJECT_TEXTS = {
         ],
       },
       apartments: {
-        title: 'Пәтердің әр деталында жайлылық',
-        text: '3–3,2 м төбе биіктігі, француз панорамалық балкондары және сенімді инженерлік шешімдер кеңістік пен қорғалғандық сезімін туғызады.',
+        title: 'Пәтердің әр бөлшегінде — жайлылық',
+        text: '3–3,2 метрлік төбе биіктігі, француз панорамалық балкондары және сенімді инженерлік шешімдер кеңдік, жайлылық пен қауіпсіздік сезімін қалыптастырады.',
         cta: 'Кеңес алу',
         features: [
           '3–3,2 м төбе биіктігі',
-          'Үш жақтан шынылаумен француз панорамалық балкондар',
+          'Үш жағынан шыныланған француз панорамалық балкондары',
           'Royal Thermo радиаторлары',
-          'Xiaomi MI Magic Vein: Face ID, саусақ ізі, карта және пароль',
+          'Xiaomi MI Magic Vein электрондық құлпы: Face ID, саусақ ізі, карта және құпиясөз арқылы ашылады.',
         ],
       },
       floorPlans: {
-        title: 'Avenue Park жоспарлары блоктар бойынша',
-        text: 'А және Д блоктардың пәтерлік парақтары. Сүзгісіз — негізгі қабаттар; толық тізімді көру үшін блок немесе қабатты таңдаңыз.',
+        title: 'Avenue Park пәтер жоспарлары — блоктар бойынша',
+        text: 'A және D блоктарының пәтерлік парақтары. Сүзгісіз нұсқада негізгі қабаттар көрсетілген. Толық тізімді ашу үшін блокты немесе қажетті қабатты таңдаңыз.',
       },
       boxroom: {
         label: 'Boxroom және бизнес-кеңістіктер',
         title: 'Boxroom және бизнес-кеңістіктер — Avenue Park қосымша мүмкіндіктері',
         text:
-          'Жеке Boxroom кладоваялары пәтерді артық заттардан босатады. Коммерциялық қызмет үшін 3,8–5 м төбелі бизнес-кеңістіктер мен жеке инженерлік жүйелер қарастырылған.',
+          'Жеке Boxroom қоймалары пәтерді артық заттардан арылтып, кең әрі жинақы ұстауға мүмкіндік береді. Коммерциялық мақсатқа арналған 3,8–5 м төбелі бизнес-кеңістіктер мен жеке инженерлік жүйелер қарастырылған.',
         gallery: [
           { alt: 'Boxroom кладовая' },
           { alt: 'Бизнес-кеңістік' },
@@ -708,8 +703,8 @@ export const PROJECT_TEXTS = {
     },
     EN: {
       hero: {
-        location: 'Aktau',
-        tagline: 'Avenue Park, Aktau — a new standard of comfort and reliability in District 40.',
+        location: '',
+        tagline: 'Avenue Park — a new standard of comfort and reliability in District 40.',
       },
       about: {
         title: 'A home where a true sense of home is born',
@@ -790,11 +785,6 @@ export const PROJECT_TEXTS = {
         label: 'Public spaces',
         title: 'Yurt and qazan zone — traditions in a modern format',
         text1: 'The complex courtyard includes ethnic and family spaces for recreation and traditional events.',
-        gallery: [
-          { title: 'Entrance group' },
-          { title: 'Lobby' },
-          { title: 'Lift lobby' },
-        ],
         features: [
           'Qazan and barbecue zone for family gatherings and celebrations',
           'Modern interpretation of a Kazakh yurt for recreation and celebrations',
@@ -1368,20 +1358,16 @@ export const PROJECT_TEXTS = {
       hall: {
         title: 'Central Park-тың әрбір подъезді кең дизайнерлік холлдан басталады',
         text1: 'Авторлық безендіру, ойластырылған жарықтандыру, сәндік элементтер мен сапалы жиһаз әрбір подъездде ерекше атмосфера тудырады.',
-        text2: '"Смарт домофон" жүйесі биометриялық тану мүмкіндігімен ендірілген. Енді кілтсіз подъездті ашуға, телефоннан қоңырауды қабылдауға және қонақтарды қашықтан кіргізуге болады.',
+        text2: '',
         gallery: [
           { title: 'Дизайнерлік холл' },
-          { title: 'Смарт домофон' },
+          { title: 'Лифт холлы' },
           { title: 'Күту аймағы' },
         ],
         features: [
           'Авторлық дизайнерлік безендіру',
           'Ойластырылған жарықтандыру',
           'Сәндік элементтер мен жиһаз',
-          'Биометриялық смарт домофон',
-          'Кілтсіз подъездке кіру',
-          'Қонақтарды қашықтан кіргізу',
-          'Барлық кіруді 24/7 жазу',
         ],
       },
       apartments: {
@@ -1396,7 +1382,8 @@ export const PROJECT_TEXTS = {
       },
       consult: {
         title: 'CENTRAL PARK-ТАҒЫ КОММЕРЦИЯЛЫҚ ҮЙЛЕР ТУРАЛЫ АҚПАРАТ АЛҒЫМ КЕЛЕДІ',
-        subtitle: 'Менеджер сізбен байланысып, өзекті коммерциялық үйлер туралы айтып береді.',
+        subtitle:
+          'Менеджер сізбен байланысып, қазіргі таңда қолжетімді коммерциялық нысандар туралы толық ақпаратпен таныстырады.',
         address: 'Ақтау қ., 40 шағын аудан, 2-үй',
         hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
       },
@@ -1490,20 +1477,16 @@ export const PROJECT_TEXTS = {
       hall: {
         title: 'Every entrance of Central Park begins with a spacious designer lobby',
         text1: 'Original finishing, thoughtful lighting, decorative elements and quality furniture create a special atmosphere in every entrance.',
-        text2: 'The complex features a "Smart Intercom" system with biometric recognition. You can now open the entrance without keys, answer calls from your phone and let guests in remotely. All visits are recorded; the system operates 24/7.',
+        text2: '',
         gallery: [
           { title: 'Designer lobby' },
-          { title: 'Smart intercom' },
+          { title: 'Lift lobby' },
           { title: 'Waiting area' },
         ],
         features: [
           'Original designer finishing',
           'Thoughtful lighting',
           'Decorative elements and furniture',
-          'Biometric smart intercom',
-          'Keyless entrance',
-          'Remote guest access',
-          'All visits recorded 24/7',
         ],
       },
       apartments: {
@@ -1518,7 +1501,7 @@ export const PROJECT_TEXTS = {
       },
       consult: {
         title: 'I WANT INFORMATION ABOUT COMMERCIAL PREMISES IN CENTRAL PARK',
-        subtitle: 'A manager will contact you and provide details on available commercial premises.',
+        subtitle: 'A manager will contact you with full details on currently available commercial premises.',
         address: 'Aktau, District 40, Building 2',
         hours: 'Daily 9:00–19:00',
       },
@@ -1541,13 +1524,21 @@ export function applyProjectTexts(base, overrides) {
       // Для вложенных объектов — shallow merge, массивы cards/stats/gallery/features/points/items мёрджим поэлементно
       const merged = { ...base[key], ...val };
       for (const arrKey of ['cards', 'stats', 'gallery', 'features', 'points', 'items', 'notes']) {
-        if (val[arrKey] && base[key][arrKey]) {
-          merged[arrKey] = base[key][arrKey].map((orig, i) => {
-            const ov = val[arrKey][i];
-            if (!ov) return orig;
-            return typeof ov === 'object' ? { ...orig, ...ov } : ov;
-          });
+        if (!Object.prototype.hasOwnProperty.call(val, arrKey)) continue;
+        if (!Array.isArray(val[arrKey])) {
+          merged[arrKey] = val[arrKey];
+          continue;
         }
+        // Пустой массив = явное удаление (например, gallery: []).
+        if (val[arrKey].length === 0 || !base[key][arrKey]) {
+          merged[arrKey] = val[arrKey];
+          continue;
+        }
+        merged[arrKey] = base[key][arrKey].map((orig, i) => {
+          const ov = val[arrKey][i];
+          if (!ov) return orig;
+          return typeof ov === 'object' ? { ...orig, ...ov } : ov;
+        });
       }
       if (val.quiz && base[key].quiz) {
         merged.quiz = { ...base[key].quiz };

@@ -62,8 +62,8 @@ export const AVENUE_PARK = {
     image: `${IMG}/hero.webp`,
     imageMobile: `${IMG}/hero-mobile.webp`,
     title: 'AVENUE PARK',
-    location: 'г. Актау',
-    tagline: 'Avenue Park, Актау — новое дыхание комфорта и надёжности в 40-м микрорайоне.',
+    location: '',
+    tagline: 'Avenue Park — новое дыхание комфорта и надёжности в 40-м микрорайоне.',
   },
   about: {
     label: 'О жилом комплексе',
@@ -81,7 +81,7 @@ export const AVENUE_PARK = {
   standards: {
     label: 'Avenue Park',
     title: 'Главные преимущества проекта',
-    text: 'Avenue Park, Актау — новое дыхание комфорта и надёжности в 40-м микрорайоне.',
+    text: 'Avenue Park — новое дыхание комфорта и надёжности в 40-м микрорайоне.',
     cards: [
       {
         image: `${IMG}/feature-autonomy.webp`,
@@ -173,16 +173,7 @@ export const AVENUE_PARK = {
       'Во дворе комплекса предусмотрены этнические и семейные пространства для отдыха и традиционных мероприятий.',
     text2: '',
     image: `${IMG}/yurt.webp`,
-    /**
-     * МОП: входные группы и холлы. Отдельного блока под них на странице нет,
-     * а ТЗ просит их показать, поэтому кадры идут галереей под «Общественными
-     * пространствами» — по смыслу это они и есть (места общего пользования).
-     */
-    gallery: [
-      { image: `${IMG}/mop-entrance.webp`, title: 'Входная группа' },
-      { image: `${IMG}/mop-hall.webp`, title: 'Холл' },
-      { image: `${IMG}/mop-lift.webp`, title: 'Лифтовой холл' },
-    ],
+    gallery: [],
     features: [
       'Зона казана и барбекю для семейных встреч и праздников',
       'Современная интерпретация казахской юрты для отдыха и торжеств',
