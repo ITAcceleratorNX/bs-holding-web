@@ -13,6 +13,7 @@ import ProjectHall from '../components/project/ProjectHall';
 import ProjectApartments from '../components/project/ProjectApartments';
 import ProjectFloorPlans from '../components/project/ProjectFloorPlans';
 import ProjectApartmentQuiz from '../components/project/ProjectApartmentQuiz';
+import ProjectVideo from '../components/project/ProjectVideo';
 import ProjectParking from '../components/project/ProjectParking';
 import ProjectBoxroom from '../components/project/ProjectBoxroom';
 import ProjectExtras from '../components/project/ProjectExtras';
@@ -56,14 +57,17 @@ export default function ProjectPage({
     document.getElementById(`${data.slug}-consult`)?.scrollIntoView({ behavior: 'smooth' });
   }, [data.slug]);
 
-  /**
-   * Планировки и следующий за ними квиз по умолчанию идут после архитектуры,
-   * но страница может сдвинуть их ниже блока «Квартиры» (`plansPlacement`).
-   */
+  const showQuiz = d.showQuiz !== false;
+  const video = d.video ? <ProjectVideo data={d} /> : null;
+
+  /** Планировки и квиз — после архитектуры или после «Квартиры» (`plansPlacement`). */
   const plansBlock = (
     <>
       {d.floorPlans && <ProjectFloorPlans data={d} onScrollToConsult={scrollToConsult} />}
-      {d.showQuiz !== false && <ProjectApartmentQuiz data={d} />}
+      {showQuiz && <ProjectApartmentQuiz data={d} aside={video} />}
+      {!showQuiz && video && (
+        <section className="easton-section easton-section--cream project-video-solo">{video}</section>
+      )}
     </>
   );
   const plansAfterApartments = d.plansPlacement === 'after-apartments';

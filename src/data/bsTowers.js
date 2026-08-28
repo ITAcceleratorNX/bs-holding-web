@@ -1,4 +1,5 @@
 import { phoneForCity } from './phones.js';
+import { PROJECT_VIDEOS } from './projectVideos.js';
 
 const IMG = '/images/bs-towers';
 const PLANS = `${IMG}/plans`;
@@ -95,6 +96,7 @@ export const BS_TOWERS = {
     accent: '#61D0C5',
     accentDark: '#1F6059',
   },
+  video: PROJECT_VIDEOS['bs-towers'],
   /** Планировки + квиз идут после блока «Квартиры» (ТЗ 3.10 → 3.11). */
   plansPlacement: 'after-apartments',
   /** Поэтапный квиз под планировками (ТЗ 4): комнатность → этаж 1–18 → планировка → оплата → контакты. */

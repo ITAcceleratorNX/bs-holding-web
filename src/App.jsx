@@ -8,6 +8,7 @@ import Calculator from './components/Calculator';
 import Banks from './components/Banks';
 import Consultation from './components/Consultation';
 import Commercial from './components/Commercial';
+import ProjectVideos from './components/ProjectVideos';
 import Contacts from './components/Contacts';
 import Footer from './components/Footer';
 import CallPopup from './components/CallPopup';
@@ -354,6 +355,7 @@ function AppRoutes({ langCur, setLangCur }) {
           <Banks />
           <Consultation />
           <Commercial />
+          <ProjectVideos />
           <Contacts headerCity={headerCity} />
         </div>
         <Footer />

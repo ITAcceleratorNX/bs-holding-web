@@ -1,15 +1,13 @@
 /**
  * Первый экран страницы ЖК.
- *
- * Обе кнопки создают лид: «Оставить заявку» — форму первого экрана
- * (`zhk_hero_application`), «Скачать презентацию» — форму презентации
- * (`presentation_download`), после которой открывается WhatsApp (ТЗ 3, 7).
+ * При `hero.brochureHref` вторая кнопка скачивает PDF, иначе открывает форму презентации.
  */
 import { useI18n } from '../../i18n/I18nContext';
 
 export default function ProjectHero({ data, onRequestApplication, onRequestPresentation }) {
   const { t } = useI18n();
   const mobile = data.hero.imageMobile;
+  const brochureHref = data.hero.brochureHref;
   return (
     <section className="easton-hero">
       <picture>
@@ -32,9 +30,19 @@ export default function ProjectHero({ data, onRequestApplication, onRequestPrese
           <button type="button" className="easton-btn easton-btn--solid" onClick={onRequestApplication}>
             {t('project.hero.apply')}
           </button>
-          <button type="button" className="easton-btn easton-btn--light" onClick={onRequestPresentation}>
-            {t('project.hero.presentation')}
-          </button>
+          {brochureHref ? (
+            <a
+              className="easton-btn easton-btn--light"
+              href={brochureHref}
+              download={data.hero.brochureFileName ?? true}
+            >
+              {t('project.hero.brochure')}
+            </a>
+          ) : (
+            <button type="button" className="easton-btn easton-btn--light" onClick={onRequestPresentation}>
+              {t('project.hero.presentation')}
+            </button>
+          )}
         </div>
       </div>
     </section>

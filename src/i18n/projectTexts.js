@@ -10,7 +10,7 @@ export const PROJECT_TEXTS = {
       hero: { location: 'Өскемен қ.' },
       about: {
         title: 'Easton – BS Holding-тің Өскемендегі алғашқы тұрғын үй кешені',
-        text: 'Панорамалық терезелері, 3,2 метр төбелері, жеке фитнес залы және балалар бөлмесі бар бизнес-класс.',
+        text: 'Панорамалық терезелері, 3,2 метр төбелері және балалар бөлмесі бар бизнес-класс.',
         stats: [
           { text: 'Тапсыру мерзімі: 2027 жыл' },
           { text: 'I кезекте барлығы 208 пәтер' },
@@ -26,7 +26,7 @@ export const PROJECT_TEXTS = {
         ],
       },
       location: {
-        title: 'Есенберлин мен Сәтбаев\nкөшелерінің қиылысы — қалаңың жаңа жүрегі',
+        title: 'И. Есенберлин мен Қ. Сәтбаев даңғылдарының қиылысында',
         notes: [
           'Инфрақұрылым мұқият ойластырылған: жаяу қашықтықта өмір, демалыс және даму үшін қажетті барлығы бар.',
           'Абаттандырылған көшелер, көлік қолжетімділігі мен ойластырылған жаяу маршруттар қозғалысты ыңғайлы және қауіпсіз етеді.',
@@ -50,8 +50,8 @@ export const PROJECT_TEXTS = {
         title: 'Двор стилобат деңгейінде жобаланған — автомобиль қозғалысы толықтай шеттетілген. Бұл тыныштықты, қауіпсіздікті және жайлы атмосфераны кепілдендіреді',
       },
       playground: {
-        title: 'Заманауи ойын алаңы',
-        text: 'Двор — үйлер арасындағы кеңістік қана емес, отбасымен серуендеу, демалу және қарым-қатынасқа арналған үйлесімді орта.',
+        title: '2-кезектегі жабық балалар алаңы',
+        text: 'Жабық балалар алаңы 2-кезекте қарастырылған. Двор — үйлер арасындағы кеңістік қана емес, отбасымен серуендеу, демалу және қарым-қатынасқа арналған үйлесімді орта.',
       },
       kids: {
         gallery: [
@@ -78,10 +78,12 @@ export const PROJECT_TEXTS = {
         title: 'Әрбір пәтер — ыңғайлылық, функционалдылық және заманауи стиль кеңістігі',
         text: 'Биік төбелер жеңілдік сезімін туғызады, ал жоспарлар әр шаршы метрді тиімді пайдалануға мүмкіндік береді.',
         features: [
-          'Face ID домофондар — кілтсіз, картасыз кіру',
-          'Smart тұтқалар — саусақ ізімен немесе кодпен есік ашу',
-          'Бескамералық терезелер — тамаша дыбыс және жылу оқшаулауы',
-          'Электр құлыптар және IP домофондар — қауіпсіздік және сенімділік',
+          '2-кезектегі жабық балалар алаңы',
+          'Жабық жер үсті паркинг',
+          'Ақылды құлыптар',
+          '24/7 бейнебақылау',
+          'Үлкейтілген терезелер 2 × 2,3 м',
+          'Панорамалық терезелі пәтерлер',
         ],
       },
       parking: {
@@ -98,7 +100,7 @@ export const PROJECT_TEXTS = {
         text: 'Велосипедтерге, коляскаларға, маусымдық заттар мен спорт мүкәммалына арналған ойластырылған шешім.',
       },
       floorPlans: {
-        title: 'Easton жоспарлары 45-тен 130 м²-ге дейін',
+        title: 'Easton жоспарлары 48-ден 132 м²-ге дейін',
         text: '1–4 бөлмелі пәтер нұсқалары әртүрлі блоктарда. Жоспарды таңдап, кеңес алуға өтінім қалдырыңыз.',
       },
       consult: {
@@ -112,7 +114,7 @@ export const PROJECT_TEXTS = {
       hero: { location: 'Oskemen city' },
       about: {
         title: 'Easton – BS Holding\'s first residential complex in Oskemen',
-        text: 'Business class with panoramic windows, 3.2-metre ceilings, a private fitness centre and a kids\' room.',
+        text: 'Business class with panoramic windows, 3.2-metre ceilings and a kids\' room.',
         stats: [
           { text: 'Completion: 2027' },
           { text: '208 apartments total in Phase I' },
@@ -128,7 +130,7 @@ export const PROJECT_TEXTS = {
         ],
       },
       location: {
-        title: 'Corner of Esenberlin & Satpaev —\nthe new heart of the city',
+        title: 'At the intersection of I. Yesenberlin and K. Satpayev avenues',
         notes: [
           'The infrastructure is carefully planned: everything you need for daily life, leisure and development is within walking distance.',
           'Well-maintained streets, transport links and pedestrian routes ensure comfortable and safe movement.',
@@ -152,8 +154,8 @@ export const PROJECT_TEXTS = {
         title: 'The courtyard is designed on a stylobate, completely free of vehicle traffic — guaranteeing peace, safety and a cosy atmosphere',
       },
       playground: {
-        title: 'Modern playground',
-        text: 'The courtyard is a harmonious environment for family walks, relaxation and socialising, with every detail created with safety and comfort in mind.',
+        title: 'Closed playground in Phase 2',
+        text: 'A closed playground is planned for Phase 2. The courtyard is a harmonious environment for family walks, relaxation and socialising, with every detail created with safety and comfort in mind.',
       },
       kids: {
         gallery: [
@@ -180,10 +182,12 @@ export const PROJECT_TEXTS = {
         title: 'Every apartment is a space of comfort, functionality and modern style',
         text: 'High ceilings create a sense of lightness, while floor plans make every square metre as efficient as possible.',
         features: [
-          'Face ID intercoms — keyless, cardless entry',
-          'Smart handles — open the door with a fingerprint or code',
-          'Five-chamber windows — perfect noise and thermal insulation',
-          'Electronic locks and IP intercoms — security and durability',
+          'Closed playground in Phase 2',
+          'Covered above-ground parking',
+          'Smart locks',
+          '24/7 video surveillance',
+          'Enlarged windows 2 × 2.3 m',
+          'Apartments with panoramic windows',
         ],
       },
       parking: {
@@ -200,7 +204,7 @@ export const PROJECT_TEXTS = {
         text: 'A smart solution for bicycles, prams, seasonal items and sports equipment.',
       },
       floorPlans: {
-        title: 'Easton floor plans from 45 to 130 m²',
+        title: 'Easton floor plans from 48 to 132 m²',
         text: '1–4 room apartment layouts across different blocks. Pick a layout and request a consultation.',
       },
       consult: {

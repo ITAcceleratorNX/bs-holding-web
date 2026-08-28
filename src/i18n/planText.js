@@ -40,6 +40,9 @@ function translateSegment(t, part) {
   const block = value.match(/^Блок\s+(.+)$/);
   if (block) return `${t('plans.block')} ${block[1]}`;
 
+  const blocks = value.match(/^Блоки\s+(.+)$/);
+  if (blocks) return `${t('plans.blocks')} ${blocks[1]}`;
+
   const entrance = value.match(/^Подъезд\s+(.+)$/);
   if (entrance) return `${t('plans.entrance')} ${entrance[1]}`;
 

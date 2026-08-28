@@ -55,6 +55,7 @@ const META_KEY = {
   'Парк Первого Президента': 'meta.firstPresidentPark',
   Центр: 'meta.centre',
   Есенберлина: 'meta.yesenberlin',
+  'пр. И. Есенберлина': 'meta.yesenberlinAve',
   'Алтын Орда': 'meta.altynOrda',
   'Ораза Татеулы': 'meta.orazaTateuly',
   электрозарядка: 'meta.charging',

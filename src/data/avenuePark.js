@@ -1,3 +1,5 @@
+import { PROJECT_VIDEOS } from './projectVideos.js';
+
 const IMG = '/images/avenue-park';
 // Расширение обязательно: файл читает и node --test, а он не доразрешает пути.
 import { phoneForCity } from './phones.js';
@@ -36,6 +38,7 @@ export const AVENUE_PARK = {
     accent: '#61D0C5',
     accentDark: '#1F6059',
   },
+  video: PROJECT_VIDEOS['avenue-park'],
   /** Планировки + квиз идут после блока «Квартиры» (ТЗ 3.13 → 3.14 → 3.15). */
   plansPlacement: 'after-apartments',
   /** Поэтапный квиз под планировками (ТЗ 4): комнатность → этаж 1–9 → планировка → оплата → контакты. */

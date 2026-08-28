@@ -1,3 +1,5 @@
+import { PROJECT_VIDEOS } from './projectVideos.js';
+
 const IMG = '/images/orta';
 import { phoneForCity } from './phones';
 
@@ -20,6 +22,7 @@ export const ORTA = {
     accent: '#61D0C5',
     accentDark: '#1F6059',
   },
+  video: PROJECT_VIDEOS.orta,
   calcAreas: ORTA_AREA_RANGES,
   quiz: {
     rooms: [

@@ -97,10 +97,8 @@ function buildSteps(quiz, t) {
   ];
 }
 
-/**
- * Квиз подбора квартиры (код формы `apartment_quiz`).
- */
-export default function ProjectApartmentQuiz({ data }) {
+/** Квиз подбора квартиры. `aside` — необязательная вторая колонка (видеообзор). */
+export default function ProjectApartmentQuiz({ data, aside = null }) {
   const { t } = useI18n();
   const steps = useMemo(() => buildSteps(data.quiz, t), [data.quiz, t]);
   const totalSteps = steps.length + 1;
@@ -150,78 +148,82 @@ export default function ProjectApartmentQuiz({ data }) {
       <h2 className="easton-h2 easton-h2--dark">{t('quiz.title', { name: data.name })}</h2>
       <p className="easton-body easton-body--dark project-quiz__lead">{t('quiz.lead')}</p>
 
-      <div className="project-quiz__card">
-        {form.isSuccess ? (
-          <div className="project-quiz__success">
-            <div className="project-quiz__success-title">{t('quiz.success.title')}</div>
-            <div className="project-quiz__success-sub">{t('quiz.success.sub')}</div>
-          </div>
-        ) : (
-          <>
-            <div className="project-quiz__progress" aria-hidden="true">
-              <div className="project-quiz__progress-bar" style={{ width: `${progress}%` }} />
+      <div className={`project-quiz__layout${aside ? ' project-quiz__layout--with-aside' : ''}`}>
+        <div className="project-quiz__card">
+          {form.isSuccess ? (
+            <div className="project-quiz__success">
+              <div className="project-quiz__success-title">{t('quiz.success.title')}</div>
+              <div className="project-quiz__success-sub">{t('quiz.success.sub')}</div>
             </div>
-            <div className="project-quiz__meta">
-              <span>{t('quiz.stepProgress', { current: step + 1, total: totalSteps })}</span>
-              {step > 0 && (
-                <button type="button" className="project-quiz__back" onClick={goBack}>
-                  {t('quiz.back')}
-                </button>
-              )}
-            </div>
-
-            {!isContact ? (
-              <>
-                <h3 className="project-quiz__step-title">{steps[step].title}</h3>
-                <div className={`project-quiz__options${steps[step].compact ? ' project-quiz__options--compact' : ''}`}>
-                  {steps[step].options.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      className={`project-quiz__option${answers[steps[step].key]?.value === opt.value ? ' is-active' : ''}`}
-                      onClick={() => selectOption(steps[step].key, opt)}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <>
-                <h3 className="project-quiz__step-title">{t('quiz.contacts')}</h3>
-                <div className="project-quiz__form">
-                  <label htmlFor={`${data.slug}-quiz-name`}>{t('form.name.label')}</label>
-                  <input
-                    id={`${data.slug}-quiz-name`}
-                    className="input-dark"
-                    placeholder={t('form.name.placeholder')}
-                    {...form.fields.name}
-                  />
-                  {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
-
-                  <label htmlFor={`${data.slug}-quiz-phone`}>{t('form.phone.label')}</label>
-                  <input id={`${data.slug}-quiz-phone`} className="input-dark" {...form.fields.phone} />
-                  {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
-
-                  <LeadHoneypot {...form.honeypotProps} />
-
-                  {form.errors.quiz && <div className="easton-consult__error">{form.errors.quiz}</div>}
-                  {form.message && <div className="easton-consult__error">{form.message}</div>}
-
-                  <button
-                    type="button"
-                    className="easton-btn easton-btn--light"
-                    onClick={form.submit}
-                    disabled={form.isLoading}
-                  >
-                    {form.isLoading ? t('form.sending') : t('quiz.submit')}
+          ) : (
+            <>
+              <div className="project-quiz__progress" aria-hidden="true">
+                <div className="project-quiz__progress-bar" style={{ width: `${progress}%` }} />
+              </div>
+              <div className="project-quiz__meta">
+                <span>{t('quiz.stepProgress', { current: step + 1, total: totalSteps })}</span>
+                {step > 0 && (
+                  <button type="button" className="project-quiz__back" onClick={goBack}>
+                    {t('quiz.back')}
                   </button>
-                  <div className="lead-policy">{t('lead.consent')}</div>
-                </div>
-              </>
-            )}
-          </>
-        )}
+                )}
+              </div>
+
+              {!isContact ? (
+                <>
+                  <h3 className="project-quiz__step-title">{steps[step].title}</h3>
+                  <div className={`project-quiz__options${steps[step].compact ? ' project-quiz__options--compact' : ''}`}>
+                    {steps[step].options.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        className={`project-quiz__option${answers[steps[step].key]?.value === opt.value ? ' is-active' : ''}`}
+                        onClick={() => selectOption(steps[step].key, opt)}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3 className="project-quiz__step-title">{t('quiz.contacts')}</h3>
+                  <div className="project-quiz__form">
+                    <label htmlFor={`${data.slug}-quiz-name`}>{t('form.name.label')}</label>
+                    <input
+                      id={`${data.slug}-quiz-name`}
+                      className="input-dark"
+                      placeholder={t('form.name.placeholder')}
+                      {...form.fields.name}
+                    />
+                    {form.errors.name && <div className="easton-consult__error">{form.errors.name}</div>}
+
+                    <label htmlFor={`${data.slug}-quiz-phone`}>{t('form.phone.label')}</label>
+                    <input id={`${data.slug}-quiz-phone`} className="input-dark" {...form.fields.phone} />
+                    {form.errors.phone && <div className="easton-consult__error">{form.errors.phone}</div>}
+
+                    <LeadHoneypot {...form.honeypotProps} />
+
+                    {form.errors.quiz && <div className="easton-consult__error">{form.errors.quiz}</div>}
+                    {form.message && <div className="easton-consult__error">{form.message}</div>}
+
+                    <button
+                      type="button"
+                      className="easton-btn easton-btn--light"
+                      onClick={form.submit}
+                      disabled={form.isLoading}
+                    >
+                      {form.isLoading ? t('form.sending') : t('quiz.submit')}
+                    </button>
+                    <div className="lead-policy">{t('lead.consent')}</div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </div>
+
+        {aside}
       </div>
     </section>
   );
