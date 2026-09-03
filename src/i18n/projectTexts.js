@@ -106,8 +106,8 @@ export const PROJECT_TEXTS = {
       consult: {
         title: 'Байланыс деректерін толтырыңыз — м² үшін тиімді бағаны бекітіп береміз',
         subtitle: 'Менеджер каталогты, өзекті бағаларды және 0% бөліп төлеу шарттарын жіберіп береді.',
-        address: 'Өскемен қ., Ілияс Есенберлин даңғылы, 38/3',
-        hours: 'Күн сайын 9:00-ден 19:00-ге дейін',
+        address: 'Өскемен, Крылов көшесі 66, НП 85',
+        hours: 'Күн сайын 10:00-ден 19:00-ге дейін',
       },
     },
     EN: {
@@ -210,8 +210,8 @@ export const PROJECT_TEXTS = {
       consult: {
         title: 'Leave your contacts — we\'ll lock in a great price per m² for you',
         subtitle: 'A manager will send you the catalogue, current prices and 0% instalment terms.',
-        address: 'Oskemen, Ilyas Yesenberlin Avenue, 38/3',
-        hours: 'Daily 9:00–19:00',
+        address: 'Oskemen, Krylov Street 66, NP 85',
+        hours: 'Daily 10:00–19:00',
       },
     },
   },

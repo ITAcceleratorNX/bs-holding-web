@@ -38,7 +38,7 @@
  * @property {{ id: string, label: string, title: string, text: string, image: string, cta: string, features: string[] }} apartments
  * @property {{ label: string, title: string, image: string, points: string[], note: string }} parking
  * @property {{ label: string, title: string, image: string, text: string }} boxroom
- * @property {{ title: string, subtitle: string, address: string, instagram: string, hours: string }} consult
+ * @property {{ title: string, subtitle: string, address: string, addressHref?: string, instagram?: string, instagramHref?: string, hours: string }} consult
  * @property {{ cols: { title: string, items: string[] }[], policy: string, copyright: string }} footer
  */
 

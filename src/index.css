@@ -1655,14 +1655,130 @@ input:focus {
 .easton-consult__contacts {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  max-width: 440px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.easton-consult__contact-item {
+  display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(13, 64, 59, 0.12);
+  box-shadow: 0 10px 24px rgba(13, 64, 59, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.easton-consult__contact-item--linked:hover {
+  background: rgba(255, 255, 255, 0.48);
+  border-color: rgba(13, 64, 59, 0.2);
+  box-shadow: 0 12px 28px rgba(13, 64, 59, 0.1);
+  transform: translateY(-1px);
+}
+
+.easton-consult__contact-icon {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(13, 64, 59, 0.08);
   color: #0D403B;
-  font-size: var(--fs-h4);
-  line-height: var(--lh-h4);
+}
+
+.easton-consult__contact-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.easton-consult__contact-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-micro);
   font-weight: var(--fw-heading);
-  /* График занимает две строки — переносы приходят из данных. */
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(13, 64, 59, 0.62);
+}
+
+.easton-consult__contact-value {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--fw-heading);
+  color: #0D403B;
   white-space: pre-line;
+}
+
+.easton-consult__contact-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  color: #0D403B;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.easton-consult__contact-link-text {
+  flex: 1;
+  min-width: 0;
+  text-decoration: underline;
+  text-decoration-color: rgba(13, 64, 59, 0.28);
+  text-underline-offset: 3px;
+}
+
+.easton-consult__contact-action {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(13, 64, 59, 0.1);
+  font-size: var(--fs-micro);
+  line-height: 1.2;
+  font-weight: var(--fw-heading);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.easton-consult__contact-link svg {
+  flex: 0 0 auto;
+  opacity: 0.72;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.easton-consult__contact-link:hover,
+.easton-consult__contact-link:focus-visible {
+  color: #0A332F;
+}
+
+.easton-consult__contact-link:hover .easton-consult__contact-link-text,
+.easton-consult__contact-link:focus-visible .easton-consult__contact-link-text {
+  text-decoration-color: currentColor;
+}
+
+.easton-consult__contact-link:hover .easton-consult__contact-action,
+.easton-consult__contact-link:focus-visible .easton-consult__contact-action {
+  background: rgba(13, 64, 59, 0.16);
+}
+
+.easton-consult__contact-link:hover svg,
+.easton-consult__contact-link:focus-visible svg {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
+.project-avenue-park .easton-consult__contact-item {
+  background: rgba(13, 64, 59, 0.04);
+  border-color: rgba(13, 64, 59, 0.1);
+  box-shadow: none;
 }
 
 .easton-consult__form {
@@ -4748,6 +4864,11 @@ input:focus {
 
   .easton-consult__contacts {
     gap: 8px;
+    max-width: none;
+  }
+
+  .easton-consult__contact-item {
+    padding: 12px 14px;
   }
 
   .easton-footer {
