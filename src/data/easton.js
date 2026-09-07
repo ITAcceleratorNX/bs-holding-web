@@ -23,6 +23,7 @@ export const EASTON = {
     location: 'г. Усть-Каменогорск',
     brochureHref: '/brochures/easton-leaflet.pdf',
     brochureFileName: 'Лифлет ішкі бет.pdf',
+    brochureLabelKey: 'project.hero.brochure',
   },
   about: {
     label: 'О жилом комплексе',

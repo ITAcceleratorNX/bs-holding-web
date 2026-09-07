@@ -67,6 +67,8 @@ export const AVENUE_PARK = {
     title: 'AVENUE PARK',
     location: '',
     tagline: 'Avenue Park — новое дыхание комфорта и надёжности в 40-м микрорайоне.',
+    brochureHref: '/brochures/avenue-park-presentation.pdf',
+    brochureFileName: 'Презентация ЖК Avenue Park.pdf',
   },
   about: {
     label: 'О жилом комплексе',

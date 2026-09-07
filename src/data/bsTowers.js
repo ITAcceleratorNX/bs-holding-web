@@ -127,6 +127,8 @@ export const BS_TOWERS = {
     title: 'BS TOWERS',
     location: 'г. Актау',
     tagline: 'BS Towers — жилой комплекс премиум-класса в Актау.',
+    brochureHref: '/brochures/bs-towers-presentation.pdf',
+    brochureFileName: 'Презентация ЖК BS Towers.pdf',
   },
   about: {
     label: 'О жилом комплексе',

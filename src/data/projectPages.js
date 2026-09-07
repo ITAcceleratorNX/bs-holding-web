@@ -334,6 +334,8 @@ const MURA = (() => {
       title: 'MURA',
       location: 'г. Актау / 40 МКР',
       tagline: 'MURA — жилой комплекс комфорт+ класса в 40 микрорайоне Актау',
+      brochureHref: '/brochures/mura-presentation.pdf',
+      brochureFileName: 'Презентация ЖК MURA.pdf',
     },
     about: {
       label: 'О жилом комплексе',

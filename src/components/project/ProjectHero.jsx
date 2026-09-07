@@ -36,7 +36,7 @@ export default function ProjectHero({ data, onRequestApplication, onRequestPrese
               href={brochureHref}
               download={data.hero.brochureFileName ?? true}
             >
-              {t('project.hero.brochure')}
+              {t(data.hero.brochureLabelKey ?? 'project.hero.presentation')}
             </a>
           ) : (
             <button type="button" className="easton-btn easton-btn--light" onClick={onRequestPresentation}>
