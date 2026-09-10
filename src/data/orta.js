@@ -53,6 +53,8 @@ export const ORTA = {
     image: `${IMG}/hero.webp`,
     title: 'ORTA',
     location: 'г. Актау',
+    brochureHref: '/brochures/orta-presentation.pdf',
+    brochureFileName: 'Презентация ЖК ORTA.pdf',
   },
   about: {
     label: 'О жилом комплексе',
