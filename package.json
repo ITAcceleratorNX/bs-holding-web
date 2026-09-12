@@ -10,9 +10,12 @@
     "test": "node --test src server",
     "check:bitrix": "node scripts/bitrix-check.mjs",
     "check:avenue": "node scripts/avenue-park-check.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve:api": "node server-entry.js"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
