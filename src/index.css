@@ -2173,17 +2173,29 @@ input:focus {
   outline-offset: 3px;
 }
 
-/* Планшеты: карточка встаёт во всю ширину под главным баннером и берёт его
-   высоту. Диапазон, а не max-width, — чтобы правило не спорило с мобильным
-   ниже по порядку. */
+/* Планшеты: trade-in во всю ширину, арт справа, текст слева. */
 @media (min-width: 481px) and (max-width: 1100px) {
   .hero__trade {
-    height: 440px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    min-height: 360px;
+    max-height: 480px;
   }
 
-  /* Во всю ширину карточка становится широкой полосой, и машина, привязанная
-     к левому краю, отрывается от здания. Поэтому здесь вся композиция
-     собирается у правого края: слева остаются заголовок и воздух. */
+  .hero__trade-text {
+    left: 24px;
+    right: 40%;
+    top: 24px;
+  }
+
+  .hero__trade-title {
+    font-size: clamp(2rem, 4.2vw, 2.8125rem);
+  }
+
+  .hero__trade-sub {
+    font-size: clamp(0.9375rem, 1.6vw, 1.125rem);
+  }
+
   .hero__trade-car {
     left: auto;
     right: 28.7cqh;
@@ -2200,19 +2212,15 @@ input:focus {
     transform: translate(50%, 50%) rotate(40.52deg);
   }
 
-  /* Кнопка во всю ширину полосы превратилась бы в метровую плашку. */
   .hero__trade-btn {
+    left: 24px;
     right: auto;
-    width: 344px;
-    max-width: calc(100% - 56px);
+    bottom: 24px;
+    width: min(344px, calc(100% - 48px));
   }
 }
 
-/* Телефоны: у карточки своя раскладка из мобильного макета (343×448) —
-   машина уходит за левый край, здание меньше и сильнее наклонено. Пропорции
-   карточки заданы через aspect-ratio, поэтому слои считаются от её ширины
-   (cqw) и совпадают с макетом один в один. Граница 480px, а не 768px:
-   на планшете карточка во всю ширину получилась бы почти в метр высотой. */
+/* Телефоны: макет 343×448, слои в cqw. */
 @media (max-width: 480px) {
   .hero__trade {
     width: 100%;
@@ -2220,6 +2228,13 @@ input:focus {
     height: auto;
     aspect-ratio: 343 / 448;
     border-radius: 12px;
+  }
+
+  .hero__trade-text {
+    left: 16px;
+    right: 16px;
+    top: 16px;
+    gap: 6px;
   }
 
   .hero__trade-building {
@@ -2265,8 +2280,6 @@ input:focus {
     transform: translate(-50%, -50%) rotate(40.52deg);
   }
 
-  /* Заголовок тянется за шириной карточки: на 375px это ровно 35px из
-     макета, на узких экранах он уменьшается вместо переноса «Trade-in». */
   .hero__trade-title {
     font-size: min(2.1875rem, 10.2cqw);
   }
@@ -2276,7 +2289,25 @@ input:focus {
   }
 
   .hero__trade-btn {
-    height: 41px;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    height: 44px;
+    min-height: 44px;
+  }
+
+  .hero__main {
+    min-height: 360px;
+  }
+
+  .hero__content {
+    padding: 24px 20px;
+  }
+
+  .hero__cta {
+    display: flex;
+    width: 100%;
+    padding: 14px 20px;
   }
 }
 
@@ -3583,7 +3614,7 @@ input:focus {
     width: 100%;
     max-width: none;
     max-height: 88dvh;
-    padding: 0 24px 24px;
+    padding: 0 24px calc(24px + env(safe-area-inset-bottom, 0px));
     border-radius: 20px 20px 0 0;
     gap: 20px;
   }
@@ -3678,7 +3709,7 @@ input:focus {
 
   .trade-popup__item:hover,
   .trade-popup__item:active {
-    background: rgba(2, 179, 162, 0.15);
+    background: #E8F7F5;
     border-color: #0A332F;
   }
 
@@ -4101,12 +4132,12 @@ input:focus {
   .hero__main {
     height: auto;
     aspect-ratio: auto;
-    min-height: 420px;
+    min-height: 380px;
     border-radius: 12px;
   }
 
   .hero__content {
-    padding: 24px 20px;
+    padding: 28px 24px;
     max-width: 100%;
     width: 100%;
   }
@@ -4115,22 +4146,17 @@ input:focus {
     margin-bottom: 16px;
   }
 
+  /* На планшете кнопка по контенту; на телефоне — во всю ширину. */
   .hero__cta {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 14px 20px;
-    width: 100%;
+    padding: 14px 24px;
+    width: auto;
     max-width: 100%;
     white-space: normal;
     text-align: center;
     box-sizing: border-box;
-  }
-
-  .hero__content {
-    padding: 28px 24px;
-    max-width: 100%;
-    width: 100%;
   }
 
   .hero {
