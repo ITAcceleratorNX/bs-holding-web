@@ -2037,263 +2037,266 @@ input:focus {
   padding: 18px 36px;
 }
 
-/* Auto Trade-in — промо-карточка первого экрана.
-
-   Иллюстрация собрана слоями (здание, машина, стрелки), а не запечена в одну
-   картинку: заголовок и кнопка переводятся на три языка.
-
-   Слои заданы в cqh — процентах от высоты карточки. Так вся композиция
-   масштабируется целиком и не искажается, в какой бы ширине карточка ни
-   оказалась: 400px в колонке справа или во всю ширину под главным баннером.
-   Здание привязано к правому краю, машина — к левому: при растягивании
-   карточки расходится середина, а не края, где стоят объекты.
-   Геометрия снята с макета 400×540 и на десктопе попадает в него один в один;
-   слои прижаты к низу — к кнопке, с которой они связаны визуально. */
+/* Auto Trade-in — светлая промо-карточка (слои + i18n). */
 .hero__trade {
+  --trade-ink: #0D403B;
+  --trade-bg-a: #F1F0EA;
+  --trade-bg-b: #CCC4B7;
+  --trade-bg-mid: #E5E2DA;
+  --trade-bg-warm: #D7CEC2;
+  --trade-blob: #DBD4C8;
+  --trade-ring: #EAE6DC;
+
   position: relative;
   container-type: size;
   width: 400px;
   max-width: 100%;
   height: 540px;
-  /* 16px, а не 20px из макета: слева стоит .hero__main с таким же радиусом. */
-  border-radius: 16px;
+  border-radius: 30px;
   overflow: hidden;
   flex-shrink: 0;
-  background: #0D403B;
+  background:
+    radial-gradient(
+      circle at 68% 40%,
+      rgba(219, 212, 200, 0.95) 0%,
+      rgba(229, 226, 218, 0.45) 32%,
+      transparent 58%
+    ),
+    linear-gradient(
+      155deg,
+      var(--trade-bg-a) 0%,
+      var(--trade-bg-mid) 38%,
+      var(--trade-bg-warm) 72%,
+      var(--trade-bg-b) 100%
+    );
+  color: var(--trade-ink);
+  box-shadow: 0 16px 36px rgba(13, 64, 59, 0.12);
+}
+
+.hero__trade-circles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  /* Здание справа полупрозрачное — дуги под ним гасим. */
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 46%, transparent 72%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 46%, transparent 72%);
 }
 
 .hero__trade-art {
   position: absolute;
   inset: 0;
+  z-index: 2;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .hero__trade-building {
   position: absolute;
-  right: -7.54cqh;
-  bottom: 21.01cqh;
-  width: 45.75cqh;
-  height: auto;
-  transform: rotate(-1.14deg);
+  right: -5%;
+  top: 18%;
+  height: 68%;
+  width: auto;
+  max-width: 56%;
+  object-fit: contain;
+  object-position: right bottom;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 48%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 48%, transparent 100%);
 }
 
-/* Низ здания и машины растворяется в фоне: обрезанный край не должен
-   упираться в кнопку. */
-.hero__trade-building-fade,
-.hero__trade-car-fade {
+.hero__trade-refresh {
   position: absolute;
-  background: linear-gradient(180deg, rgba(13, 64, 59, 0) 0%, #0D403B 100%);
-}
-
-.hero__trade-building-fade {
-  right: -22.26cqh;
-  bottom: 20.26cqh;
-  width: 62.16cqh;
-  height: 43.03cqh;
-  transform: rotate(-1.14deg);
+  left: 47%;
+  top: 52.6%;
+  width: 54px;
+  height: 54px;
+  transform: translate(-50%, -50%) rotate(12deg);
+  z-index: 3;
+  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.18));
+  user-select: none;
 }
 
 .hero__trade-car {
   position: absolute;
-  left: -0.93cqh;
-  bottom: 18.3cqh;
-  width: 46.3cqh;
-  height: auto;
-}
-
-.hero__trade-car-fade {
   left: 0;
-  bottom: 13.52cqh;
-  width: 37.59cqh;
-  height: 8.15cqh;
-}
-
-/* Значок обмена позиционируется по центру повёрнутой иконки, поэтому
-   left/bottom задают центр, а translate возвращает элемент в эту точку. */
-.hero__trade-refresh {
-  position: absolute;
-  left: 35.19cqh;
-  bottom: 52.37cqh;
-  width: 10.74cqh;
-  height: 10.74cqh;
-  transform: translate(-50%, 50%) rotate(40.52deg);
+  bottom: 14.5%;
+  width: 54%;
+  height: auto;
+  z-index: 4;
+  user-select: none;
+  filter: drop-shadow(0 12px 16px rgba(13, 64, 59, 0.2));
+  -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
 }
 
 .hero__trade-text {
   position: absolute;
-  left: 28px;
-  right: 28px;
-  top: 28px;
+  left: 30px;
+  right: 30px;
+  top: 38px;
+  z-index: 5;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  color: #fff;
+  gap: 12px;
+  color: var(--trade-ink);
 }
 
 .hero__trade-title {
-  font-size: 2.8125rem;
-  font-weight: var(--fw-display);
-  line-height: 1.25;
+  margin: 0;
+  font-size: clamp(2.1rem, 7.5cqw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.45px;
 }
 
 .hero__trade-sub {
-  font-size: 1.125rem;
-  font-weight: var(--fw-ui);
-  line-height: 1.25;
+  margin: 0;
+  font-size: clamp(1.05rem, 3.5cqw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.28;
 }
 
 .hero__trade-btn {
   position: absolute;
-  left: 28px;
-  right: 28px;
+  left: 30px;
+  right: 30px;
   bottom: 28px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 51px;
   border: none;
-  border-radius: 12px;
-  background: #fff;
-  color: #0D403B;
+  border-radius: 16px;
+  background: var(--trade-ink);
+  color: #fff;
   font-family: inherit;
   font-size: 0.9375rem;
-  font-weight: var(--fw-display);
-  line-height: var(--lh-ui);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  filter: drop-shadow(3px -4px 2px rgba(0, 0, 0, 0.25));
+  box-shadow: 0 8px 18px rgba(13, 64, 59, 0.22);
   transition: background 0.2s;
-  /* Длинный тап по кнопке на телефоне не должен выделять её подпись. */
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
 
 .hero__trade-btn:hover {
-  background: #F1F1EE;
+  background: #082420;
 }
 
 .hero__trade-btn:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--trade-ink);
   outline-offset: 3px;
 }
 
-/* Планшеты: trade-in во всю ширину, арт справа, текст слева. */
 @media (min-width: 481px) and (max-width: 1100px) {
   .hero__trade {
+    width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
-    min-height: 360px;
-    max-height: 480px;
+    min-height: 340px;
+    max-height: 440px;
+    border-radius: 24px;
   }
 
   .hero__trade-text {
-    left: 24px;
-    right: 40%;
-    top: 24px;
+    left: 28px;
+    right: 42%;
+    top: 28px;
   }
 
   .hero__trade-title {
-    font-size: clamp(2rem, 4.2vw, 2.8125rem);
+    font-size: clamp(2rem, 4vw, 2.5rem);
   }
 
   .hero__trade-sub {
-    font-size: clamp(0.9375rem, 1.6vw, 1.125rem);
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+  }
+
+  .hero__trade-building {
+    right: -2%;
+    top: 6%;
+    height: 82%;
+    max-width: 40%;
   }
 
   .hero__trade-car {
     left: auto;
-    right: 28.7cqh;
-  }
-
-  .hero__trade-car-fade {
-    left: auto;
-    right: 36.48cqh;
+    right: 24%;
+    bottom: 16%;
+    width: 24%;
   }
 
   .hero__trade-refresh {
     left: auto;
-    right: 38.9cqh;
-    transform: translate(50%, 50%) rotate(40.52deg);
+    right: 37%;
+    top: 48%;
+    transform: translate(50%, -50%) rotate(12deg);
   }
 
   .hero__trade-btn {
-    left: 24px;
+    left: 28px;
     right: auto;
-    bottom: 24px;
-    width: min(344px, calc(100% - 48px));
+    width: min(320px, calc(100% - 56px));
+    border-radius: 14px;
   }
 }
 
-/* Телефоны: макет 343×448, слои в cqw. */
 @media (max-width: 480px) {
   .hero__trade {
     width: 100%;
     max-width: none;
     height: auto;
-    aspect-ratio: 343 / 448;
-    border-radius: 12px;
+    aspect-ratio: 3 / 4;
+    border-radius: 24px;
   }
 
   .hero__trade-text {
-    left: 16px;
-    right: 16px;
-    top: 16px;
-    gap: 6px;
-  }
-
-  .hero__trade-building {
-    right: auto;
-    bottom: auto;
-    left: 55.16cqw;
-    top: 5.94cqw;
-    width: 61.15cqw;
-    transform: rotate(-3.02deg);
-  }
-
-  .hero__trade-building-fade {
-    right: auto;
-    bottom: auto;
-    left: 46.76cqw;
-    top: 41.13cqw;
-    width: 83.09cqw;
-    height: 57.51cqw;
-    transform: rotate(-3.02deg);
-  }
-
-  .hero__trade-car {
-    bottom: auto;
-    left: -22.16cqw;
-    top: 57.37cqw;
-    width: 67.35cqw;
-  }
-
-  .hero__trade-car-fade {
-    bottom: auto;
-    left: -8.16cqw;
-    top: 123.32cqw;
-    width: 59.18cqw;
-    height: 12.83cqw;
-  }
-
-  .hero__trade-refresh {
-    bottom: auto;
-    left: 50cqw;
-    top: 69.03cqw;
-    width: 9.3cqw;
-    height: 9.3cqw;
-    transform: translate(-50%, -50%) rotate(40.52deg);
+    left: 20px;
+    right: 20px;
+    top: 24px;
+    gap: 10px;
   }
 
   .hero__trade-title {
-    font-size: min(2.1875rem, 10.2cqw);
+    font-size: clamp(1.85rem, 9vw, 2.35rem);
   }
 
   .hero__trade-sub {
-    font-size: 0.875rem;
+    font-size: clamp(0.95rem, 4.2vw, 1.125rem);
+  }
+
+  .hero__trade-building {
+    right: -8%;
+    top: 22%;
+    height: 58%;
+    max-width: 62%;
+  }
+
+  .hero__trade-car {
+    left: -1%;
+    bottom: 15%;
+    width: 56%;
+  }
+
+  .hero__trade-refresh {
+    left: 45%;
+    top: 52%;
+    width: 48px;
+    height: 48px;
   }
 
   .hero__trade-btn {
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    height: 44px;
-    min-height: 44px;
+    left: 20px;
+    right: 20px;
+    bottom: 18px;
+    height: 48px;
+    border-radius: 14px;
   }
 
   .hero__main {
